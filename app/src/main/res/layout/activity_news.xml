@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/comm_title" />
+
+    <LinearLayout
+        android:id="@+id/news_fragment_main_horizontalscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_title"
+        android:layout_below="@+id/lyj_title_bar_layout_main"
+        android:orientation="horizontal">
+        <com.jiangshan.knowledge.view.NewsTitleHorizontalScrollView
+            android:id="@+id/myHorizeontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:layout_below="@+id/news_activity_main_title_down"
+            android:layout_weight="5"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+</LinearLayout>

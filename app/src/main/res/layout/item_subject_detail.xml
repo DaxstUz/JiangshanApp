@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/subject_bg_monal"
+    android:layout_marginTop="2dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:padding="@dimen/border_padding_10"
+        android:id="@+id/tv_subject_detail_name"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+</LinearLayout>

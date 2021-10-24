@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_title"
+    android:orientation="vertical">
+
+    <include layout="@layout/comm_title" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/rg_rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_week"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/rank_bg_week"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周榜"
+                    android:textColor="@drawable/rank_txt_color" />
+
+                <RadioButton
+                    android:id="@+id/rb_day"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/rank_bg_day"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="日榜"
+                    android:textColor="@drawable/rank_txt_color" />
+
+                <RadioButton
+                    android:id="@+id/rb_month"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/rank_bg_month"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="月榜"
+                    android:textColor="@drawable/rank_txt_color" />
+            </RadioGroup>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_news"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/border_padding_10"
+                android:background="@drawable/login_bg_white" />
+
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>

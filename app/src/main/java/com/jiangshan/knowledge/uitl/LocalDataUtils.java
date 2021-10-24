@@ -1,0 +1,105 @@
+package com.jiangshan.knowledge.uitl;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.jiangshan.knowledge.activity.home.SelectAnserModelActivity;
+import com.jiangshan.knowledge.http.entity.Course;
+import com.jiangshan.knowledge.http.entity.Subject;
+
+public class LocalDataUtils {
+
+    public static final String keySubject="subject";
+    public static final String keyCourse="course";
+    public static final String localDataName="subject";
+
+    public static final String localUserName="user";
+    public static final String keyUser="user";
+
+    public static void saveLocalData(Context context, String name, String key, String data) {
+        SharedPreferences sp = context.getSharedPreferences(name, 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key, data);
+        editor.commit();
+    }
+
+    public static String getLocalData(Context context, String name, String key) {
+        SharedPreferences sp = context.getSharedPreferences(name, 0);
+        String data = sp.getString(key, "");
+        return data;
+    }
+
+    public static Subject getSubject(Context context){
+        String data= LocalDataUtils.getLocalData(context,LocalDataUtils.localDataName,LocalDataUtils.keySubject);
+        if(null!=data){
+            Subject subject= new Gson().fromJson(data, Subject.class);
+            return subject;
+        }
+        return null;
+    }
+
+    public static Course getCourse(Context context){
+        String courseStr = LocalDataUtils.getLocalData(context, LocalDataUtils.localDataName, LocalDataUtils.keyCourse);
+        Course course= new Gson().fromJson(courseStr, Course.class);
+        return course;
+
+    }
+
+//    /**
+//     * 保存设备注册key
+//     * @param context
+//     * @param key
+//     */
+//    public static void saveKey(Activity context, String key) {
+//        SharedPreferences sp = MyApplication.application.getSharedPreferences("userinfo", 0);
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("key", key);
+//        editor.commit();
+//    }
+//
+//    public static void saveRec(Activity context, String key) {
+//        SharedPreferences sp = MyApplication.application.getSharedPreferences("userinfo", 0);
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("rec", key);
+//        editor.commit();
+//    }
+//
+//    /**
+//     * 游客代码
+//     * @param context
+//     * @param key
+//     */
+//    public static void saveUserCode(Activity context, String key) {
+////        SharedPreferences sp = context.getSharedPreferences("userinfo", 0);
+//        SharedPreferences sp = MyApplication.application.getSharedPreferences("userinfo", 0);
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("userCode", key);
+//        editor.commit();
+//    }
+//
+//    /**
+//     * 获取设备注册key
+//     * @param context
+//     * @return
+//     */
+//    public static String getKey(Activity context) {
+//        SharedPreferences sp = MyApplication.application.getSharedPreferences("userinfo", 0);
+//        String key = sp.getString("key", "");
+//        return  key;
+//    }
+//
+//    public static String getRec(Activity context) {
+//        SharedPreferences sp = MyApplication.application.getSharedPreferences("userinfo", 0);
+//        String key = sp.getString("rec", "");
+//        return  key;
+//    }
+//
+//    public static String getUserCode(Activity context) {
+//        SharedPreferences sp = MyApplication.application.getSharedPreferences("userinfo", 0);
+//        String userCode = sp.getString("userCode", "");
+//        return  userCode;
+////        return  "U57176D463B793F911B71075EF9A368C8";
+//    }
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.jiangshan.knowledge.activity.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottomRg"
+            android:layout_marginBottom="-14dp" />
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.0"
+            android:visibility="gone" />
+
+        <View
+            android:layout_above="@+id/bottomRg"
+            android:layout_width="match_parent"
+            android:background="@color/b3"
+            android:layout_height="1dp"/>
+        <RadioGroup
+            android:id="@+id/bottomRg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom"
+            android:background="@color/b1"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="2dp">
+
+            <RadioButton
+                android:id="@+id/rb_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/tab_home"
+                android:drawablePadding="@dimen/tab_txt_padding"
+                android:gravity="center"
+                android:text="首页"
+                android:textColor="@drawable/tab_txt_color" />
+
+            <RadioButton
+                android:id="@+id/rb_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/tab_explore"
+                android:drawablePadding="@dimen/tab_txt_padding"
+                android:gravity="center"
+                android:text="发现"
+                android:textColor="@drawable/tab_txt_color" />
+
+            <RadioButton
+                android:id="@+id/rb_method"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/tab_rank"
+                android:drawablePadding="@dimen/tab_txt_padding"
+                android:gravity="center"
+                android:text="榜单"
+                android:textColor="@drawable/tab_txt_color" />
+
+            <RadioButton
+                android:id="@+id/rb_person"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/tab_person"
+                android:drawablePadding="@dimen/tab_txt_padding"
+                android:gravity="center"
+                android:text="我的"
+                android:textColor="@drawable/tab_txt_color" />
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/iv_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/welcome" />
+    </RelativeLayout>
+</TabHost>
