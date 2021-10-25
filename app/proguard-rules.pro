@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 # 本app签名密码：jiangshanlaoshitiku_andriod_app
+# 微信 AppID：wxfa7d7f1550fb111f

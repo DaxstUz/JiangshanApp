@@ -9,6 +9,7 @@ import java.util.Date;
 public class Article implements Serializable {
     private int id;
     private int categroyId;
+    private int specialTypeId;
     private String categoryName;
     private String title;
     private String imgUrl;
@@ -27,6 +28,14 @@ public class Article implements Serializable {
     private int articleType;
     private int articleWeixinId;
     private String url;
+
+    public int getSpecialTypeId() {
+        return specialTypeId;
+    }
+
+    public void setSpecialTypeId(int specialTypeId) {
+        this.specialTypeId = specialTypeId;
+    }
 
     public int getId() {
         return id;

@@ -78,6 +78,9 @@
         <activity
             android:name=".activity.person.SettingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.person.SpecialContentActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.list.LearnListActivity"

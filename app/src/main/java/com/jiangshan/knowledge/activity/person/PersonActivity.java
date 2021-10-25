@@ -16,6 +16,7 @@ import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.gson.Gson;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.news.ArticleDetailActivity;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
@@ -24,7 +25,6 @@ public class PersonActivity extends BaseActivity {
 
     private RelativeLayout rlPersonInfo;
     private LinearLayout llSubject;
-
     private ImageButton btnSet;
 
     private TextView tvSubjectName;
@@ -55,6 +55,14 @@ public class PersonActivity extends BaseActivity {
         tvQuestion.setText("常见问题");
         ImageView ivQuestion=question.findViewById(R.id.iv_icon_conf);
         ivQuestion.setImageResource(R.mipmap.question);
+        question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
+                intent.putExtra("specialTypeId", 3);
+                startActivity(intent);
+            }
+        });
 
         RelativeLayout share=findView(R.id.item_conf_share);
         TextView tvShare=share.findViewById(R.id.tv_item_conf_name);
@@ -67,12 +75,28 @@ public class PersonActivity extends BaseActivity {
         tvDefine.setText("免责声明");
         ImageView ivDefine=define.findViewById(R.id.iv_icon_conf);
         ivDefine.setImageResource(R.mipmap.define);
+        define.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
+                intent.putExtra("specialTypeId", 2);
+                startActivity(intent);
+            }
+        });
 
         RelativeLayout about=findView(R.id.item_conf_about);
         TextView tvAbout=about.findViewById(R.id.tv_item_conf_name);
         tvAbout.setText("关于我们");
         ImageView ivAbout=about.findViewById(R.id.iv_icon_conf);
         ivAbout.setImageResource(R.mipmap.about);
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
+                intent.putExtra("specialTypeId", 1);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {
