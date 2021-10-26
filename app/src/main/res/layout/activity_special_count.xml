@@ -9,6 +9,7 @@
     <com.jiangshan.knowledge.view.web.X5WebView
         android:id="@+id/news_webview"
         android:scrollbars="none"
+        android:padding="@dimen/border_padding_10"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

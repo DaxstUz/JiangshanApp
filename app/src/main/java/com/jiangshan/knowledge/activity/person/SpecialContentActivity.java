@@ -37,7 +37,7 @@ public class SpecialContentActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article_detail);
+        setContentView(R.layout.activity_special_count);
         setBackViewVisiable();
         initView();
 
@@ -53,7 +53,7 @@ public class SpecialContentActivity extends BaseActivity {
         newsWebview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         newsWebview.getSettings().setLoadWithOverviewMode(true);
 
-        newsWebview.getSettings().setDefaultFontSize(35);
+        newsWebview.getSettings().setDefaultFontSize(38);
 
         newsWebview.addJavascriptInterface(new WebViewJavaScriptFunction() {
 

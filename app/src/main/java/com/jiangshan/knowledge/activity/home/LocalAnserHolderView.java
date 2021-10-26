@@ -10,10 +10,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.HttpCallback;
+import com.hjq.http.listener.OnHttpListener;
 import com.jiangshan.knowledge.R;
+import com.jiangshan.knowledge.http.api.ExamAnswerApi;
+import com.jiangshan.knowledge.http.api.ExamEndApi;
+import com.jiangshan.knowledge.http.entity.Answer;
 import com.jiangshan.knowledge.http.entity.Question;
+import com.jiangshan.knowledge.http.model.HttpData;
 
 /**
  * auth s_yz  2021/10/13
@@ -37,9 +45,19 @@ public class LocalAnserHolderView extends Holder<Question> {
     private RadioButton rbAnswerD;
 
     private View itemView;
+
+    private Answer answer=new Answer();
+
     public LocalAnserHolderView(View itemView) {
         super(itemView);
         this.itemView=itemView;
+    }
+
+    private AnswerActivity answerActivity;
+    public LocalAnserHolderView(View itemView,AnswerActivity answerActivity) {
+        super(itemView);
+        this.itemView=itemView;
+        this.answerActivity=answerActivity;
     }
 
     @Override
@@ -79,26 +97,31 @@ public class LocalAnserHolderView extends Holder<Question> {
                         left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
                         left.setBounds(drawables[0].getBounds());
                         rbAnswerA.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
+                        answer.setOptionNo("A");
                         break;
                     case R.id.rb_answer_b:
                         drawables = rbAnswerB.getCompoundDrawables();
                         left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
                         left.setBounds(drawables[0].getBounds());
                         rbAnswerB.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
+                        answer.setOptionNo("B");
                         break;
                     case R.id.rb_answer_c:
                         drawables = rbAnswerC.getCompoundDrawables();
                         left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
                         left.setBounds(drawables[0].getBounds());
                         rbAnswerC.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
+                        answer.setOptionNo("C");
                         break;
                     case R.id.rb_answer_d:
                         drawables = rbAnswerD.getCompoundDrawables();
                         left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
                         left.setBounds(drawables[0].getBounds());
                         rbAnswerD.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
+                        answer.setOptionNo("D");
                         break;
                 }
+                examCommit();
             }
         });
     }
@@ -130,6 +153,12 @@ public class LocalAnserHolderView extends Holder<Question> {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
+
+//        System.out.println("updateUI===>"+data.getQuestionNo());
+//        resetButtonDrawable();
+        answer.setQuestionId(data.getId());
+        answer.setBillId(data.getBillId());
+
         chapterCount.setText("/" + data.getTotal());
         String examName=((AnswerActivity)itemView.getContext()).getIntent().getStringExtra("examName");
         chapterName.setText(examName);
@@ -155,11 +184,21 @@ public class LocalAnserHolderView extends Holder<Question> {
             }
         }
 
-
         boolean showAnalysis=((AnswerActivity)itemView.getContext()).getIntent().getBooleanExtra("showAnalysis",false);
         if(showAnalysis){
             llAnswerAnalysis.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    private void examCommit() {
+//        EasyHttp.post((LifecycleOwner)answerActivity)
+//                .api(new ExamAnswerApi().setBillId(answer.getBillId()).setOptionNo(answer.getOptionNo()).setQuestionId(answer.getQuestionId()))
+//                .request(new HttpCallback<String>((OnHttpListener) answerActivity){
+//                    @Override
+//                    public void onSucceed(String result) {
+//                        super.onSucceed(result);
+//                    }
+//                });
     }
 }

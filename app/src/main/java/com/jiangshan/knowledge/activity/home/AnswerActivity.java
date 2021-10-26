@@ -2,16 +2,20 @@ package com.jiangshan.knowledge.activity.home;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.http.api.ExamEndApi;
 import com.jiangshan.knowledge.http.api.ExamStartApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Question;
@@ -64,21 +68,22 @@ public class AnswerActivity extends BaseActivity {
     private ConvenientBanner answer;
     private List<Question> questionDatas = new ArrayList();
 
+    private LinearLayout operate;
+
+    private boolean showDiaglog=true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
         setTitle("江山老师题库");
         setBackViewVisiable();
-
-
         examStart();
-
-
         initView();
     }
 
     private void getQuestion(int billId) {
+        this.billId = billId;
         EasyHttp.get(this).api(new IRequestApi() {
             @Override
             public String getApi() {
@@ -90,6 +95,7 @@ public class AnswerActivity extends BaseActivity {
                 if (result != null) {
                     questionDatas.addAll(result.getData().getList());
                     for (int i = 0; i < questionDatas.size(); i++) {
+                        questionDatas.get(i).setBillId(billId);
                         questionDatas.get(i).setTotal(result.getData().getTotal());
                     }
                     answer.notifyDataSetChanged();
@@ -99,19 +105,33 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void initView() {
+        operate = findView(R.id.ll_operate);
+        operate.setVisibility(View.VISIBLE);
+        operate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                examEnd();
+            }
+        });
+
         answer = findView(R.id.answer);
         answer.setPages(
                 new CBViewHolderCreator() {
                     @Override
                     public LocalAnserHolderView createHolder(View itemView) {
-                        return new LocalAnserHolderView(itemView);
+                        return new LocalAnserHolderView(itemView,AnswerActivity.this);
                     }
 
                     @Override
                     public int getLayoutId() {
                         return R.layout.item_answer;
                     }
-                }, questionDatas);
+                }, questionDatas).setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+        });
     }
 
     private void examStart() {
@@ -131,14 +151,33 @@ public class AnswerActivity extends BaseActivity {
                 });
     }
 
-    @Override
-    public void onStart(Call call) {
-        showDialog();
+    private int billId;
+
+    private void examEnd() {
+        EasyHttp.post(this)
+                .api(new ExamEndApi().setBillId(billId))
+                .request(new HttpCallback<HttpData<String>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<String> result) {
+                        if (result.isSuccess()) {
+                            finish();
+                        }
+                    }
+                });
     }
 
+    @Override
+    public void onStart(Call call) {
+        if(showDiaglog){
+            showDialog();
+            showDiaglog=false;
+        }
+
+    }
 
     @Override
     public void onEnd(Call call) {
         hideDialog();
     }
+
 }
