@@ -58,54 +58,99 @@
                 android:id="@+id/tv_question_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textSize="19sp" />
         </FrameLayout>
 
-        <RadioGroup
-            android:id="@+id/rg_answer"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/border_padding_10"
-            android:gravity="left|center_vertical"
+            android:layout_margin="@dimen/border_padding_10"
             android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/rb_answer_a"
+            <LinearLayout
+                android:id="@+id/ll_answer_a"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/b1"
-                android:button="@null"
-                android:drawableLeft="@mipmap/rb_answer_a"
-                android:drawablePadding="@dimen/border_padding_5" />
+                android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/rb_answer_b"
+                <ImageView
+                    android:id="@+id/iv_answer_a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/border_padding_5"
+                    android:src="@mipmap/rb_answer_a" />
+
+                <TextView
+                    android:id="@+id/rb_answer_a"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:background="@color/b1" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_answer_b"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/b1"
-                android:button="@null"
-                android:drawableLeft="@mipmap/rb_answer_b"
-                android:drawablePadding="@dimen/border_padding_5" />
+                android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/rb_answer_c"
+                <ImageView
+                    android:id="@+id/iv_answer_b"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/border_padding_5"
+                    android:src="@mipmap/rb_answer_b" />
+
+                <TextView
+                    android:id="@+id/rb_answer_b"
+                    android:layout_width="match_parent"
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/b1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_answer_c"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/b1"
-                android:button="@null"
-                android:drawableLeft="@mipmap/rb_answer_c"
-                android:drawablePadding="@dimen/border_padding_5" />
+                android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/rb_answer_d"
+                <ImageView
+                    android:id="@+id/iv_answer_c"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/border_padding_5"
+                    android:src="@mipmap/rb_answer_c" />
+
+                <TextView
+                    android:id="@+id/rb_answer_c"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:background="@color/b1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_answer_d"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/b1"
-                android:button="@null"
-                android:drawableLeft="@mipmap/rb_answer_d"
-                android:drawablePadding="@dimen/border_padding_5" />
+                android:layout_height="wrap_content">
 
-        </RadioGroup>
+                <ImageView
+                    android:id="@+id/iv_answer_d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/border_padding_5"
+                    android:src="@mipmap/rb_answer_d" />
+
+                <TextView
+                    android:id="@+id/rb_answer_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/b1"
+                    android:textSize="18sp"
+                     />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -113,12 +158,12 @@
             android:background="@color/b3" />
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_answer_analysis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/border_padding_10">
+            android:padding="@dimen/border_padding_10"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -137,9 +182,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:background="@color/b1"
                     android:paddingLeft="@dimen/border_padding_10"
                     android:paddingRight="@dimen/border_padding_10"
-                    android:background="@color/b1"
                     android:text="试题详解" />
             </FrameLayout>
 
@@ -148,22 +193,23 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/answer_type_bg"
                 android:padding="2dp"
-                android:textColor="@color/b3"
-                android:text="答案" />
+                android:text="答案"
+                android:textColor="@color/b3" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="正确答案 " />
+
                 <TextView
                     android:id="@+id/tv_choice_answer"
-                    android:textColor="@color/colorGreen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
+                    android:textColor="@color/colorGreen" />
             </LinearLayout>
 
 
@@ -172,8 +218,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/answer_type_bg"
                 android:padding="2dp"
-                android:textColor="@color/b3"
-                android:text="解析" />
+                android:text="解析"
+                android:textColor="@color/b3" />
 
             <TextView
                 android:id="@+id/tv_answer_analysis"

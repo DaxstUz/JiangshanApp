@@ -1,12 +1,10 @@
 package com.jiangshan.knowledge.activity.home;
 
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Html;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -18,10 +16,8 @@ import com.hjq.http.listener.HttpCallback;
 import com.hjq.http.listener.OnHttpListener;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.http.api.ExamAnswerApi;
-import com.jiangshan.knowledge.http.api.ExamEndApi;
 import com.jiangshan.knowledge.http.entity.Answer;
 import com.jiangshan.knowledge.http.entity.Question;
-import com.jiangshan.knowledge.http.model.HttpData;
 
 /**
  * auth s_yz  2021/10/13
@@ -38,26 +34,35 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     private LinearLayout llAnswerAnalysis;
 
-    private RadioGroup rgAnswer;
-    private RadioButton rbAnswerA;
-    private RadioButton rbAnswerB;
-    private RadioButton rbAnswerC;
-    private RadioButton rbAnswerD;
+    private TextView tvAnswerA;
+    private TextView tvAnswerB;
+    private TextView tvAnswerC;
+    private TextView tvAnswerD;
+
+    private ImageView ivAnswerA;
+    private ImageView ivAnswerB;
+    private ImageView ivAnswerC;
+    private ImageView ivAnswerD;
+
+    private LinearLayout llAnswerA;
+    private LinearLayout llAnswerB;
+    private LinearLayout llAnswerC;
+    private LinearLayout llAnswerD;
 
     private View itemView;
-
-    private Answer answer=new Answer();
+    private Answer answer = new Answer();
 
     public LocalAnserHolderView(View itemView) {
         super(itemView);
-        this.itemView=itemView;
+        this.itemView = itemView;
     }
 
     private AnswerActivity answerActivity;
-    public LocalAnserHolderView(View itemView,AnswerActivity answerActivity) {
+
+    public LocalAnserHolderView(View itemView, AnswerActivity answerActivity) {
         super(itemView);
-        this.itemView=itemView;
-        this.answerActivity=answerActivity;
+        this.itemView = itemView;
+        this.answerActivity = answerActivity;
     }
 
     @Override
@@ -72,133 +77,143 @@ public class LocalAnserHolderView extends Holder<Question> {
 
         llAnswerAnalysis = itemView.findViewById(R.id.ll_answer_analysis);
 
-        rgAnswer = itemView.findViewById(R.id.rg_answer);
-        rbAnswerA = itemView.findViewById(R.id.rb_answer_a);
-        rbAnswerB = itemView.findViewById(R.id.rb_answer_b);
-        rbAnswerC = itemView.findViewById(R.id.rb_answer_c);
-        rbAnswerD = itemView.findViewById(R.id.rb_answer_d);
+        tvAnswerA = itemView.findViewById(R.id.rb_answer_a);
+        tvAnswerB = itemView.findViewById(R.id.rb_answer_b);
+        tvAnswerC = itemView.findViewById(R.id.rb_answer_c);
+        tvAnswerD = itemView.findViewById(R.id.rb_answer_d);
+
+        ivAnswerA = itemView.findViewById(R.id.iv_answer_a);
+        ivAnswerB = itemView.findViewById(R.id.iv_answer_b);
+        ivAnswerC = itemView.findViewById(R.id.iv_answer_c);
+        ivAnswerD = itemView.findViewById(R.id.iv_answer_d);
+
+        llAnswerA = itemView.findViewById(R.id.ll_answer_a);
+        llAnswerB = itemView.findViewById(R.id.ll_answer_b);
+        llAnswerC = itemView.findViewById(R.id.ll_answer_c);
+        llAnswerD = itemView.findViewById(R.id.ll_answer_d);
 
         addListener();
     }
 
     private void addListener() {
-        rgAnswer.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
+        llAnswerA.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
+            public void onClick(View v) {
                 resetButtonDrawable();
-
-                Drawable[] drawables;
-                Drawable left;
-                switch (checkedId) {
-                    case R.id.rb_answer_a:
-                        drawables = rbAnswerA.getCompoundDrawables();
-                        left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
-                        left.setBounds(drawables[0].getBounds());
-                        rbAnswerA.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
-                        answer.setOptionNo("A");
-                        break;
-                    case R.id.rb_answer_b:
-                        drawables = rbAnswerB.getCompoundDrawables();
-                        left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
-                        left.setBounds(drawables[0].getBounds());
-                        rbAnswerB.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
-                        answer.setOptionNo("B");
-                        break;
-                    case R.id.rb_answer_c:
-                        drawables = rbAnswerC.getCompoundDrawables();
-                        left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
-                        left.setBounds(drawables[0].getBounds());
-                        rbAnswerC.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
-                        answer.setOptionNo("C");
-                        break;
-                    case R.id.rb_answer_d:
-                        drawables = rbAnswerD.getCompoundDrawables();
-                        left = itemView.getResources().getDrawable(R.mipmap.rb_answer_right);
-                        left.setBounds(drawables[0].getBounds());
-                        rbAnswerD.setCompoundDrawables(left, drawables[1], drawables[2], drawables[3]);
-                        answer.setOptionNo("D");
-                        break;
-                }
+                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(1);
+                answer.setOptionNo("A");
+                examCommit();
+            }
+        });
+        llAnswerB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetButtonDrawable();
+                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(2);
+                answer.setOptionNo("B");
+                examCommit();
+            }
+        });
+        llAnswerC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetButtonDrawable();
+                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(3);
+                answer.setOptionNo("C");
+                examCommit();
+            }
+        });
+        llAnswerD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetButtonDrawable();
+                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(4);
+                answer.setOptionNo("D");
                 examCommit();
             }
         });
     }
 
     private void resetButtonDrawable() {
-
-        Drawable[] drawablesA = rbAnswerA.getCompoundDrawables();
-        Drawable leftA = itemView.getResources().getDrawable(R.mipmap.rb_answer_a);
-        leftA.setBounds(drawablesA[0].getBounds());
-        rbAnswerA.setCompoundDrawables(leftA, drawablesA[1], drawablesA[2], drawablesA[3]);
-
-        Drawable[] drawablesB = rbAnswerB.getCompoundDrawables();
-        Drawable leftB = itemView.getResources().getDrawable(R.mipmap.rb_answer_b);
-        leftB.setBounds(drawablesB[0].getBounds());
-        rbAnswerB.setCompoundDrawables(leftB, drawablesB[1], drawablesB[2], drawablesB[3]);
-
-        Drawable[] drawablesC = rbAnswerC.getCompoundDrawables();
-        Drawable leftC = itemView.getResources().getDrawable(R.mipmap.rb_answer_c);
-        leftC.setBounds(drawablesC[0].getBounds());
-        rbAnswerC.setCompoundDrawables(leftC, drawablesC[1], drawablesC[2], drawablesC[3]);
-
-        Drawable[] drawablesD = rbAnswerD.getCompoundDrawables();
-        Drawable leftD = itemView.getResources().getDrawable(R.mipmap.rb_answer_d);
-        leftD.setBounds(drawablesD[0].getBounds());
-        rbAnswerD.setCompoundDrawables(leftD, drawablesD[1], drawablesD[2], drawablesD[3]);
-
+        ivAnswerA.setImageResource(R.mipmap.rb_answer_a);
+        ivAnswerB.setImageResource(R.mipmap.rb_answer_b);
+        ivAnswerC.setImageResource(R.mipmap.rb_answer_c);
+        ivAnswerD.setImageResource(R.mipmap.rb_answer_d);
     }
+
+    private void setSelect(int selectIndex) {
+        switch (selectIndex) {
+            case 1:
+                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
+                break;
+            case 2:
+                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
+                break;
+            case 3:
+                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
+                break;
+            case 4:
+                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
+                break;
+        }
+    }
+
+    private Question data;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
-
-//        System.out.println("updateUI===>"+data.getQuestionNo());
-//        resetButtonDrawable();
+        this.data = data;
+//        System.out.println("updateUI===>" + new Gson().toJson(data));
+        resetButtonDrawable();
+        setSelect(data.getChooseIndex());
         answer.setQuestionId(data.getId());
         answer.setBillId(data.getBillId());
 
         chapterCount.setText("/" + data.getTotal());
-        String examName=((AnswerActivity)itemView.getContext()).getIntent().getStringExtra("examName");
+        String examName = ((AnswerActivity) itemView.getContext()).getIntent().getStringExtra("examName");
         chapterName.setText(examName);
         tvRank.setText(data.getRank() + "");
         tvQuestionType.setText(data.getQuestionTypeDesc());
         tvChoiceAnswer.setText(data.getChoiceAnswer());
-        tvQuestionContent.setText("             " + Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT));
+        tvQuestionContent.setText("          " + Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT));
         tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
 
         for (int i = 0; i < data.getQuestionOptionList().size(); i++) {
             String content = Html.fromHtml(data.getQuestionOptionList().get(i).getContent(), Html.FROM_HTML_MODE_COMPACT).toString();
             content = content.replace("\n", "");
             if (0 == i) {
-                rbAnswerA.setText(content);
+                tvAnswerA.setText(content);
             } else if (1 == i) {
-                rbAnswerB.setText(content);
+                tvAnswerB.setText(content);
             }
             if (2 == i) {
-                rbAnswerC.setText(content);
+                tvAnswerC.setText(content);
             }
             if (3 == i) {
-                rbAnswerD.setText(content);
+                tvAnswerD.setText(content);
             }
         }
 
-        boolean showAnalysis=((AnswerActivity)itemView.getContext()).getIntent().getBooleanExtra("showAnalysis",false);
-        if(showAnalysis){
+        boolean showAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showAnalysis", false);
+        if (showAnalysis) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);
         }
 
     }
 
     private void examCommit() {
-//        EasyHttp.post((LifecycleOwner)answerActivity)
-//                .api(new ExamAnswerApi().setBillId(answer.getBillId()).setOptionNo(answer.getOptionNo()).setQuestionId(answer.getQuestionId()))
-//                .request(new HttpCallback<String>((OnHttpListener) answerActivity){
-//                    @Override
-//                    public void onSucceed(String result) {
-//                        super.onSucceed(result);
-//                    }
-//                });
+        EasyHttp.post((LifecycleOwner) answerActivity)
+                .api(new ExamAnswerApi().setBillId(answer.getBillId()).setOptionNo(answer.getOptionNo()).setQuestionId(answer.getQuestionId()))
+                .request(new HttpCallback<String>((OnHttpListener) answerActivity) {
+                    @Override
+                    public void onSucceed(String result) {
+                        super.onSucceed(result);
+                    }
+                });
     }
 }

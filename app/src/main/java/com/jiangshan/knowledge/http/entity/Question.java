@@ -41,7 +41,17 @@ public class Question implements Serializable {
     private int rightRate;
     private String easyWrongChoice;
 
+    private int chooseIndex=-1;
+
     private List<QuestionOption>  questionOptionList;
+
+    public int getChooseIndex() {
+        return chooseIndex;
+    }
+
+    public void setChooseIndex(int chooseIndex) {
+        this.chooseIndex = chooseIndex;
+    }
 
     private int total;
 
