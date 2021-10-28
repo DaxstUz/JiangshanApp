@@ -12,7 +12,6 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
-import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.http.api.ExamEndApi;
@@ -70,6 +69,8 @@ public class AnswerActivity extends BaseActivity {
 
     private LinearLayout operate;
 
+    private LinearLayout llAnswerCount;
+
     private boolean showDiaglog=true;
 
     @Override
@@ -99,12 +100,14 @@ public class AnswerActivity extends BaseActivity {
                         questionDatas.get(i).setTotal(result.getData().getTotal());
                     }
                     answer.notifyDataSetChanged();
+                    llAnswerCount.setVisibility(View.VISIBLE);
                 }
             }
         });
     }
 
     private void initView() {
+        llAnswerCount = findView(R.id.ll_answer_count);
         operate = findView(R.id.ll_operate);
         operate.setVisibility(View.VISIBLE);
         operate.setOnClickListener(new View.OnClickListener() {
