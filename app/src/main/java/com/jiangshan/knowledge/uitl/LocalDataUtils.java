@@ -1,11 +1,9 @@
 package com.jiangshan.knowledge.uitl;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.jiangshan.knowledge.activity.home.SelectAnserModelActivity;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Subject;
 
@@ -17,6 +15,9 @@ public class LocalDataUtils {
 
     public static final String localUserName="user";
     public static final String keyUser="user";
+
+    public static final String passport="passport";
+
 
     public static void saveLocalData(Context context, String name, String key, String data) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);

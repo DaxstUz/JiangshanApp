@@ -94,6 +94,9 @@
             android:name=".activity.person.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.person.PayActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.person.SettingActivity"
             android:screenOrientation="portrait" />
         <activity

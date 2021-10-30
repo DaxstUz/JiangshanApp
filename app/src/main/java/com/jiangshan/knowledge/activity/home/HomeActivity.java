@@ -14,6 +14,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -22,10 +23,14 @@ import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.MenuAdapter;
 import com.jiangshan.knowledge.activity.news.ArticleDetailActivity;
 import com.jiangshan.knowledge.http.api.BannerApi;
+import com.jiangshan.knowledge.http.api.GetPassportApi;
+import com.jiangshan.knowledge.http.api.GetTicketApi;
 import com.jiangshan.knowledge.http.entity.Article;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Menu;
+import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
+import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
@@ -52,6 +57,8 @@ public class HomeActivity extends BaseActivity {
         initView();
         getBannerData();
         updateUI();
+
+        getInitData();
     }
 
     public void updateUI() {
@@ -170,5 +177,18 @@ public class HomeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    private void getInitData() {
+        EasyHttp.post(this)
+                .api(new GetPassportApi())
+                .request(new HttpCallback<HttpData<Passport>>(this) {
+
+                    @Override
+                    public void onSucceed(HttpData<Passport> result) {
+                        Passport passport= result.getData();
+                        LocalDataUtils.saveLocalData(HomeActivity.this,LocalDataUtils.localUserName,LocalDataUtils.passport,new Gson().toJson(passport));
+                    }
+                });
     }
 }

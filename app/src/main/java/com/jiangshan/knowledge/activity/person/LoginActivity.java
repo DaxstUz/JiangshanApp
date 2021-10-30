@@ -19,6 +19,11 @@ import com.jiangshan.knowledge.http.api.LoginApi;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import java.util.Map;
 
 /**
  * 测试账号密码：15013211890/123456
@@ -95,6 +100,13 @@ public class LoginActivity extends BaseActivity {
         et_psd = findViewById(R.id.et_psd);
 
         llLoginWeixin = findViewById(R.id.ll_login_weixin);
+        llLoginWeixin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                platformLogin(SHARE_MEDIA.WEIXIN);
+            }
+        });
+
         llLoginPhone = findViewById(R.id.ll_login_phone);
         llLoginPhone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,4 +119,32 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
+    private void platformLogin(SHARE_MEDIA shareMedia){
+        UMShareAPI.get(this).getPlatformInfo(this, shareMedia, new UMAuthListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+                System.out.println(" platformLogin onStart");
+            }
+
+            @Override
+            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                System.out.println(" platformLogin onComplete"+new Gson().toJson(map));
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+                ToastUtils.show(throwable.getMessage().substring(throwable.getMessage().indexOf("错误信息：")+5));
+                System.out.println(" platformLogin onError"+i+" error ===>"+throwable.getMessage());
+
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media, int i) {
+                System.out.println(" platformLogin onCancel");
+
+            }
+        });
+    };
+
 }

@@ -105,6 +105,12 @@ public class PersonActivity extends BaseActivity {
         RelativeLayout feedback = findView(R.id.item_conf_feedback);
         ImageView ivFeedback = feedback.findViewById(R.id.iv_icon_conf);
         ivFeedback.setImageResource(R.mipmap.feedback);
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PersonActivity.this,PayActivity.class));
+            }
+        });
 
         RelativeLayout question = findView(R.id.item_conf_question);
         TextView tvQuestion = question.findViewById(R.id.tv_item_conf_name);

@@ -5,14 +5,18 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hjq.http.EasyConfig;
+import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.config.IRequestInterceptor;
 import com.hjq.http.config.IRequestServer;
+import com.hjq.http.listener.HttpCallback;
 import com.hjq.http.model.HttpHeaders;
 import com.hjq.http.model.HttpParams;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.BuildConfig;
+import com.jiangshan.knowledge.http.api.GetTicketApi;
 import com.jiangshan.knowledge.http.entity.User;
+import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.RequestHandler;
 import com.jiangshan.knowledge.http.server.ReleaseServer;
 import com.jiangshan.knowledge.http.server.TestServer;
@@ -44,10 +48,12 @@ public class AppApplication extends Application {
         super.onCreate();
 
         initUmeng();
-
         initHttp();
         initH5Web();
+
     }
+
+
 
     private void initUmeng() {
 
