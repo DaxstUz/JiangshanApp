@@ -5,18 +5,14 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hjq.http.EasyConfig;
-import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.config.IRequestInterceptor;
 import com.hjq.http.config.IRequestServer;
-import com.hjq.http.listener.HttpCallback;
 import com.hjq.http.model.HttpHeaders;
 import com.hjq.http.model.HttpParams;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.BuildConfig;
-import com.jiangshan.knowledge.http.api.GetTicketApi;
 import com.jiangshan.knowledge.http.entity.User;
-import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.RequestHandler;
 import com.jiangshan.knowledge.http.server.ReleaseServer;
 import com.jiangshan.knowledge.http.server.TestServer;
@@ -54,13 +50,13 @@ public class AppApplication extends Application {
     }
 
 
-
     private void initUmeng() {
 
-        UMConfigure.init(this,"6178aec6e0f9bb492b3ee55f"
-                ,"umeng", UMConfigure.DEVICE_TYPE_PHONE,"");
+        UMConfigure.init(this, "6178aec6e0f9bb492b3ee55f"
+                , "umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
 
-        PlatformConfig.setWeixin("wxfa7d7f1550fb111f", "4a0a3e0da1d90d09ac7e3b4049ccfb5d"); //微信 appid appsecret
+//        PlatformConfig.setWeixin("wxfa7d7f1550fb111f", "0d31dc970eabf53d8c29e21a15911487"); //微信 appid appsecret
+        PlatformConfig.setWeixin("wxfa7d7f1550fb111f", ""); //微信 appid appsecret
 //        PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
 ////        //新浪微博 appkey appsecret
 //        PlatformConfig.setQQZone("1105588074", "r7lMWqiBL0YZBSU4");// QQ和Qzone appid appkey

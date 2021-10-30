@@ -44,7 +44,7 @@ public class PayActivity extends BaseActivity {
 
         PayReq request = new PayReq();
         request.appId = "wxfa7d7f1550fb111f";
-        request.partnerId = "1900000109";
+        request.partnerId = "1581836751";
         request.prepayId = "1101000000140415649af9fc314aa427";
         request.packageValue = "Sign=WXPay";
         request.nonceStr = "1101000000140429eb40476f8896f4c9";
