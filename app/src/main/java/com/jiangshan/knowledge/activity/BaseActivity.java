@@ -3,6 +3,7 @@ package com.jiangshan.knowledge.activity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,11 @@ import com.hjq.http.listener.OnHttpListener;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.http.model.HttpData;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import okhttp3.Call;
 
@@ -94,50 +100,56 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
     /**
      * 分享
      */
-//    protected void shareInfo(){
-//        final SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]
-//                {
-//                        SHARE_MEDIA.WEIXIN,
-//                        SHARE_MEDIA.WEIXIN_CIRCLE,
-////                        SHARE_MEDIA.SINA,
-//                        SHARE_MEDIA.QQ,
-//                        SHARE_MEDIA.QZONE
-//                };
-//
-//        UMImage image = new UMImage(BaseActivity.this,
-//                BitmapFactory.decodeResource(getResources(), R.mipmap.xinle_icon));
-//
-//        new ShareAction(this).setDisplayList( displaylist )
-//                .withText("因为信了，自然有了")
+    protected void shareInfo(){
+        final SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]
+                {
+                        SHARE_MEDIA.WEIXIN,
+                        SHARE_MEDIA.WEIXIN_CIRCLE,
+//                        SHARE_MEDIA.SINA,
+                        SHARE_MEDIA.QQ,
+                        SHARE_MEDIA.QZONE
+                };
+
+        UMImage image = new UMImage(BaseActivity.this,
+                BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+
+        new ShareAction(this).setDisplayList( displaylist )
+                .withText("因为信了，自然有了")
 //                .withTitle("信了")
 //                .withTargetUrl(AddrInterf.HOSTSERVER +AddrInterf.ROOT+ "a/userRegister?vid=" + Utils.vipId)
-////                .withTargetUrl("http://www.baidu.com")
-//                .withMedia(image)
-//                .setListenerList(umShareListener)
-//                .open();
-//
-//    }
-//
-//   private UMShareListener umShareListener= new UMShareListener() {
-//        @Override
-//        public void onResult(SHARE_MEDIA platform) {
-////            Toast.makeText(BaseActivity.this,platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        @Override
-//        public void onError(SHARE_MEDIA platform, Throwable t) {
-////            Toast.makeText(BaseActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        @Override
-//        public void onCancel(SHARE_MEDIA platform) {
-////            Toast.makeText(BaseActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
-//        }
-//    };
+//                .withTargetUrl("http://www.baidu.com")
+                .withMedia(image)
+                .setListenerList(umShareListener)
+                .open();
+
+    }
+
+   private UMShareListener umShareListener= new UMShareListener() {
+       @Override
+       public void onStart(SHARE_MEDIA share_media) {
+
+       }
+
+       @Override
+        public void onResult(SHARE_MEDIA platform) {
+//            Toast.makeText(BaseActivity.this,platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+//            Toast.makeText(BaseActivity.this,platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+//            Toast.makeText(BaseActivity.this,platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        UMShareAPI.get( this ).onActivityResult( requestCode, resultCode, data);
+        UMShareAPI.get( this ).onActivityResult( requestCode, resultCode, data);
     }
 
     /** 加载对话框 */

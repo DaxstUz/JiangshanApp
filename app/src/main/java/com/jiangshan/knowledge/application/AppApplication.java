@@ -19,6 +19,8 @@ import com.jiangshan.knowledge.http.server.TestServer;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.tencent.mmkv.MMKV;
 import com.tencent.smtt.sdk.QbSdk;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 
 import okhttp3.OkHttpClient;
 
@@ -36,32 +38,26 @@ public class AppApplication extends Application {
         return application;
     }
 
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-//        更新配置可以使用
-//        EasyConfig.getInstance()
-//                .addParam("token", data.getData().getToken());
-
-//        PlatformConfig.setWeixin("wx5200984f1d71abd6", "4a0a3e0da1d90d09ac7e3b4049ccfb5d"); //微信 appid appsecret
-////        PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
-////        //新浪微博 appkey appsecret
-//        PlatformConfig.setQQZone("1105588074", "r7lMWqiBL0YZBSU4");// QQ和Qzone appid appkey
-////        PlatformConfig.setAlipay("2015111700822536");
-////        //支付宝 appid
-////        PlatformConfig.setYixin("yxc0614e80c9304c11b0391514d09f13bf");
-////        //易信 appkey
-////        PlatformConfig.setTwitter("3aIN7fuF685MuZ7jtXkQxalyi", "MK6FEYG63eWcpDFgRYw4w9puJhzDl0tyuqWjZ3M7XJuuG7mMbO");
-////        //Twitter appid appkey
-////        PlatformConfig.setPinterest("1439206");
-////        //Pinterest appid
-////        PlatformConfig.setLaiwang("laiwangd497e70d4", "d497e70d4c3e4efeab1381476bac4c5e");
-////        //来往 appid appkey
+        initUmeng();
 
         initHttp();
-
         initH5Web();
+    }
+
+    private void initUmeng() {
+
+        UMConfigure.init(this,"6178aec6e0f9bb492b3ee55f"
+                ,"umeng", UMConfigure.DEVICE_TYPE_PHONE,"");
+
+        PlatformConfig.setWeixin("wxfa7d7f1550fb111f", "4a0a3e0da1d90d09ac7e3b4049ccfb5d"); //微信 appid appsecret
+//        PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
+////        //新浪微博 appkey appsecret
+//        PlatformConfig.setQQZone("1105588074", "r7lMWqiBL0YZBSU4");// QQ和Qzone appid appkey
     }
 
     private String token;

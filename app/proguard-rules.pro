@@ -22,3 +22,12 @@
 
 # 本app签名密码：jiangshanlaoshitiku_andriod_app
 # 微信 AppID：wxfa7d7f1550fb111f
+
+#应用名称：江山老师题库
+#应用平台：Android
+#应用语言：中文
+#App Key：6178aec6e0f9bb492b3ee55f复制
+#开通业务：移动统计,消息推送,移动广告监测,智能认证,应用性能监控,社会化分享,智能超链
+#App Master Secret：ju77v4ugfihfm8aw8f8yorye2rnq2yiu隐藏复制
+#Umeng Message Secret：ebb89ead380413cbf85e21aeb93c737c隐藏复制
+#包名：com.jiangshan.knowledge

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.jiangshan.knowledge">
 
     <!-- 联网权限 -->
@@ -18,19 +17,38 @@
     <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <queries>
+        <package android:name="com.tencent.mm" />
+        // 指定微信包名
+        <!--        <package android:name="com.tencent.mobileqq" />-->
+        //指定qq包名
+        <!--        <package android:name="com.sina.weibo" />-->
+        //指定微博包名
+        <!--        <package android:name="com.tencent.wework" />-->
+        //指定企业微信包名
+        <!--        <package android:name="com.qzone" />-->
+        //指定QQ空间包名
+        <!--        <package android:name="com.alibaba.android.rimet" />-->
+        // 指定钉钉包名
+        <!--        <package android:name="com.eg.android.AlipayGphone" />-->
+        // 指定支付宝包名
+        <!--        <package android:name="com.instagram.android" />-->
+        // 指定instagram包名
+    </queries>
+
     <application
         android:name=".application.AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon_app"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.JiangshanApp">
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.Splash"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -85,6 +103,28 @@
         <activity
             android:name=".activity.list.LearnListActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="6178aec6e0f9bb492b3ee55f"></meta-data>
+
+        <!-- 微信-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
 
     </application>
 
