@@ -3,8 +3,11 @@ package com.jiangshan.knowledge.activity.news;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -29,13 +32,17 @@ public class ArticleDetailActivity extends BaseActivity {
 
     private X5WebView newsWebview;
 
+    private ImageView iv_operate;
+    private LinearLayout ll_operate;
+
+    private Article article;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
 
         initView();
-
     }
 
     private void initView() {
@@ -44,6 +51,15 @@ public class ArticleDetailActivity extends BaseActivity {
         setTitle(aiticle.getTitle());
 
         newsWebview = findViewById(R.id.news_webview);
+
+        iv_operate = findViewById(R.id.iv_operate);
+        ll_operate = findViewById(R.id.ll_operate);
+        ll_operate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share(0,article.getTitle(),article.getIntro(),article.getUrl());
+            }
+        });
 
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
 
@@ -94,6 +110,8 @@ public class ArticleDetailActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<Article> result) {
                         if (result.isSuccess()) {
+                            article=result.getData();
+                            ll_operate.setVisibility(View.VISIBLE);
                             if (result.getData().getUrl() == null) {
                                 newsWebview.loadData(result.getData().getContent(), "text/html; charset=UTF-8", null);//这种写法可以正确解码
                             } else {

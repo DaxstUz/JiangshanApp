@@ -19,7 +19,6 @@ import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.HistoryAnswerActivity;
-import com.jiangshan.knowledge.activity.home.HomeActivity;
 import com.jiangshan.knowledge.http.api.GetExamHistoryStatisticsApi;
 import com.jiangshan.knowledge.http.api.GetMarkCountApi;
 import com.jiangshan.knowledge.http.entity.Course;
@@ -30,7 +29,7 @@ import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
-public class PersonActivity extends BaseActivity {
+public class PersonActivity extends BaseActivity implements View.OnClickListener {
 
     private RelativeLayout rlPersonInfo;
     private LinearLayout llSubject;
@@ -72,8 +71,8 @@ public class PersonActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<MarkCount> result) {
                         if (result.isSuccess()) {
-                            tvErrorCount.setText(result.getData().getWrongTotal()+"");
-                            tvCollectCount.setText(result.getData().getColletTotal()+"");
+                            tvErrorCount.setText(result.getData().getWrongTotal() + "");
+                            tvCollectCount.setText(result.getData().getColletTotal() + "");
                         }
                     }
                 });
@@ -85,7 +84,7 @@ public class PersonActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<HistoryStatistics> result) {
                         if (result.isSuccess()) {
-                            tvHistoryCount.setText(result.getData().getAnswerCount()+"");
+                            tvHistoryCount.setText(result.getData().getAnswerCount() + "");
                         }
                     }
                 });
@@ -108,7 +107,7 @@ public class PersonActivity extends BaseActivity {
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PersonActivity.this,PayActivity.class));
+                startActivity(new Intent(PersonActivity.this, PayActivity.class));
             }
         });
 
@@ -117,48 +116,28 @@ public class PersonActivity extends BaseActivity {
         tvQuestion.setText("常见问题");
         ImageView ivQuestion = question.findViewById(R.id.iv_icon_conf);
         ivQuestion.setImageResource(R.mipmap.question);
-        question.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
-                intent.putExtra("specialTypeId", 3);
-                startActivity(intent);
-            }
-        });
+        question.setOnClickListener(this);
 
         RelativeLayout share = findView(R.id.item_conf_share);
         TextView tvShare = share.findViewById(R.id.tv_item_conf_name);
         tvShare.setText("推荐给好友");
         ImageView ivShare = share.findViewById(R.id.iv_icon_conf);
         ivShare.setImageResource(R.mipmap.share);
+        share.setOnClickListener(this);
 
         RelativeLayout define = findView(R.id.item_conf_define);
         TextView tvDefine = define.findViewById(R.id.tv_item_conf_name);
         tvDefine.setText("免责声明");
         ImageView ivDefine = define.findViewById(R.id.iv_icon_conf);
         ivDefine.setImageResource(R.mipmap.define);
-        define.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
-                intent.putExtra("specialTypeId", 2);
-                startActivity(intent);
-            }
-        });
+        define.setOnClickListener(this);
 
         RelativeLayout about = findView(R.id.item_conf_about);
         TextView tvAbout = about.findViewById(R.id.tv_item_conf_name);
         tvAbout.setText("关于我们");
         ImageView ivAbout = about.findViewById(R.id.iv_icon_conf);
         ivAbout.setImageResource(R.mipmap.about);
-        about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
-                intent.putExtra("specialTypeId", 1);
-                startActivity(intent);
-            }
-        });
+        about.setOnClickListener(this);
     }
 
     private void initView() {
@@ -223,5 +202,30 @@ public class PersonActivity extends BaseActivity {
         super.onResume();
         user = null;
         updateUI();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.item_conf_share:
+                share(0,"测试分享标题", "测试风险内容", "http://www.baidu.com");
+                break;
+            case R.id.item_conf_question:
+                intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
+                intent.putExtra("specialTypeId", 3);
+                startActivity(intent);
+                break;
+            case R.id.item_conf_about:
+                intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
+                intent.putExtra("specialTypeId", 1);
+                startActivity(intent);
+                break;
+            case R.id.item_conf_define:
+                intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
+                intent.putExtra("specialTypeId", 2);
+                startActivity(intent);
+                break;
+        }
     }
 }

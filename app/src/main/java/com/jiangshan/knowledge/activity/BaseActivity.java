@@ -1,11 +1,9 @@
 package com.jiangshan.knowledge.activity;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.hjq.http.listener.OnHttpListener;
 import com.hjq.toast.ToastUtils;
@@ -24,6 +21,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import okhttp3.Call;
 
@@ -50,7 +48,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
      */
     protected void setTitle(String title) {
         TextView tv_title = (TextView) findViewById(R.id.tv_title);
-        if(null!=tv_title){
+        if (null != tv_title) {
             tv_title.setText(title);
         }
     }
@@ -93,40 +91,47 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
     }
 
 
-    /**
-     * 分享
-     */
-    protected void shareInfo(){
-        final SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]
-                {
-                        SHARE_MEDIA.WEIXIN,
-                        SHARE_MEDIA.WEIXIN_CIRCLE,
+    private final SHARE_MEDIA[] displaylist = new SHARE_MEDIA[]
+            {
+                    SHARE_MEDIA.WEIXIN,
+                    SHARE_MEDIA.WEIXIN_CIRCLE
 //                        SHARE_MEDIA.SINA,
-                        SHARE_MEDIA.QQ,
-                        SHARE_MEDIA.QZONE
-                };
+//                        SHARE_MEDIA.QQ,
+//                        SHARE_MEDIA.QZONE
+            };
+
+    /**
+     * 分享 type 0表示网页，1表示文件，2表示……
+     */
+    protected void share(int type, String title, String content, String url) {
+
 
         UMImage image = new UMImage(BaseActivity.this,
-                BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+                BitmapFactory.decodeResource(getResources(), R.mipmap.icon_app));
+        ShareAction shareAction = new ShareAction(this).setDisplayList(displaylist)
+                .setCallback(umShareListener);
 
-        new ShareAction(this).setDisplayList( displaylist )
-                .withText("因为信了，自然有了")
-//                .withTitle("信了")
-//                .withTargetUrl(AddrInterf.HOSTSERVER +AddrInterf.ROOT+ "a/userRegister?vid=" + Utils.vipId)
-//                .withTargetUrl("http://www.baidu.com")
-                .withMedia(image)
-                .setListenerList(umShareListener)
-                .open();
+        switch (type) {
+            case 0:
+                UMWeb umWeb = new UMWeb(url);
+                umWeb.setThumb(image);
+                umWeb.setTitle(title);
+                umWeb.setDescription(content);
+                shareAction.withMedia(umWeb);
+                break;
+        }
+
+        shareAction.open();
 
     }
 
-   private UMShareListener umShareListener= new UMShareListener() {
-       @Override
-       public void onStart(SHARE_MEDIA share_media) {
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
 
-       }
+        }
 
-       @Override
+        @Override
         public void onResult(SHARE_MEDIA platform) {
 //            Toast.makeText(BaseActivity.this,platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
         }
@@ -145,13 +150,17 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get( this ).onActivityResult( requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
-    /** 加载对话框 */
+    /**
+     * 加载对话框
+     */
     private ProgressDialog mDialog;
 
-    /** 对话框数量 */
+    /**
+     * 对话框数量
+     */
     private int mDialogTotal;
 
     /**
