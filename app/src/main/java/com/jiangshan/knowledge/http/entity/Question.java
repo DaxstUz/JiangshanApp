@@ -18,7 +18,7 @@ public class Question implements Serializable {
     private String choiceAnswer;
     private List<String> choiceAnswerList;
     private int rank;
-    private int wrongFlag;
+    private Integer wrongFlag;
     private int collectFlag;
     private String userAnswer;
     private List<String> userAnswerList;
@@ -135,11 +135,11 @@ public class Question implements Serializable {
         this.rank = rank;
     }
 
-    public int getWrongFlag() {
+    public Integer getWrongFlag() {
         return wrongFlag;
     }
 
-    public void setWrongFlag(int wrongFlag) {
+    public void setWrongFlag(Integer wrongFlag) {
         this.wrongFlag = wrongFlag;
     }
 

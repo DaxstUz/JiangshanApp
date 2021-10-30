@@ -2,20 +2,26 @@ package com.jiangshan.knowledge.activity.home;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
-import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.http.api.ExamEndApi;
 import com.jiangshan.knowledge.http.api.ExamStartApi;
+import com.jiangshan.knowledge.http.api.QuestionMarkApi;
+import com.jiangshan.knowledge.http.api.UnCollectApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.http.entity.QuestionInfo;
@@ -70,8 +76,16 @@ public class AnswerActivity extends BaseActivity {
     private LinearLayout operate;
 
     private LinearLayout llAnswerCount;
+    private LinearLayout llCollect;
 
-    private boolean showDiaglog=true;
+    private boolean showDiaglog = true;
+
+    private ImageView ivCollect;
+    private TextView tv_collect_count;
+    private TextView tv_answer_right;
+    private TextView tv_answer_error;
+
+    private int billId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,12 +115,27 @@ public class AnswerActivity extends BaseActivity {
                     }
                     answer.notifyDataSetChanged();
                     llAnswerCount.setVisibility(View.VISIBLE);
+                    updateCount(questionDatas.get(0));
+//                    answer.setCurrentItem(10,false);
                 }
             }
         });
     }
 
     private void initView() {
+        ivCollect = findView(R.id.iv_collect);
+        tv_collect_count = findView(R.id.tv_collect_count);
+        tv_answer_right = findView(R.id.tv_answer_right);
+        tv_answer_error = findView(R.id.tv_answer_error);
+
+        llCollect = findView(R.id.ll_collect);
+        llCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postCollect();
+            }
+        });
+
         llAnswerCount = findView(R.id.ll_answer_count);
         operate = findView(R.id.ll_operate);
         operate.setVisibility(View.VISIBLE);
@@ -122,19 +151,76 @@ public class AnswerActivity extends BaseActivity {
                 new CBViewHolderCreator() {
                     @Override
                     public LocalAnserHolderView createHolder(View itemView) {
-                        return new LocalAnserHolderView(itemView,AnswerActivity.this);
+                        return new LocalAnserHolderView(itemView, AnswerActivity.this);
                     }
 
                     @Override
                     public int getLayoutId() {
                         return R.layout.item_answer;
                     }
-                }, questionDatas).setOnItemClickListener(new OnItemClickListener() {
+                }, questionDatas);
+
+        answer.setOnPageChangeListener(new OnPageChangeListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
             }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+            }
+
+            @Override
+            public void onPageSelected(int index) {
+                Question question = questionDatas.get(index);
+                updateCount(question);
+            }
         });
+    }
+
+    private void updateCount(Question question) {
+        if (0 == question.getCollectFlag()) {
+            ivCollect.setImageResource(R.mipmap.answer_collect);
+        } else {
+            ivCollect.setImageResource(R.mipmap.answer_uncollect);
+        }
+        setCollectCount();
+    }
+
+    private void postCollect() {
+        Question question = questionDatas.get(answer.getCurrentItem());
+
+        String apiPath;
+        if (0 == question.getCollectFlag()) {
+            apiPath = new UnCollectApi().setQuestionId(question.getId()).getApi();
+            EasyHttp.delete(this)
+                    .api(apiPath)
+                    .request(new HttpCallback<HttpData<QuestionInfo>>(this) {
+                        @Override
+                        public void onSucceed(HttpData<QuestionInfo> result) {
+                            if (result.isSuccess()) {
+                                ToastUtils.show("取消收藏成功！");
+                                question.setCollectFlag(1);
+                                updateCount(question);
+                            }
+                        }
+                    });
+        } else {
+            apiPath = new QuestionMarkApi().setExamCode(question.getExamCode()).setQuestionId(question.getId()).getApi();
+            EasyHttp.post(this)
+                    .api(apiPath)
+                    .request(new HttpCallback<HttpData<QuestionInfo>>(this) {
+                        @Override
+                        public void onSucceed(HttpData<QuestionInfo> result) {
+                            if (result.isSuccess()) {
+                                ToastUtils.show("收藏成功！");
+                                question.setCollectFlag(0);
+                                updateCount(question);
+                            }
+                        }
+                    });
+        }
     }
 
     private void examStart() {
@@ -154,7 +240,27 @@ public class AnswerActivity extends BaseActivity {
                 });
     }
 
-    private int billId;
+    private void setCollectCount() {
+        int collectCount = 0;
+        int errorCount = 0;
+        int rightCount = 0;
+        for (Question question : questionDatas
+        ) {
+            if (0 == question.getCollectFlag()) {
+                collectCount++;
+            }
+            if (1 == question.getWrongFlag()) {
+                errorCount++;
+            }
+            if (0 == question.getWrongFlag()) {
+                rightCount++;
+            }
+        }
+        tv_collect_count.setText(collectCount + "");
+        tv_answer_right.setText(rightCount + "");
+        tv_answer_error.setText(errorCount + "");
+    }
+
 
     private void examEnd() {
         EasyHttp.post(this)
@@ -171,9 +277,9 @@ public class AnswerActivity extends BaseActivity {
 
     @Override
     public void onStart(Call call) {
-        if(showDiaglog){
+        if (showDiaglog) {
             showDialog();
-            showDiaglog=false;
+            showDiaglog = false;
         }
 
     }

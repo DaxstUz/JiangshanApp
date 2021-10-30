@@ -44,6 +44,7 @@
                     android:src="@mipmap/answer_right" />
 
                 <TextView
+                    android:id="@+id/tv_answer_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorGreen"
@@ -63,6 +64,7 @@
                     android:src="@mipmap/answer_error" />
 
                 <TextView
+                    android:id="@+id/tv_answer_error"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorRed"
@@ -71,17 +73,20 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_collect"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/iv_collect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/answer_uncollect" />
 
                 <TextView
+                    android:id="@+id/tv_collect_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorGreen"
