@@ -20,6 +20,8 @@ import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.http.api.ExamEndApi;
 import com.jiangshan.knowledge.http.api.ExamStartApi;
+import com.jiangshan.knowledge.http.api.GetExamCollectListApi;
+import com.jiangshan.knowledge.http.api.GetExamErrorListApi;
 import com.jiangshan.knowledge.http.api.QuestionMarkApi;
 import com.jiangshan.knowledge.http.api.UnCollectApi;
 import com.jiangshan.knowledge.http.entity.Course;
@@ -93,8 +95,58 @@ public class AnswerActivity extends BaseActivity {
         setContentView(R.layout.activity_answer);
         setTitle("江山老师题库");
         setBackViewVisiable();
-        examStart();
         initView();
+
+        boolean ismark = getIntent().getBooleanExtra("ismark", false);
+        if (ismark) {
+            getMarkData();
+        } else {
+            examStart();
+        }
+
+    }
+
+    private int pageNum = 1;
+
+    private void getMarkData() {
+        String type = getIntent().getStringExtra("type");
+        Subject subject = LocalDataUtils.getSubject(this);
+        Course course = LocalDataUtils.getCourse(this);
+
+        String api = null;
+        if ("error".equals(type)) {
+            api = new GetExamErrorListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).getApi();
+        }
+        if ("collect".equals(type)) {
+            api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).getApi();
+        }
+
+        if (null == api) {
+            return;
+        }
+
+        EasyHttp.get(this).api(api).request(new HttpCallback<HttpListData<Question>>(this) {
+            @Override
+            public void onSucceed(HttpListData<Question> result) {
+                if (result != null) {
+                    questionDatas.addAll(result.getData().getList());
+                    if (result.getData().getList().size() < result.getData().getPageSize()) {
+                        //如果不够一页,显示没有更多数据布局
+                        for (int i = 0; i < questionDatas.size(); i++) {
+                            questionDatas.get(i).setRank(i+1);
+                            questionDatas.get(i).setBillId(billId);
+                            questionDatas.get(i).setTotal(result.getData().getTotal());
+                        }
+                        answer.notifyDataSetChanged();
+                        llAnswerCount.setVisibility(View.VISIBLE);
+                        updateCount(questionDatas.get(0));
+                    } else {
+                        pageNum++;
+                        getMarkData();
+                    }
+                }
+            }
+        });
     }
 
     private void getQuestion(int billId) {
@@ -246,13 +298,13 @@ public class AnswerActivity extends BaseActivity {
         int rightCount = 0;
         for (Question question : questionDatas
         ) {
-            if (0 == question.getCollectFlag()) {
+            if (null != question.getCollectFlag() && 0 == question.getCollectFlag()) {
                 collectCount++;
             }
-            if (1 == question.getWrongFlag()) {
+            if (null != question.getWrongFlag() && 1 == question.getWrongFlag()) {
                 errorCount++;
             }
-            if (0 == question.getWrongFlag()) {
+            if (null != question.getWrongFlag() && 0 == question.getWrongFlag()) {
                 rightCount++;
             }
         }
@@ -288,5 +340,4 @@ public class AnswerActivity extends BaseActivity {
     public void onEnd(Call call) {
         hideDialog();
     }
-
 }

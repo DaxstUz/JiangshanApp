@@ -65,6 +65,9 @@
             android:name=".activity.home.ExamFocusListActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.home.ExamMarkActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.home.SelectAnserModelActivity"
             android:screenOrientation="portrait" />
         <activity

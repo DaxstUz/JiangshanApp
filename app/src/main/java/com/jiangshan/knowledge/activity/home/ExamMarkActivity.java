@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * auth s_yz  2021/10/24
  */
-public class HistoryAnswerActivity extends BaseActivity {
+public class ExamMarkActivity extends BaseActivity {
 
     private TextView rvAnswerAll;
     private TextView rvAnswerCommit;
@@ -45,14 +45,16 @@ public class HistoryAnswerActivity extends BaseActivity {
     private ExamHistoryListAdapter examAdapter;
     private List<ExamHistory> datas = new ArrayList<>();
 
+    private TextView tv_show_all;
+
     private int pageNum = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_answer);
+        setContentView(R.layout.activity_exam_mark);
 
-        setTitle("答题历史");
+        setTitle(getIntent().getStringExtra("title"));
         setBackViewVisiable();
 
         initView();
@@ -65,6 +67,20 @@ public class HistoryAnswerActivity extends BaseActivity {
         rvAnswerCommit = findViewById(R.id.rv_answer_commit);
         rvAnswerLong = findViewById(R.id.rv_answer_long);
 
+        tv_show_all = findViewById(R.id.tv_show_all);
+        tv_show_all.setText("查看全部"+getIntent().getStringExtra("title"));
+        tv_show_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExamMarkActivity.this, AnswerActivity.class);
+                intent.putExtra("type", getIntent().getStringExtra("type"));
+                intent.putExtra("ismark", true);
+                intent.putExtra("examName", getIntent().getStringExtra("title"));
+                intent.putExtra("showAnalysis",true);
+                startActivityForResult(intent, RESULT_OK);
+            }
+        });
+
         rvExam = findViewById(R.id.rv_exam);
         examAdapter = new ExamHistoryListAdapter(R.layout.item_exam_history_list, datas);
         rvExam.setAdapter(examAdapter);
@@ -72,7 +88,7 @@ public class HistoryAnswerActivity extends BaseActivity {
         examAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Intent intent = new Intent(HistoryAnswerActivity.this, AnswerActivity.class);
+                Intent intent = new Intent(ExamMarkActivity.this, AnswerActivity.class);
                 intent.putExtra("examCode", datas.get(position).getExamCode());
                 intent.putExtra("examName", datas.get(position).getExamName());
                 intent.putExtra("showAnalysis",true);
@@ -80,6 +96,7 @@ public class HistoryAnswerActivity extends BaseActivity {
             }
         });
     }
+
 
     private void getData() {
         Subject subject = LocalDataUtils.getSubject(this);

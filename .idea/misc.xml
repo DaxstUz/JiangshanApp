@@ -9,8 +9,8 @@
         <entry key="app/src/main/res/drawable/anser_model_bg_press.xml" value="0.125" />
         <entry key="app/src/main/res/drawable/answer_type_bg.xml" value="0.10555555555555556" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.29814814814814816" />
-        <entry key="app/src/main/res/drawable/login_bg_green.xml" value="0.29814814814814816" />
-        <entry key="app/src/main/res/drawable/login_bg_white.xml" value="0.29814814814814816" />
+        <entry key="app/src/main/res/drawable/login_bg_green.xml" value="0.10963870176406282" />
+        <entry key="app/src/main/res/drawable/login_bg_white.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/menu_bg_main.xml" value="0.16666666666666666" />
         <entry key="app/src/main/res/drawable/rank_bg_blue.xml" value="0.10648148148148148" />
         <entry key="app/src/main/res/drawable/rank_bg_day.xml" value="0.10648148148148148" />
@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/drawable/rank_bg_week_normal.xml" value="0.11851851851851852" />
         <entry key="app/src/main/res/drawable/rank_bg_week_press.xml" value="0.11851851851851852" />
         <entry key="app/src/main/res/drawable/rank_txt_color.xml" value="0.11851851851851852" />
+        <entry key="app/src/main/res/drawable/show_bg_blue.xml" value="0.17777777777777778" />
         <entry key="app/src/main/res/drawable/subject_bg_monal.xml" value="0.19179487179487179" />
         <entry key="app/src/main/res/drawable/subject_bg_select.xml" value="0.19179487179487179" />
         <entry key="app/src/main/res/drawable/tab_card.xml" value="0.2203125" />
@@ -37,6 +38,7 @@
         <entry key="app/src/main/res/layout/activity_answer.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_article_detail.xml" value="0.11651469098277609" />
         <entry key="app/src/main/res/layout/activity_exam_list.xml" value="0.11141304347826086" />
+        <entry key="app/src/main/res/layout/activity_exam_mark.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_exam_rember.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/activity_history_answer.xml" value="0.206286836935167" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1816123188405797" />

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_above="@+id/tv_show_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/b1"
+        android:orientation="vertical">
+
+        <include layout="@layout/comm_title" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_title"
+            android:padding="@dimen/border_padding_10">
+
+            <LinearLayout
+                android:id="@+id/ll_all_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="答题总数"
+                    android:textColor="@color/b1" />
+
+                <TextView
+                    android:id="@+id/rv_answer_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/b1"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_all_count"
+                android:layout_marginTop="@dimen/border_padding_20"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="完成交卷"
+                        android:textColor="@color/b1" />
+
+                    <TextView
+                        android:id="@+id/rv_answer_commit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0次"
+                        android:textColor="@color/b1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="答题时长"
+                        android:textColor="@color/b1" />
+
+                    <TextView
+                        android:id="@+id/rv_answer_long"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0分钟"
+                        android:textColor="@color/b1" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_exam"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_show_all"
+        android:padding="@dimen/border_padding_10"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/border_padding_20"
+        android:layout_marginLeft="@dimen/border_padding_20"
+        android:layout_marginBottom="@dimen/border_padding_5"
+        android:background="@drawable/show_bg_blue"
+        android:layout_width="match_parent"
+        android:text="查看全部错题"
+        android:textColor="@color/colorWhite"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

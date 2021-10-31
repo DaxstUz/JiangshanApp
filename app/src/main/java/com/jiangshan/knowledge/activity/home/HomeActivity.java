@@ -118,8 +118,9 @@ public class HomeActivity extends BaseActivity {
                             startActivityForResult(intent, RESULT_OK);
                             break;
                         case 4:
-                            intent = new Intent(HomeActivity.this, ExamListActivity.class);
-                            intent.putExtra("examType", 2);
+                            intent = new Intent(HomeActivity.this, ExamMarkActivity.class);
+                            intent.putExtra("title", "错题集");
+                            intent.putExtra("type", "error");
                             startActivityForResult(intent, RESULT_OK);
                             break;
                         case 5:
@@ -128,11 +129,19 @@ public class HomeActivity extends BaseActivity {
                             startActivityForResult(intent, RESULT_OK);
                             break;
 
+                        case 6:
+                            intent = new Intent(HomeActivity.this, ExamMarkActivity.class);
+                            intent.putExtra("title", "收藏");
+                            intent.putExtra("type", "collect");
+                            startActivityForResult(intent, RESULT_OK);
+                            break;
+
                         case 7:
                             intent = new Intent(HomeActivity.this, ExamFocusListActivity.class);
                             intent.putExtra("examType", 2);
                             startActivityForResult(intent, RESULT_OK);
                             break;
+
                     }
                 }else{
                     ToastUtils.show("请选择科目！");

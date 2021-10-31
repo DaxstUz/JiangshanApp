@@ -19,7 +19,7 @@ public class Question implements Serializable {
     private List<String> choiceAnswerList;
     private int rank;
     private Integer wrongFlag;
-    private int collectFlag;
+    private Integer collectFlag;
     private String userAnswer;
     private List<String> userAnswerList;
     private String answerAnalysis;
@@ -41,9 +41,9 @@ public class Question implements Serializable {
     private int rightRate;
     private String easyWrongChoice;
 
-    private int chooseIndex=-1;
+    private int chooseIndex = -1;
 
-    private List<QuestionOption>  questionOptionList;
+    private List<QuestionOption> questionOptionList;
 
     public int getChooseIndex() {
         return chooseIndex;
@@ -143,11 +143,11 @@ public class Question implements Serializable {
         this.wrongFlag = wrongFlag;
     }
 
-    public int getCollectFlag() {
+    public Integer getCollectFlag() {
         return collectFlag;
     }
 
-    public void setCollectFlag(int collectFlag) {
+    public void setCollectFlag(Integer collectFlag) {
         this.collectFlag = collectFlag;
     }
 
