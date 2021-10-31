@@ -65,6 +65,7 @@ public class ChapterAdapter extends BaseQuickAdapter<Chapter, BaseViewHolder> {
                 Intent intent=new Intent(getContext(), SelectAnserModelActivity.class);
                 intent.putExtra("examCode",chapter.getChildren().get(position).getChapterCode());
                 intent.putExtra("examName",chapter.getChildren().get(position).getChapterName());
+                intent.putExtra("examType",4);
                 getContext().startActivity(intent);
             }
         });

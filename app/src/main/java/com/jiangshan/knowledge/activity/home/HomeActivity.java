@@ -104,6 +104,7 @@ public class HomeActivity extends BaseActivity {
                             break;
                         case 1:
                             intent = new Intent(HomeActivity.this, ChapterListActivity.class);
+                            intent.putExtra("examType", 3);
                             startActivityForResult(intent, RESULT_OK);
                             break;
                         case 2:

@@ -103,7 +103,7 @@ public class DateUtil {
         return new Timestamp(System.currentTimeMillis());
     }
 
-    
+
     public static String formatDate(Date date, String pattern, Locale locale) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, locale);
         return sdf.format(date);
@@ -538,50 +538,58 @@ public class DateUtil {
     public static Date getCurrentDay() {
         return new Date();
     }
-    
+
     /**
      * 获取当前的时间
+     *
      * @return
      */
-    public static String getTime(){
-   	 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    public static String getTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         return sdf.format(System.currentTimeMillis());
-   }
-    
-    public static String paseFromStr(Object str){
-   	 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-     sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-     return sdf.format(str);
     }
-    
-    public static String paseFromStr2(Object str){
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    	sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-    	return sdf.format(str);
+
+    public static String paseFromStr(Object str) {
+        if (null == str) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        return sdf.format(str);
     }
-    
-    public static String paseFromStr(String str){
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-    	return sdf.format(Long.valueOf(str));
+
+    public static String paseFromStr2(Object str) {
+        if (null == str) {
+            return "";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        return sdf.format(str);
     }
-    
+
+    public static String paseFromStr(String str) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        return sdf.format(Long.valueOf(str));
+    }
+
     /**
      * 获取系统时间戳
+     *
      * @return
      */
-	@SuppressLint("SimpleDateFormat")
-	public static String getUnixTime() {
-		try {
-			Timestamp appointTime = Timestamp.valueOf(new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss").format(new Date()));
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date date = df.parse(String.valueOf(appointTime));
-			long s = date.getTime();
-			return String.valueOf(s).substring(0, 10);
-		} catch (Exception e) {
-			return "0";
-		}
-	}
+    @SuppressLint("SimpleDateFormat")
+    public static String getUnixTime() {
+        try {
+            Timestamp appointTime = Timestamp.valueOf(new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss").format(new Date()));
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date date = df.parse(String.valueOf(appointTime));
+            long s = date.getTime();
+            return String.valueOf(s).substring(0, 10);
+        } catch (Exception e) {
+            return "0";
+        }
+    }
 }

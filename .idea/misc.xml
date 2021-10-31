@@ -38,7 +38,7 @@
         <entry key="app/src/main/res/layout/activity_article_detail.xml" value="0.11651469098277609" />
         <entry key="app/src/main/res/layout/activity_exam_list.xml" value="0.11141304347826086" />
         <entry key="app/src/main/res/layout/activity_exam_rember.xml" value="0.19791666666666666" />
-        <entry key="app/src/main/res/layout/activity_history_answer.xml" value="0.4943934760448522" />
+        <entry key="app/src/main/res/layout/activity_history_answer.xml" value="0.206286836935167" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/layout/activity_learn_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_list.xml" value="0.16168478260869565" />
@@ -62,6 +62,7 @@
         <entry key="app/src/main/res/layout/item_chapter_chird.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_exam.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_exam_fouse_list.xml" value="0.20606884057971014" />
+        <entry key="app/src/main/res/layout/item_exam_history_list.xml" value="0.1802536231884058" />
         <entry key="app/src/main/res/layout/item_home_menu.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/item_localimage.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/item_news_list.xml" value="0.15081521739130435" />
