@@ -18,6 +18,7 @@ import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.ExamMarkActivity;
 import com.jiangshan.knowledge.activity.home.HistoryAnswerActivity;
 import com.jiangshan.knowledge.http.api.GetExamHistoryStatisticsApi;
 import com.jiangshan.knowledge.http.api.GetMarkCountApi;
@@ -158,12 +159,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         });
 
         btnSet = findViewById(R.id.btn_set);
-        btnSet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SettingActivity.class));
-            }
-        });
+        btnSet.setOnClickListener(this);
         rlPersonInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +205,22 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         Intent intent;
         switch (v.getId()) {
             case R.id.item_conf_share:
-                share(0,"测试分享标题", "测试风险内容", "http://www.baidu.com");
+                share(0, "测试分享标题", "测试风险内容", "http://www.baidu.com");
+                break;
+            case R.id.btn_set:
+                startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+                break;
+            case R.id.ll_error:
+                intent = new Intent(PersonActivity.this, ExamMarkActivity.class);
+                intent.putExtra("title", "错题集");
+                intent.putExtra("type", "error");
+                startActivityForResult(intent, RESULT_OK);
+                break;
+            case R.id.ll_collect:
+                intent = new Intent(PersonActivity.this, ExamMarkActivity.class);
+                intent.putExtra("title", "收藏");
+                intent.putExtra("type", "collect");
+                startActivityForResult(intent, RESULT_OK);
                 break;
             case R.id.item_conf_question:
                 intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
@@ -226,6 +237,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 intent.putExtra("specialTypeId", 2);
                 startActivity(intent);
                 break;
+
         }
     }
 }

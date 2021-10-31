@@ -123,21 +123,6 @@ public class ExamMarkActivity extends BaseActivity {
             return;
         }
 
-//        EasyHttp.get(this)
-//                .api(new GetMarkExamListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(2).setMarkType(1))
-//                .request(new HttpCallback<HttpData<HistoryStatistics>>(this) {
-//
-//                    @Override
-//                    public void onSucceed(HttpData<HistoryStatistics> result) {
-//                        if (result.isSuccess()) {
-//                            rvAnswerAll.setText(result.getData().getAnswerCount() + "");
-//                            rvAnswerCommit.setText(result.getData().getFinishCount() + "次");
-//                            rvAnswerLong.setText(result.getData().getFinishCount() + "分钟");
-//
-//                        }
-//                    }
-//                });
-
         EasyHttp.get(this)
                 .api(new GetMarkExamListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setMarkType(1))
                 .request(new HttpCallback<HttpListDataAll<Exam>>(this) {
