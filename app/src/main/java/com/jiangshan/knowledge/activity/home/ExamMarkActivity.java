@@ -3,6 +3,7 @@ package com.jiangshan.knowledge.activity.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,22 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
-import com.jiangshan.knowledge.activity.home.adapter.ExamHistoryListAdapter;
-import com.jiangshan.knowledge.http.api.GetExamHistoryListApi;
-import com.jiangshan.knowledge.http.api.GetExamHistoryStatisticsApi;
+import com.jiangshan.knowledge.activity.home.adapter.ExamMarkAdapter;
+import com.jiangshan.knowledge.http.api.GetMarkExamListApi;
 import com.jiangshan.knowledge.http.entity.Course;
-import com.jiangshan.knowledge.http.entity.ExamHistory;
-import com.jiangshan.knowledge.http.entity.HistoryStatistics;
+import com.jiangshan.knowledge.http.entity.Exam;
 import com.jiangshan.knowledge.http.entity.Subject;
-import com.jiangshan.knowledge.http.model.HttpData;
-import com.jiangshan.knowledge.http.model.HttpListData;
+import com.jiangshan.knowledge.http.model.HttpListDataAll;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
-import com.jiangshan.knowledge.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +34,19 @@ import java.util.List;
 public class ExamMarkActivity extends BaseActivity {
 
     private TextView rvAnswerAll;
-    private TextView rvAnswerCommit;
-    private TextView rvAnswerLong;
+    private TextView tv_mark_title;
 
     private RecyclerView rvExam;
-    private ExamHistoryListAdapter examAdapter;
-    private List<ExamHistory> datas = new ArrayList<>();
+    private ExamMarkAdapter examAdapter;
+    private List<Exam> datas = new ArrayList<>();
 
     private TextView tv_show_all;
 
-    private int pageNum = 1;
+    private RadioGroup rg_answer_mark;
+
+    private int examType = 1;
+
+    private int countALl = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,16 +58,35 @@ public class ExamMarkActivity extends BaseActivity {
 
         initView();
         getData();
-        initLoadMore();
     }
 
     private void initView() {
         rvAnswerAll = findViewById(R.id.rv_answer_all);
-        rvAnswerCommit = findViewById(R.id.rv_answer_commit);
-        rvAnswerLong = findViewById(R.id.rv_answer_long);
+        tv_mark_title = findViewById(R.id.tv_mark_title);
+        if("error".equals(getIntent().getStringExtra("type"))){
+            tv_mark_title.setText("我的错题总数");
+        }else if("collect".equals(getIntent().getStringExtra("type"))){
+            tv_mark_title.setText("我的收藏总数");
+        }
+
+        rg_answer_mark = findViewById(R.id.rg_answer_mark);
+        rg_answer_mark.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_mark_true:
+                        examType = 1;
+                        break;
+                    case R.id.rb_mark_moni:
+                        examType = 2;
+                        break;
+                }
+                getData();
+            }
+        });
 
         tv_show_all = findViewById(R.id.tv_show_all);
-        tv_show_all.setText("查看全部"+getIntent().getStringExtra("title"));
+        tv_show_all.setText("查看全部" + getIntent().getStringExtra("title"));
         tv_show_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,13 +94,13 @@ public class ExamMarkActivity extends BaseActivity {
                 intent.putExtra("type", getIntent().getStringExtra("type"));
                 intent.putExtra("ismark", true);
                 intent.putExtra("examName", getIntent().getStringExtra("title"));
-                intent.putExtra("showAnalysis",true);
+                intent.putExtra("showAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }
         });
 
         rvExam = findViewById(R.id.rv_exam);
-        examAdapter = new ExamHistoryListAdapter(R.layout.item_exam_history_list, datas);
+        examAdapter = new ExamMarkAdapter(R.layout.item_exam_mark, datas);
         rvExam.setAdapter(examAdapter);
         rvExam.setLayoutManager(new LinearLayoutManager(this));
         examAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -91,7 +109,7 @@ public class ExamMarkActivity extends BaseActivity {
                 Intent intent = new Intent(ExamMarkActivity.this, AnswerActivity.class);
                 intent.putExtra("examCode", datas.get(position).getExamCode());
                 intent.putExtra("examName", datas.get(position).getExamName());
-                intent.putExtra("showAnalysis",true);
+                intent.putExtra("showAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }
         });
@@ -105,57 +123,38 @@ public class ExamMarkActivity extends BaseActivity {
             return;
         }
 
+//        EasyHttp.get(this)
+//                .api(new GetMarkExamListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(2).setMarkType(1))
+//                .request(new HttpCallback<HttpData<HistoryStatistics>>(this) {
+//
+//                    @Override
+//                    public void onSucceed(HttpData<HistoryStatistics> result) {
+//                        if (result.isSuccess()) {
+//                            rvAnswerAll.setText(result.getData().getAnswerCount() + "");
+//                            rvAnswerCommit.setText(result.getData().getFinishCount() + "次");
+//                            rvAnswerLong.setText(result.getData().getFinishCount() + "分钟");
+//
+//                        }
+//                    }
+//                });
+
         EasyHttp.get(this)
-                .api(new GetExamHistoryStatisticsApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()))
-                .request(new HttpCallback<HttpData<HistoryStatistics>>(this) {
-
+                .api(new GetMarkExamListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setMarkType(1))
+                .request(new HttpCallback<HttpListDataAll<Exam>>(this) {
                     @Override
-                    public void onSucceed(HttpData<HistoryStatistics> result) {
+                    public void onSucceed(HttpListDataAll<Exam> result) {
                         if (result.isSuccess()) {
-                            rvAnswerAll.setText(result.getData().getAnswerCount() + "");
-                            rvAnswerCommit.setText(result.getData().getFinishCount() + "次");
-                            rvAnswerLong.setText(result.getData().getFinishCount() + "分钟");
-
-                        }
-                    }
-                });
-
-        EasyHttp.get(this)
-                .api(new GetExamHistoryListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum))
-                .request(new HttpCallback<HttpListData<ExamHistory>>(this) {
-                    @Override
-                    public void onSucceed(HttpListData<ExamHistory> result) {
-                        if (result.isSuccess()) {
-
-//                            examAdapter.getLoadMoreModule().setEnableLoadMore(true);
-                            if (result.getData().getList().size() < result.getData().getPageSize()) {
-                                //如果不够一页,显示没有更多数据布局
-                                examAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                examAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-
-                            datas.addAll(result.getData().getList());
+                            datas.clear();
+                            datas.addAll(result.getData());
                             examAdapter.notifyDataSetChanged();
+                            countALl=0;
+                            for (int i = 0; i <datas.size() ; i++) {
+                                countALl=countALl+datas.get(i).getQuestionQty();
+                            }
+                            rvAnswerAll.setText(countALl+"");
                         }
                     }
                 });
     }
 
-    /**
-     * 初始化加载更多
-     */
-    private void initLoadMore() {
-        examAdapter.getLoadMoreModule().setLoadMoreView(new CustomLoadMoreView());
-        examAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                pageNum++;
-                getData();
-            }
-        });
-        examAdapter.getLoadMoreModule().setAutoLoadMore(true);
-        //当自动加载开启，同时数据不满一屏时，是否继续执行自动加载更多(默认为true)
-        examAdapter.getLoadMoreModule().setEnableLoadMoreIfNotFullPage(false);
-    }
 }

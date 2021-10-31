@@ -5,18 +5,49 @@
 
 
     <LinearLayout
-        android:layout_above="@+id/tv_show_all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/tv_show_all"
         android:background="@color/b1"
         android:orientation="vertical">
 
         <include layout="@layout/comm_title" />
 
-        <RelativeLayout
+        <RadioGroup
+            android:id="@+id/rg_answer_mark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bg_title"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_mark_true"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:button="@null"
+                android:gravity="center"
+                android:textColor="@drawable/mark_txt_color"
+                android:background="@drawable/mark_bg_type"
+                android:text="真题考试" />
+
+            <RadioButton
+                android:id="@+id/rb_mark_moni"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:button="@null"
+                android:textColor="@drawable/mark_txt_color"
+                android:background="@drawable/mark_bg_type"
+                android:text="模拟考试" />
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/b1"
             android:padding="@dimen/border_padding_10">
 
             <LinearLayout
@@ -28,17 +59,16 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_mark_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="答题总数"
-                    android:textColor="@color/b1" />
+                    android:text="答题总数" />
 
                 <TextView
                     android:id="@+id/rv_answer_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textColor="@color/b1"
+                    android:text="50"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -53,47 +83,33 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_weight="1">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="完成交卷"
-                        android:textColor="@color/b1" />
+                        android:text="背景解析" />
 
-                    <TextView
-                        android:id="@+id/rv_answer_commit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0次"
-                        android:textColor="@color/b1" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="end"
                     android:orientation="vertical">
 
-                    <TextView
+                    <Switch
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="答题时长"
-                        android:textColor="@color/b1" />
-
-                    <TextView
-                        android:id="@+id/rv_answer_long"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0分钟"
-                        android:textColor="@color/b1" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
-
             </LinearLayout>
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/border_padding_10"
+            android:background="@color/b3" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_exam"
@@ -103,15 +119,15 @@
 
     <TextView
         android:id="@+id/tv_show_all"
-        android:padding="@dimen/border_padding_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:layout_marginRight="@dimen/border_padding_20"
         android:layout_marginLeft="@dimen/border_padding_20"
+        android:layout_marginRight="@dimen/border_padding_20"
         android:layout_marginBottom="@dimen/border_padding_5"
         android:background="@drawable/show_bg_blue"
-        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/border_padding_10"
         android:text="查看全部错题"
-        android:textColor="@color/colorWhite"
-        android:layout_height="wrap_content"/>
+        android:textColor="@color/colorWhite" />
 </RelativeLayout>
