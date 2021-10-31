@@ -24,7 +24,6 @@ import com.jiangshan.knowledge.activity.home.adapter.MenuAdapter;
 import com.jiangshan.knowledge.activity.news.ArticleDetailActivity;
 import com.jiangshan.knowledge.http.api.BannerApi;
 import com.jiangshan.knowledge.http.api.GetPassportApi;
-import com.jiangshan.knowledge.http.api.GetTicketApi;
 import com.jiangshan.knowledge.http.entity.Article;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Menu;
@@ -116,8 +115,19 @@ public class HomeActivity extends BaseActivity {
                             intent.putExtra("examType", 2);
                             startActivityForResult(intent, RESULT_OK);
                             break;
+                        case 4:
+                            intent = new Intent(HomeActivity.this, ExamListActivity.class);
+                            intent.putExtra("examType", 2);
+                            startActivityForResult(intent, RESULT_OK);
+                            break;
                         case 5:
                             intent = new Intent(HomeActivity.this, HistoryAnswerActivity.class);
+                            intent.putExtra("examType", 2);
+                            startActivityForResult(intent, RESULT_OK);
+                            break;
+
+                        case 7:
+                            intent = new Intent(HomeActivity.this, ExamFocusListActivity.class);
                             intent.putExtra("examType", 2);
                             startActivityForResult(intent, RESULT_OK);
                             break;

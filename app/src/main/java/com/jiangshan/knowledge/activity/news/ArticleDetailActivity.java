@@ -18,6 +18,8 @@ import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.http.api.GetArticleApi;
+import com.jiangshan.knowledge.http.api.GetExamFouseApi;
+import com.jiangshan.knowledge.http.api.GetExamFouseDetailApi;
 import com.jiangshan.knowledge.http.api.SearchArticleApi;
 import com.jiangshan.knowledge.http.entity.Article;
 import com.jiangshan.knowledge.http.model.HttpData;
@@ -53,6 +55,8 @@ public class ArticleDetailActivity extends BaseActivity {
         newsWebview = findViewById(R.id.news_webview);
 
         iv_operate = findViewById(R.id.iv_operate);
+        iv_operate.setImageResource(R.mipmap.operate_share);
+
         ll_operate = findViewById(R.id.ll_operate);
         ll_operate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +104,32 @@ public class ArticleDetailActivity extends BaseActivity {
             }
         }, "Android");
 
-        getArticleDetail(aiticle.getId());
+
+       boolean examFouse= getIntent().getBooleanExtra("examFouse",false);
+       if(examFouse){
+           getExamFouseDetail(aiticle.getId());
+       }else{
+            getArticleDetail(aiticle.getId());
+        }
+    }
+
+    private void getExamFouseDetail(int articleId) {
+        EasyHttp.get(this)
+                .api(new GetExamFouseDetailApi().setArticleId(articleId).getApi())
+                .request(new HttpCallback<HttpData<Article>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<Article> result) {
+                        if (result.isSuccess()) {
+                            article=result.getData();
+                            ll_operate.setVisibility(View.VISIBLE);
+                            if (result.getData().getUrl() == null) {
+                                newsWebview.loadData(result.getData().getContent(), "text/html; charset=UTF-8", null);//这种写法可以正确解码
+                            } else {
+                                newsWebview.loadUrl(result.getData().getUrl());
+                            }
+                        }
+                    }
+                });
     }
 
     private void getArticleDetail(int articleId) {
