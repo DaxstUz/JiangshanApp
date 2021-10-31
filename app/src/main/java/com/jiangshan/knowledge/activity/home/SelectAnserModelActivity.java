@@ -48,6 +48,7 @@ public class SelectAnserModelActivity extends BaseActivity {
                 Intent intent=new Intent(SelectAnserModelActivity.this,AnswerActivity.class);
                 intent.putExtra("examName",getIntent().getStringExtra("examName"));
                 intent.putExtra("examCode",getIntent().getStringExtra("examCode"));
+                intent.putExtra("examType",getIntent().getIntExtra("examType",1));
                 intent.putExtra("showAnalysis",true);
                 startActivityForResult(intent,RESULT_OK);
             }
@@ -60,6 +61,7 @@ public class SelectAnserModelActivity extends BaseActivity {
                 Intent intent=new Intent(SelectAnserModelActivity.this,AnswerActivity.class);
                 intent.putExtra("examName",getIntent().getStringExtra("examName"));
                 intent.putExtra("examCode",getIntent().getStringExtra("examCode"));
+                intent.putExtra("examType",getIntent().getIntExtra("examType",1));
                 startActivityForResult(intent,RESULT_OK);
             }
         });
