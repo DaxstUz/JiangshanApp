@@ -35,6 +35,8 @@ public class Utils {
 
 	public static ClickUtil clickUtil;
 
+	public static PayUtil payUtil;
+
 //	public static MarkMoney mark;
 
 	/**

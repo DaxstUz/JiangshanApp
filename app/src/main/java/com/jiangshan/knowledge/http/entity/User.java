@@ -8,8 +8,6 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     private int userId;
-    private int unionId;
-    private int openId;
     private String nickname;
     private String avatar;
     private String gender;
@@ -21,22 +19,6 @@ public class User implements Serializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getUnionId() {
-        return unionId;
-    }
-
-    public void setUnionId(int unionId) {
-        this.unionId = unionId;
-    }
-
-    public int getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(int openId) {
-        this.openId = openId;
     }
 
     public String getNickname() {
@@ -70,4 +52,5 @@ public class User implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }
+
 }

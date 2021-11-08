@@ -45,6 +45,7 @@ public class ExamMarkActivity extends BaseActivity {
     private RadioGroup rg_answer_mark;
 
     private int examType = 1;
+    private int markType = 1;
 
     private int countALl = 0;
 
@@ -76,9 +77,11 @@ public class ExamMarkActivity extends BaseActivity {
                 switch (checkedId) {
                     case R.id.rb_mark_true:
                         examType = 1;
+                        markType = 1;
                         break;
                     case R.id.rb_mark_moni:
                         examType = 2;
+                        markType = 2;
                         break;
                 }
                 getData();
@@ -124,7 +127,7 @@ public class ExamMarkActivity extends BaseActivity {
         }
 
         EasyHttp.get(this)
-                .api(new GetMarkExamListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setMarkType(1))
+                .api(new GetMarkExamListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setMarkType(markType))
                 .request(new HttpCallback<HttpListDataAll<Exam>>(this) {
                     @Override
                     public void onSucceed(HttpListDataAll<Exam> result) {
@@ -141,5 +144,4 @@ public class ExamMarkActivity extends BaseActivity {
                     }
                 });
     }
-
 }
