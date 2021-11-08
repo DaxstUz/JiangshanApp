@@ -6,7 +6,6 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -45,7 +44,6 @@ public class PayActivity extends BaseActivity implements PayUtil {
                 getPayOrder();
             }
         });
-
         Utils.payUtil = this;
     }
 
@@ -58,7 +56,6 @@ public class PayActivity extends BaseActivity implements PayUtil {
 
                     @Override
                     public void onSucceed(HttpData<Prepay> result) {
-                        System.out.println("result==>" + result);
                         payWeixin(result.getData());
                     }
 
@@ -66,36 +63,42 @@ public class PayActivity extends BaseActivity implements PayUtil {
                     public void onFail(Exception e) {
                         super.onFail(e);
                         ToastUtils.show("登录失败！");
-
                     }
                 });
     }
 
-
     private void payWeixin(Prepay prepay) {
-        final IWXAPI msgApi = WXAPIFactory.createWXAPI(this, null);
-
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, prepay.getAppId());
         // 将该app注册到微信
         msgApi.registerApp(prepay.getAppId());
-
         PayReq request = new PayReq();
         request.appId = prepay.getAppId();
         request.partnerId = "1581836751";
         request.prepayId = prepay.getPrepay_id();
-//        request.prepayId = "prepay_id="+prepay.getPrepay_id();
         request.packageValue = "Sign=WXPay";
         request.nonceStr = prepay.getNonceStr();
-//        request.timeStamp = "1398746574";
         request.timeStamp = prepay.getTimeStamp();
-//        request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-        request.sign = prepay.getSignType();
-//        System.out.println("微信支付发起请求参数：" + new Gson().toJson(request));
+        request.sign = prepay.getSignType();//MD5
         msgApi.sendReq(request);
-
     }
 
+
     @Override
-    public int payResult(int result) {
-        return 0;
+    public void payResult(int result) {
+        switch (result) {
+            case 0:
+                ToastUtils.show("支付成功！");
+                this.finish();
+                break;
+            case -2:
+                ToastUtils.show("支付取消！");
+                break;
+            case -1:
+                ToastUtils.show("支付失败！");
+                break;
+            default:
+                ToastUtils.show("支付出错！");
+                break;
+        }
     }
 }

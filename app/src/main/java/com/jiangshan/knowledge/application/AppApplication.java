@@ -17,6 +17,8 @@ import com.jiangshan.knowledge.http.model.RequestHandler;
 import com.jiangshan.knowledge.http.server.ReleaseServer;
 import com.jiangshan.knowledge.http.server.TestServer;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.jiangshan.knowledge.uitl.Utils;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.mmkv.MMKV;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
@@ -42,11 +44,9 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         initUmeng();
         initHttp();
         initH5Web();
-
     }
 
 

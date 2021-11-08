@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 
 import com.jiangshan.knowledge.application.AppApplication;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
