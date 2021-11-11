@@ -34,7 +34,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="12sp"
-                android:text="系统集成项目管理工程师"
+                android:text="请选择考试职称"
                 android:textColor="@color/bg_title" />
 
             <View

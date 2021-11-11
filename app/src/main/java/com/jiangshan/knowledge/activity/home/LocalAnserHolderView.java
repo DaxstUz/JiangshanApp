@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.http.listener.OnHttpListener;
@@ -22,7 +23,7 @@ import com.jiangshan.knowledge.http.entity.Question;
 /**
  * auth s_yz  2021/10/13
  */
-public class LocalAnserHolderView extends Holder<Question> {
+public class LocalAnserHolderView extends Holder<Question> implements View.OnClickListener {
 
     private TextView chapterCount;
     private TextView chapterName;
@@ -91,14 +92,20 @@ public class LocalAnserHolderView extends Holder<Question> {
         llAnswerB = itemView.findViewById(R.id.ll_answer_b);
         llAnswerC = itemView.findViewById(R.id.ll_answer_c);
         llAnswerD = itemView.findViewById(R.id.ll_answer_d);
+        llAnswerA.setOnClickListener(this);
+        llAnswerB.setOnClickListener(this);
+        llAnswerC.setOnClickListener(this);
+        llAnswerD.setOnClickListener(this);
 
-        addListener();
+//        addListener();
     }
 
     private void addListener() {
+
         llAnswerA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 resetButtonDrawable();
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
                 data.setChooseIndex(1);
@@ -145,8 +152,13 @@ public class LocalAnserHolderView extends Holder<Question> {
         ivAnswerD.setImageResource(R.mipmap.rb_answer_d);
     }
 
-    private void setSelect(int selectIndex) {
-        switch (selectIndex) {
+    private static final String ALLANSWER="ABCD";
+
+    private void setSelect() {
+
+        //用户的答案
+        int userIndex= (null==data.getUserAnswer()?-1:ALLANSWER.indexOf(data.getUserAnswer())+1);
+        switch (userIndex) {
             case 1:
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
                 break;
@@ -160,17 +172,73 @@ public class LocalAnserHolderView extends Holder<Question> {
                 ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
                 break;
         }
+
+        if(!showAnalysis){
+            return;
+        }
+
+        //正确的答案
+        int rightIndex=ALLANSWER.indexOf(data.getChoiceAnswer())+1;
+        switch (rightIndex) {
+            case 1:
+                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
+                break;
+            case 2:
+                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
+                break;
+            case 3:
+                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
+                break;
+            case 4:
+                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
+                break;
+        }
+
+        switch (userIndex) {
+            case 1:
+                if(rightIndex==1){
+                    ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
+                }else{
+                    ivAnswerA.setImageResource(R.mipmap.rb_answer_error);
+                }
+                break;
+            case 2:
+                if(rightIndex==2) {
+                    ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
+                }else {
+                    ivAnswerB.setImageResource(R.mipmap.rb_answer_error);
+                }
+                break;
+            case 3:
+                if(rightIndex==3) {
+                    ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
+                }else{
+                    ivAnswerC.setImageResource(R.mipmap.rb_answer_error);
+                }
+                break;
+            case 4:
+                if(rightIndex==4) {
+                    ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
+                }else{
+                    ivAnswerD.setImageResource(R.mipmap.rb_answer_error);
+                }
+                break;
+        }
     }
 
     private Question data;
+
+    private  boolean showAnalysis;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
         this.data = data;
 //        System.out.println("updateUI===>" + new Gson().toJson(data));
+        showAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showAnalysis", false);
         resetButtonDrawable();
-        setSelect(data.getChooseIndex());
+        setSelect();
+
         answer.setQuestionId(data.getId());
         answer.setBillId(data.getBillId());
 
@@ -199,10 +267,10 @@ public class LocalAnserHolderView extends Holder<Question> {
             }
         }
 
-        boolean showAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showAnalysis", false);
         if (showAnalysis) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);
         }
+
 
     }
 
@@ -215,5 +283,46 @@ public class LocalAnserHolderView extends Holder<Question> {
                         super.onSucceed(result);
                     }
                 });
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(showAnalysis){
+            return;
+        }
+        switch (v.getId()){
+            case R.id.ll_answer_a:
+                resetButtonDrawable();
+                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(1);
+                answer.setOptionNo("A");
+                data.setUserAnswer("A");
+                examCommit();
+                break;
+            case R.id.ll_answer_b:
+                resetButtonDrawable();
+                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(2);
+                answer.setOptionNo("B");
+                data.setUserAnswer("B");
+                examCommit();
+                break;
+            case R.id.ll_answer_c:
+                resetButtonDrawable();
+                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(3);
+                answer.setOptionNo("C");
+                data.setUserAnswer("C");
+                examCommit();
+                break;
+            case R.id.ll_answer_d:
+                resetButtonDrawable();
+                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
+                data.setChooseIndex(4);
+                answer.setOptionNo("D");
+                data.setUserAnswer("D");
+                examCommit();
+                break;
+        }
     }
 }

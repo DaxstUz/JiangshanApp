@@ -142,7 +142,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                 ToastUtils.show(throwable.getMessage().substring(throwable.getMessage().indexOf("错误信息：") + 5));
-//                System.out.println(" platformLogin onError"+i+" error ===>"+throwable.getMessage());
+                System.out.println(" platformLogin onError"+i+" error ===>"+throwable.getMessage());
 
             }
 

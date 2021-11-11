@@ -30,7 +30,6 @@ public class AppApplication extends Application {
 
     private static Application application;
 
-
     public AppApplication() {
         // TODO Auto-generated constructor stub
         application = this;
@@ -39,7 +38,6 @@ public class AppApplication extends Application {
     public static Application getApplication() {
         return application;
     }
-
 
     @Override
     public void onCreate() {
@@ -56,7 +54,7 @@ public class AppApplication extends Application {
                 , "umeng", UMConfigure.DEVICE_TYPE_PHONE, null);
 
 //        PlatformConfig.setWeixin("wxfa7d7f1550fb111f", "0d31dc970eabf53d8c29e21a15911487"); //微信 appid appsecret
-        PlatformConfig.setWeixin("wxfa7d7f1550fb111f", ""); //微信 appid appsecret
+        PlatformConfig.setWeixin("wxfa7d7f1550fb111f", "0d31dc970eabf53d8c29e21a15911487"); //微信 appid appsecret
 //        PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
 ////        //新浪微博 appkey appsecret
 //        PlatformConfig.setQQZone("1105588074", "r7lMWqiBL0YZBSU4");// QQ和Qzone appid appkey

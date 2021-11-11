@@ -15,9 +15,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.ExamMarkAdapter;
+import com.jiangshan.knowledge.activity.person.LoginActivity;
 import com.jiangshan.knowledge.http.api.GetMarkExamListApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Exam;
@@ -64,9 +66,9 @@ public class ExamMarkActivity extends BaseActivity {
     private void initView() {
         rvAnswerAll = findViewById(R.id.rv_answer_all);
         tv_mark_title = findViewById(R.id.tv_mark_title);
-        if("error".equals(getIntent().getStringExtra("type"))){
+        if ("error".equals(getIntent().getStringExtra("type"))) {
             tv_mark_title.setText("我的错题总数");
-        }else if("collect".equals(getIntent().getStringExtra("type"))){
+        } else if ("collect".equals(getIntent().getStringExtra("type"))) {
             tv_mark_title.setText("我的收藏总数");
         }
 
@@ -135,13 +137,25 @@ public class ExamMarkActivity extends BaseActivity {
                             datas.clear();
                             datas.addAll(result.getData());
                             examAdapter.notifyDataSetChanged();
-                            countALl=0;
-                            for (int i = 0; i <datas.size() ; i++) {
-                                countALl=countALl+datas.get(i).getQuestionQty();
+                            countALl = 0;
+                            for (int i = 0; i < datas.size(); i++) {
+                                countALl = countALl + datas.get(i).getQuestionQty();
                             }
-                            rvAnswerAll.setText(countALl+"");
+                            rvAnswerAll.setText(countALl + "");
+                        } else {
+                            if (403 == result.getCode()) {
+                                ToastUtils.show(result.getMsg());
+                                startActivityForResult(new Intent(ExamMarkActivity.this, LoginActivity.class), RESULT_OK);
+                            }
+
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getData();
     }
 }

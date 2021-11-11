@@ -17,6 +17,7 @@ import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.activity.person.adapter.SubjectAdapter;
 import com.jiangshan.knowledge.activity.person.adapter.SubjectCategoryAdapter;
 import com.jiangshan.knowledge.http.api.SubjectCategoryApi;

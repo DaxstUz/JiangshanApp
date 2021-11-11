@@ -14,6 +14,8 @@ public class WXEntryActivity extends WXCallbackActivity {
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {
             ToastUtils.show("分享成功！");
+        }else {
+            super.onResp(resp);
         }
     }
 }

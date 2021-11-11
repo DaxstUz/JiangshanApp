@@ -53,6 +53,7 @@ public class SubjectDetailActivity extends BaseActivity {
         tvChangeSubject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LocalDataUtils.saveLocalData(SubjectDetailActivity.this,LocalDataUtils.localDataName,LocalDataUtils.keyCourse,null);
                 startActivityForResult(new Intent(getApplicationContext(), SelectSubjectActivity.class),0);
             }
         });

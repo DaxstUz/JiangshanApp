@@ -12,10 +12,17 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.hjq.http.listener.OnHttpListener;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
+import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
+import com.jiangshan.knowledge.activity.person.LoginActivity;
+import com.jiangshan.knowledge.http.entity.Course;
+import com.jiangshan.knowledge.http.entity.Subject;
+import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
+import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -222,4 +229,23 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 //        hideDialog();
     }
 
+    protected boolean judgeSuject(){
+        Subject subject = LocalDataUtils.getSubject(this);
+        Course course = LocalDataUtils.getCourse(this);
+        if(null==subject || null==course){
+            startActivity(new Intent(getApplicationContext(), SubjectDetailActivity.class));
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean judgeLogin(){
+        String userStr = LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.keyUser);
+        if (null != userStr) {
+            return true;
+        }else{
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        }
+        return false;
+    }
 }

@@ -17,7 +17,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
-import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.MenuAdapter;
@@ -28,7 +27,6 @@ import com.jiangshan.knowledge.http.entity.Article;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Menu;
 import com.jiangshan.knowledge.http.entity.Passport;
-import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
@@ -93,60 +91,55 @@ public class HomeActivity extends BaseActivity {
         menuAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Subject subject = LocalDataUtils.getSubject(HomeActivity.this);
-                if(null!=subject){
-                    Intent intent;
-                    switch (position) {
-                        case 0:
-                            intent = new Intent(HomeActivity.this, SelectAnserModelActivity.class);
-                            intent.putExtra("examType", 4);
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-                        case 1:
-                            intent = new Intent(HomeActivity.this, ChapterListActivity.class);
-                            intent.putExtra("examType", 3);
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-                        case 2:
-                            intent = new Intent(HomeActivity.this, ExamListActivity.class);
-                            intent.putExtra("examType", 1);//examType考试类型:1.历届真题;2.模拟考试;3.章节练习题;4.随机
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-                        case 3:
-                            intent = new Intent(HomeActivity.this, ExamListActivity.class);
-                            intent.putExtra("examType", 2);
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-                        case 4:
-                            intent = new Intent(HomeActivity.this, ExamMarkActivity.class);
-                            intent.putExtra("title", "错题集");
-                            intent.putExtra("type", "error");
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-                        case 5:
-                            intent = new Intent(HomeActivity.this, HistoryAnswerActivity.class);
-                            intent.putExtra("examType", 2);
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-
-                        case 6:
-                            intent = new Intent(HomeActivity.this, ExamMarkActivity.class);
-                            intent.putExtra("title", "收藏");
-                            intent.putExtra("type", "collect");
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-
-                        case 7:
-                            intent = new Intent(HomeActivity.this, ExamFocusListActivity.class);
-                            intent.putExtra("examType", 2);
-                            startActivityForResult(intent, RESULT_OK);
-                            break;
-
+                if (judgeLogin()) {
+                    if (judgeSuject()) {
+                        Intent intent;
+                        switch (position) {
+                            case 0:
+                                intent = new Intent(HomeActivity.this, SelectAnserModelActivity.class);
+                                intent.putExtra("examType", 4);
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                            case 1:
+                                intent = new Intent(HomeActivity.this, ChapterListActivity.class);
+                                intent.putExtra("examType", 3);
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                            case 2:
+                                intent = new Intent(HomeActivity.this, ExamListActivity.class);
+                                intent.putExtra("examType", 1);//examType考试类型:1.历届真题;2.模拟考试;3.章节练习题;4.随机
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                            case 3:
+                                intent = new Intent(HomeActivity.this, ExamListActivity.class);
+                                intent.putExtra("examType", 2);
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                            case 4:
+                                intent = new Intent(HomeActivity.this, ExamMarkActivity.class);
+                                intent.putExtra("title", "错题集");
+                                intent.putExtra("type", "error");
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                            case 5:
+                                intent = new Intent(HomeActivity.this, HistoryAnswerActivity.class);
+                                intent.putExtra("examType", 2);
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                            case 6:
+                                intent = new Intent(HomeActivity.this, ExamMarkActivity.class);
+                                intent.putExtra("title", "收藏");
+                                intent.putExtra("type", "collect");
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                            case 7:
+                                intent = new Intent(HomeActivity.this, ExamFocusListActivity.class);
+                                intent.putExtra("examType", 2);
+                                startActivityForResult(intent, RESULT_OK);
+                                break;
+                        }
                     }
-                }else{
-                    ToastUtils.show("请选择科目！");
                 }
-
             }
         });
 
@@ -207,8 +200,8 @@ public class HomeActivity extends BaseActivity {
 
                     @Override
                     public void onSucceed(HttpData<Passport> result) {
-                        Passport passport= result.getData();
-                        LocalDataUtils.saveLocalData(HomeActivity.this,LocalDataUtils.localUserName,LocalDataUtils.passport,new Gson().toJson(passport));
+                        Passport passport = result.getData();
+                        LocalDataUtils.saveLocalData(HomeActivity.this, LocalDataUtils.localUserName, LocalDataUtils.passport, new Gson().toJson(passport));
                     }
                 });
     }
