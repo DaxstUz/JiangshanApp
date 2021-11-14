@@ -6,18 +6,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.adapter.ChapterMainAdapter;
 import com.jiangshan.knowledge.http.api.ExamEndApi;
 import com.jiangshan.knowledge.http.api.ExamStartApi;
 import com.jiangshan.knowledge.http.api.GetExamCollectListApi;
@@ -87,6 +92,9 @@ public class AnswerActivity extends BaseActivity {
     private TextView tv_answer_right;
     private TextView tv_answer_error;
 
+    private RecyclerView rvChapterMain;
+    private ChapterMainAdapter chapterMainAdapter;
+
     private int billId;
 
     @Override
@@ -133,7 +141,7 @@ public class AnswerActivity extends BaseActivity {
                     if (result.getData().getList().size() < result.getData().getPageSize()) {
                         //如果不够一页,显示没有更多数据布局
                         for (int i = 0; i < questionDatas.size(); i++) {
-                            questionDatas.get(i).setRank(i+1);
+                            questionDatas.get(i).setRank(i + 1);
                             questionDatas.get(i).setBillId(billId);
                             questionDatas.get(i).setTotal(result.getData().getTotal());
                         }
@@ -166,6 +174,8 @@ public class AnswerActivity extends BaseActivity {
                         questionDatas.get(i).setTotal(result.getData().getTotal());
                     }
                     answer.notifyDataSetChanged();
+                    chapterMainAdapter.setSelectQuestionNo(questionDatas.get(0).getQuestionNo());
+                    chapterMainAdapter.notifyDataSetChanged();
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
 //                    answer.setCurrentItem(10,false);
@@ -180,6 +190,20 @@ public class AnswerActivity extends BaseActivity {
         tv_answer_right = findView(R.id.tv_answer_right);
         tv_answer_error = findView(R.id.tv_answer_error);
 
+        rvChapterMain = findView(R.id.rv_chapter_main);
+        chapterMainAdapter = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas);
+        rvChapterMain.setAdapter(chapterMainAdapter);
+        rvChapterMain.setLayoutManager(new GridLayoutManager(this, 6));
+        chapterMainAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                rvChapterMain.setVisibility(View.GONE);
+                answer.setCurrentItem(position,false);
+                chapterMainAdapter.setSelectQuestionNo(questionDatas.get(position).getQuestionNo());
+                chapterMainAdapter.notifyDataSetChanged();
+            }
+        });
+
         llCollect = findView(R.id.ll_collect);
         llCollect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,6 +213,12 @@ public class AnswerActivity extends BaseActivity {
         });
 
         llAnswerCount = findView(R.id.ll_answer_count);
+        llAnswerCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rvChapterMain.setVisibility(View.VISIBLE);
+            }
+        });
         operate = findView(R.id.ll_operate);
         operate.setVisibility(View.VISIBLE);
         operate.setOnClickListener(new View.OnClickListener() {

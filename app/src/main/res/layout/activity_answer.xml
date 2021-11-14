@@ -25,6 +25,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bg_title"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
@@ -107,6 +108,13 @@
                     android:src="@mipmap/setting" />
             </LinearLayout>
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_chapter_main"
+            android:scrollbars="none"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </RelativeLayout>

@@ -5,9 +5,11 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.23697916666666666" />
         <entry key="app/src/main/res/drawable/anser_model_bg.xml" value="0.125" />
-        <entry key="app/src/main/res/drawable/anser_model_bg_normal.xml" value="0.125" />
+        <entry key="app/src/main/res/drawable/anser_model_bg_normal.xml" value="0.11" />
         <entry key="app/src/main/res/drawable/anser_model_bg_press.xml" value="0.125" />
         <entry key="app/src/main/res/drawable/answer_type_bg.xml" value="0.10555555555555556" />
+        <entry key="app/src/main/res/drawable/chapter_main_bg.xml" value="0.2324074074074074" />
+        <entry key="app/src/main/res/drawable/chapter_main_select_bg.xml" value="0.18611111111111112" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/login_bg_green.xml" value="0.10963870176406282" />
         <entry key="app/src/main/res/drawable/login_bg_white.xml" value="0.1" />
@@ -62,6 +64,7 @@
         <entry key="app/src/main/res/layout/activity_special_count.xml" value="0.16621376811594202" />
         <entry key="app/src/main/res/layout/comm_title.xml" value="0.13451086956521738" />
         <entry key="app/src/main/res/layout/fragment_news.xml" value="0.18478260869565216" />
+        <entry key="app/src/main/res/layout/item_adapter_main.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_answer.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_banner.xml" value="0.1408514492753623" />
         <entry key="app/src/main/res/layout/item_chapter.xml" value="0.335" />
