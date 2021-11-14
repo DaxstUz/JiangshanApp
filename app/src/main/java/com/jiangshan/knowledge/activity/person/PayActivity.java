@@ -18,15 +18,12 @@ import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
-import com.jiangshan.knowledge.http.api.GetPayHistoryApi;
 import com.jiangshan.knowledge.http.api.MemberBuyApi;
 import com.jiangshan.knowledge.http.entity.MemberInfo;
-import com.jiangshan.knowledge.http.entity.PayHistory;
 import com.jiangshan.knowledge.http.entity.Prepay;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
-import com.jiangshan.knowledge.http.model.HttpListDataAll;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.uitl.PayUtil;
 import com.jiangshan.knowledge.uitl.Utils;
@@ -52,6 +49,9 @@ public class PayActivity extends BaseActivity implements PayUtil {
     private TextView tvMoneyLevelTwo;
     private TextView tvMoneyLevelThree;
 
+    private TextView tvMonthCount;
+    private TextView tvChargeCount;
+
     private int policyId = 1;
 
     @Override
@@ -73,6 +73,9 @@ public class PayActivity extends BaseActivity implements PayUtil {
         ll_level_one = findViewById(R.id.ll_level_one);
         ll_level_two = findViewById(R.id.ll_level_two);
         ll_level_three = findViewById(R.id.ll_level_three);
+
+        tvMonthCount = findViewById(R.id.tv_month_count);
+        tvChargeCount = findViewById(R.id.tv_charge_count);
 
         tvMoneyLevelOne = findViewById(R.id.tv_money_level_one);
         tvMoneyLevelTwo = findViewById(R.id.tv_money_level_two);
@@ -193,6 +196,9 @@ public class PayActivity extends BaseActivity implements PayUtil {
                             }else{
                                 tvUserName.setText(memberInfo.getCreator()+"(会员)");
                             }
+
+                            tvMonthCount.setText(memberInfo.getMemberMonth()+"");
+                            tvChargeCount.setText(memberInfo.getTotalQty()+"");
 
                             String userStr = LocalDataUtils.getLocalData(PayActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser);
                             if (null != userStr) {
