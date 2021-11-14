@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.bigkoo.convenientbanner.holder.Holder;
-import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.http.listener.OnHttpListener;
@@ -152,12 +151,12 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
         ivAnswerD.setImageResource(R.mipmap.rb_answer_d);
     }
 
-    private static final String ALLANSWER="ABCD";
+    private static final String ALLANSWER = "ABCD";
 
     private void setSelect() {
 
         //用户的答案
-        int userIndex= (null==data.getUserAnswer()?-1:ALLANSWER.indexOf(data.getUserAnswer())+1);
+        int userIndex = (null == data.getUserAnswer() ? -1 : ALLANSWER.indexOf(data.getUserAnswer()) + 1);
         switch (userIndex) {
             case 1:
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
@@ -173,12 +172,12 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 break;
         }
 
-        if(!showAnalysis){
+        if (!showAnalysis) {
             return;
         }
 
         //正确的答案
-        int rightIndex=ALLANSWER.indexOf(data.getChoiceAnswer())+1;
+        int rightIndex = ALLANSWER.indexOf(data.getChoiceAnswer()) + 1;
         switch (rightIndex) {
             case 1:
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
@@ -196,30 +195,30 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
 
         switch (userIndex) {
             case 1:
-                if(rightIndex==1){
+                if (rightIndex == 1) {
                     ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
-                }else{
+                } else {
                     ivAnswerA.setImageResource(R.mipmap.rb_answer_error);
                 }
                 break;
             case 2:
-                if(rightIndex==2) {
+                if (rightIndex == 2) {
                     ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
-                }else {
+                } else {
                     ivAnswerB.setImageResource(R.mipmap.rb_answer_error);
                 }
                 break;
             case 3:
-                if(rightIndex==3) {
+                if (rightIndex == 3) {
                     ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
-                }else{
+                } else {
                     ivAnswerC.setImageResource(R.mipmap.rb_answer_error);
                 }
                 break;
             case 4:
-                if(rightIndex==4) {
+                if (rightIndex == 4) {
                     ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
-                }else{
+                } else {
                     ivAnswerD.setImageResource(R.mipmap.rb_answer_error);
                 }
                 break;
@@ -228,7 +227,7 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
 
     private Question data;
 
-    private  boolean showAnalysis;
+    private boolean showAnalysis;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -245,7 +244,9 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
         chapterCount.setText("/" + data.getTotal());
         String examName = ((AnswerActivity) itemView.getContext()).getIntent().getStringExtra("examName");
         chapterName.setText(examName);
+
         tvRank.setText(data.getRank() + "");
+
         tvQuestionType.setText(data.getQuestionTypeDesc());
         tvChoiceAnswer.setText(data.getChoiceAnswer());
         tvQuestionContent.setText("          " + Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT));
@@ -287,10 +288,10 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if(showAnalysis){
+        if (showAnalysis) {
             return;
         }
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_answer_a:
                 resetButtonDrawable();
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
@@ -325,4 +326,8 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 break;
         }
     }
+
+//    public void setSelectItem(int index){
+//        tvRank.setText(index + "");
+//    }
 }

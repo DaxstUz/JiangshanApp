@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class ChapterMainAdapter extends BaseQuickAdapter<Question, BaseViewHolder> {
 
-    private String selectQuestionNo;
+    private int selectIndex;
 
-    public void setSelectQuestionNo(String selectQuestionNo) {
-        this.selectQuestionNo = selectQuestionNo;
+    public void setSelectIndex(int selectIndex) {
+        this.selectIndex = selectIndex;
     }
 
     public ChapterMainAdapter(int layoutResId, @Nullable List<Question> data) {
@@ -27,11 +27,14 @@ public class ChapterMainAdapter extends BaseQuickAdapter<Question, BaseViewHolde
 
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, Question data) {
-        baseViewHolder.setText(R.id.tv_chapter_no, data.getQuestionNo());
-        if(data.getQuestionNo().equals(selectQuestionNo)){
-            baseViewHolder.setBackgroundResource(R.id.tv_chapter_no,R.drawable.chapter_main_select_bg);
-        }
-
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        holder.setText(R.id.tv_chapter_no, (position+1)+"");
+        if(selectIndex==position){
+            holder.setBackgroundResource(R.id.tv_chapter_no,R.drawable.chapter_main_select_bg);
+        }
+    }
 }

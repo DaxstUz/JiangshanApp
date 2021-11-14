@@ -174,7 +174,7 @@ public class AnswerActivity extends BaseActivity {
                         questionDatas.get(i).setTotal(result.getData().getTotal());
                     }
                     answer.notifyDataSetChanged();
-                    chapterMainAdapter.setSelectQuestionNo(questionDatas.get(0).getQuestionNo());
+                    chapterMainAdapter.setSelectIndex(0);
                     chapterMainAdapter.notifyDataSetChanged();
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
@@ -199,7 +199,7 @@ public class AnswerActivity extends BaseActivity {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 rvChapterMain.setVisibility(View.GONE);
                 answer.setCurrentItem(position,false);
-                chapterMainAdapter.setSelectQuestionNo(questionDatas.get(position).getQuestionNo());
+                chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter.notifyDataSetChanged();
             }
         });
@@ -259,6 +259,7 @@ public class AnswerActivity extends BaseActivity {
                 updateCount(question);
             }
         });
+
     }
 
     private void updateCount(Question question) {
