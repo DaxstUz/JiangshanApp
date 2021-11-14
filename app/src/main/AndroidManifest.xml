@@ -104,6 +104,9 @@
             android:name=".activity.person.PayActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.person.PayHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.person.SettingActivity"
             android:screenOrientation="portrait" />
         <activity

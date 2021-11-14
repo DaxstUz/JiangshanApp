@@ -10,8 +10,13 @@
         <entry key="app/src/main/res/drawable/answer_type_bg.xml" value="0.10555555555555556" />
         <entry key="app/src/main/res/drawable/chapter_main_bg.xml" value="0.2324074074074074" />
         <entry key="app/src/main/res/drawable/chapter_main_select_bg.xml" value="0.18611111111111112" />
+        <entry key="app/src/main/res/drawable/charge_bg_money.xml" value="0.22592592592592592" />
+        <entry key="app/src/main/res/drawable/charge_bg_money_select.xml" value="0.22592592592592592" />
         <entry key="app/src/main/res/drawable/charge_main_bg.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/drawable/charge_main_bg_all.xml" value="0.24351851851851852" />
+        <entry key="app/src/main/res/drawable/charge_main_bg_commit.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/drawable/charge_member_bg.xml" value="0.20092592592592592" />
+        <entry key="app/src/main/res/drawable/charge_record_bg.xml" value="0.26614583333333336" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/login_bg_green.xml" value="0.10963870176406282" />
         <entry key="app/src/main/res/drawable/login_bg_white.xml" value="0.1" />
@@ -57,7 +62,8 @@
         <entry key="app/src/main/res/layout/activity_method.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/layout/activity_new.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/layout/activity_news.xml" value="0.12092391304347826" />
-        <entry key="app/src/main/res/layout/activity_pay.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_pay.xml" value="0.42462845010615713" />
+        <entry key="app/src/main/res/layout/activity_pay_history.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/activity_person.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_person_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_person_setting.xml" value="0.1" />
@@ -78,6 +84,7 @@
         <entry key="app/src/main/res/layout/item_home_menu.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/item_localimage.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/item_news_list.xml" value="0.15081521739130435" />
+        <entry key="app/src/main/res/layout/item_pay_history.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/layout/item_person_conf.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/item_rank.xml" value="0.17074275362318841" />
         <entry key="app/src/main/res/layout/item_subject.xml" value="0.1480978260869565" />

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,15 +9,348 @@
         android:id="@+id/include"
         layout="@layout/comm_title" />
 
-    <Button
-        android:id="@+id/btn_pay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="99dp"
-        android:text="微信支付"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/include" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_person_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/border_padding_10"
+                    android:background="@drawable/charge_main_bg_all"
+                    android:paddingLeft="@dimen/border_padding_10"
+                    android:paddingTop="@dimen/border_padding_10"
+                    android:paddingBottom="@dimen/border_padding_10">
+
+                    <com.github.siyamed.shapeimageview.CircularImageView
+                        android:id="@+id/iv_user_head"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/icon_app"
+                        app:siBorderColor="@color/b3"
+                        app:siBorderWidth="1dp" />
+
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/iv_user_head"
+                        android:text="名字"
+                        android:textColor="@color/colorChargeText" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_user_name"
+                        android:layout_toRightOf="@+id/iv_user_head"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="成为会员，享多重权益"
+                            android:textColor="@color/colorChargeText" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/rv_charge_record"
+                        android:onClick="onClick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/charge_record_bg"
+                        android:padding="@dimen/border_padding_5"
+                        android:text="充值记录 >"
+                        android:textColor="@color/colorChargeText" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_user_head"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_error"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:onClick="onClick"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_error_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/colorChargeText" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="累计月数"
+                                android:textColor="@color/colorChargeText" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorChargeText" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_collect"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:onClick="onClick"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_collect_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/colorChargeText" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="充值次数"
+                                android:textColor="@color/colorChargeText" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/border_padding_10"
+                    android:text="会员时长" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ll_level_one"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/border_padding_10"
+                        android:background="@drawable/charge_bg_money_select"
+                        android:gravity="center_horizontal"
+                        android:onClick="onClick"
+                        android:orientation="vertical"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="30dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="6个月" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/border_padding_20"
+                            android:text="¥66"
+                            android:textColor="@color/colorRed" />
+
+                        <TextView
+                            android:id="@+id/tv_money_level_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥88" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_level_two"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/border_padding_10"
+                        android:background="@drawable/charge_bg_money"
+                        android:gravity="center_horizontal"
+                        android:onClick="onClick"
+                        android:orientation="vertical"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="30dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12个月" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/border_padding_20"
+                            android:text="¥88"
+                            android:textColor="@color/colorRed" />
+
+                        <TextView
+                            android:id="@+id/tv_money_level_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥118" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_level_three"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/border_padding_10"
+                        android:background="@drawable/charge_bg_money"
+                        android:gravity="center_horizontal"
+                        android:onClick="onClick"
+                        android:orientation="vertical"
+                        android:paddingTop="30dp"
+                        android:paddingBottom="30dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="24个月" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/border_padding_20"
+                            android:text="¥118"
+                            android:textColor="@color/colorRed" />
+
+                        <TextView
+                            android:id="@+id/tv_money_level_three"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥188" />
+                    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/border_padding_10"
+                    android:text="会员权益" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/border_padding_10"
+                    android:layout_marginTop="@dimen/border_padding_10"
+                    android:layout_marginRight="@dimen/border_padding_10"
+                    android:background="@drawable/menu_bg_main"
+                    android:padding="@dimen/border_padding_10">
+
+                    <ImageView
+                        android:id="@+id/iv_answer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/setting" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/iv_answer"
+                        android:text="专享考试答题" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_answer"
+                        android:text="拥有会员专享考试答题" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/border_padding_10"
+                    android:layout_marginTop="@dimen/border_padding_10"
+                    android:layout_marginRight="@dimen/border_padding_10"
+                    android:background="@drawable/menu_bg_main"
+                    android:padding="@dimen/border_padding_10">
+
+                    <ImageView
+                        android:id="@+id/iv_consult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/setting" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/iv_consult"
+                        android:text="专享咨询" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_consult"
+                        android:text="拥有会员专享咨询知识内容" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/border_padding_10"
+                    android:layout_marginTop="@dimen/border_padding_10"
+                    android:layout_marginRight="@dimen/border_padding_10"
+                    android:background="@drawable/menu_bg_main"
+                    android:padding="@dimen/border_padding_10">
+
+                    <ImageView
+                        android:id="@+id/iv_less"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/setting" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/iv_less"
+                        android:text="续费优惠" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_less"
+                        android:text="会员续费享受优惠价格" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tv_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/border_padding_10"
+            android:background="@drawable/charge_main_bg_commit"
+            android:gravity="center"
+            android:padding="@dimen/border_padding_10"
+            android:text="开通会员(6个月)"
+            android:textColor="@color/colorChargeText" />
+    </RelativeLayout>
+</LinearLayout>
