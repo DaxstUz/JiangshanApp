@@ -196,7 +196,13 @@ public class HomeActivity extends BaseActivity {
         rvExam = findViewById(R.id.rv_exam);
         examAdapter = new ExamHistoryListAdapter(R.layout.item_exam_history_list, datas);
         rvExam.setAdapter(examAdapter);
-        rvExam.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return super.canScrollVertically();
+            }
+        };
+        rvExam.setLayoutManager(linearLayoutManager);
         examAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
