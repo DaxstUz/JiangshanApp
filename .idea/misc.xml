@@ -10,6 +10,8 @@
         <entry key="app/src/main/res/drawable/answer_type_bg.xml" value="0.10555555555555556" />
         <entry key="app/src/main/res/drawable/chapter_main_bg.xml" value="0.2324074074074074" />
         <entry key="app/src/main/res/drawable/chapter_main_select_bg.xml" value="0.18611111111111112" />
+        <entry key="app/src/main/res/drawable/charge_main_bg.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/drawable/charge_member_bg.xml" value="0.20092592592592592" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/login_bg_green.xml" value="0.10963870176406282" />
         <entry key="app/src/main/res/drawable/login_bg_white.xml" value="0.1" />
@@ -57,7 +59,7 @@
         <entry key="app/src/main/res/layout/activity_news.xml" value="0.12092391304347826" />
         <entry key="app/src/main/res/layout/activity_pay.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_person.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_person_detail.xml" value="0.20821114369501467" />
+        <entry key="app/src/main/res/layout/activity_person_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_person_setting.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_select_detail.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_select_subject.xml" value="0.15070921985815602" />

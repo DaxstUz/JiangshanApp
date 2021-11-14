@@ -34,7 +34,7 @@ public class PayActivity extends BaseActivity implements PayUtil {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_pay);
-        setTitle("支付");
+        setTitle("会员中心");
         setBackViewVisiable();
 
         btn_pay = findViewById(R.id.btn_pay);

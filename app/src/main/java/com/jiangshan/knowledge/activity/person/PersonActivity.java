@@ -33,6 +33,7 @@ import com.jiangshan.knowledge.uitl.LocalDataUtils;
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
 
     private RelativeLayout rlPersonInfo;
+    private RelativeLayout rlCharge;
     private LinearLayout llSubject;
     private ImageButton btnSet;
 
@@ -108,7 +109,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PersonActivity.this, PayActivity.class));
+
             }
         });
 
@@ -143,6 +144,8 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     private void initView() {
         tvErrorCount = findView(R.id.tv_error_count);
+        rlCharge = findView(R.id.rl_charge);
+        rlCharge.setOnClickListener(this);
         tvCollectCount = findView(R.id.tv_collect_count);
         tvHistoryCount = findView(R.id.tv_history_count);
         tvUserName = findViewById(R.id.tv_user_name);
@@ -204,8 +207,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+            case R.id.rl_charge:
+                startActivity(new Intent(PersonActivity.this, PayActivity.class));
+                break;
             case R.id.item_conf_share:
-                share(0, "测试分享标题", "测试风险内容", "http://www.baidu.com");
+//                share(0, "测试分享标题", "测试风险内容", "http://www.baidu.com");
                 break;
             case R.id.btn_set:
                 startActivity(new Intent(getApplicationContext(), SettingActivity.class));

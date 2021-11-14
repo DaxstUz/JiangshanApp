@@ -23,6 +23,9 @@
 
     <color name="bg_title">#1296db</color>
 
+    <color name="colorChargeBg">#33404c</color>
+    <color name="colorChargeText">#c5cac9</color>
+
     <!-- 背景色 -->
     <color name="b1">#ffffff</color>
     <color name="b2">#fcfcfc</color>
