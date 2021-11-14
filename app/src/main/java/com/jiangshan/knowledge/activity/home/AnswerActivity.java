@@ -146,6 +146,8 @@ public class AnswerActivity extends BaseActivity {
                             questionDatas.get(i).setTotal(result.getData().getTotal());
                         }
                         answer.notifyDataSetChanged();
+                        chapterMainAdapter.setSelectIndex(0);
+                        chapterMainAdapter.notifyDataSetChanged();
                         llAnswerCount.setVisibility(View.VISIBLE);
                         updateCount(questionDatas.get(0));
                     } else {
@@ -162,7 +164,7 @@ public class AnswerActivity extends BaseActivity {
         EasyHttp.get(this).api(new IRequestApi() {
             @Override
             public String getApi() {
-                return "/user/exam/questionList/" + billId + "?pageNum=1&pageSize=75";
+                return "/user/exam/questionList/" + billId + "?pageNum=1&pageSize=100";
             }
         }).request(new HttpCallback<HttpListData<Question>>(this) {
             @Override
@@ -170,6 +172,7 @@ public class AnswerActivity extends BaseActivity {
                 if (result != null) {
                     questionDatas.addAll(result.getData().getList());
                     for (int i = 0; i < questionDatas.size(); i++) {
+                        questionDatas.get(i).setRank(i + 1);
                         questionDatas.get(i).setBillId(billId);
                         questionDatas.get(i).setTotal(result.getData().getTotal());
                     }
@@ -178,7 +181,6 @@ public class AnswerActivity extends BaseActivity {
                     chapterMainAdapter.notifyDataSetChanged();
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
-//                    answer.setCurrentItem(10,false);
                 }
             }
         });
