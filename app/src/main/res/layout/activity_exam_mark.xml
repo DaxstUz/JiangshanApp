@@ -25,23 +25,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:checked="true"
-                android:button="@null"
-                android:gravity="center"
-                android:textColor="@drawable/mark_txt_color"
                 android:background="@drawable/mark_bg_type"
-                android:text="真题考试" />
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="真题考试"
+                android:textColor="@drawable/mark_txt_color" />
 
             <RadioButton
                 android:id="@+id/rb_mark_moni"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:button="@null"
-                android:textColor="@drawable/mark_txt_color"
                 android:background="@drawable/mark_bg_type"
-                android:text="模拟考试" />
+                android:button="@null"
+                android:gravity="center"
+                android:text="模拟考试"
+                android:textColor="@drawable/mark_txt_color" />
         </RadioGroup>
 
         <RelativeLayout
@@ -101,7 +101,9 @@
 
                     <Switch
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:thumb="@drawable/switch_custom_thumb_selector"
+                        android:track="@drawable/switch_custom_track_selector" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

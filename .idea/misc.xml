@@ -39,6 +39,12 @@
         <entry key="app/src/main/res/drawable/show_bg_blue.xml" value="0.17777777777777778" />
         <entry key="app/src/main/res/drawable/subject_bg_monal.xml" value="0.19179487179487179" />
         <entry key="app/src/main/res/drawable/subject_bg_select.xml" value="0.19179487179487179" />
+        <entry key="app/src/main/res/drawable/switch_custom_thumb_off.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/drawable/switch_custom_thumb_on.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/drawable/switch_custom_thumb_selector.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/drawable/switch_custom_track_off.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/drawable/switch_custom_track_on.xml" value="0.24166666666666667" />
+        <entry key="app/src/main/res/drawable/switch_custom_track_selector.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/drawable/tab_card.xml" value="0.2203125" />
         <entry key="app/src/main/res/drawable/tab_explore.xml" value="0.20512820512820512" />
         <entry key="app/src/main/res/drawable/tab_home.xml" value="0.2203125" />
@@ -66,7 +72,7 @@
         <entry key="app/src/main/res/layout/activity_pay_history.xml" value="0.17572463768115942" />
         <entry key="app/src/main/res/layout/activity_person.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_person_detail.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/activity_person_setting.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_person_setting.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_select_detail.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_select_subject.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_special_count.xml" value="0.16621376811594202" />
