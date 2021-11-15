@@ -22,7 +22,8 @@
             android:textSize="18sp" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/switch_error_answer"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 
 import androidx.annotation.Nullable;
 
@@ -17,6 +18,8 @@ import com.jiangshan.knowledge.uitl.LocalDataUtils;
 public class SettingActivity extends BaseActivity {
 
     private RelativeLayout rl_clear;
+
+    private Switch switchErrorAnswer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +38,23 @@ public class SettingActivity extends BaseActivity {
                 finish();
             }
         });
+
+        initView();
+    }
+
+    private void initView() {
+        switchErrorAnswer =findViewById(R.id.switch_error_answer);
+    }
+
+
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.switch_error_answer:
+                if(switchErrorAnswer.isChecked()){
+                    vibrator();
+                }
+                break;
+        }
 
     }
 
