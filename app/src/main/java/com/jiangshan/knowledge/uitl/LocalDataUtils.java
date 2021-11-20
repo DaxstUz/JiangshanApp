@@ -5,18 +5,28 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.jiangshan.knowledge.http.entity.Course;
+import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
+import com.jiangshan.knowledge.http.entity.User;
 
 public class LocalDataUtils {
 
-    public static final String keySubject="subject";
-    public static final String keyCourse="course";
-    public static final String localDataName="subject";
+    public static final String keySubject = "subject";
+    public static final String keyCourse = "course";
+    public static final String localDataName = "subject";
 
-    public static final String localUserName="user";
-    public static final String keyUser="user";
+    public static final String localUserName = "user";
+    public static final String keyUser = "user";
+    public static final String keyMember = "member";
 
-    public static final String passport="passport";
+    public static final String passport = "passport";
+
+
+    public static final String settingDataName = "setting";
+    public static final String keyVibrator = "settingVibrator";
+    public static final String keyAnsewerNext = "settingAnsewerNext";
+    public static final String keyAnsewerShow = "settingAnsewerShow";
+    public static final String keyHand = "settingHand";
 
 
     public static void saveLocalData(Context context, String name, String key, String data) {
@@ -26,26 +36,59 @@ public class LocalDataUtils {
         editor.commit();
     }
 
+    public static void saveLocalDataBoolean(Context context, String name, String key, Boolean data) {
+        SharedPreferences sp = context.getSharedPreferences(name, 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(key, data);
+        editor.commit();
+    }
+
     public static String getLocalData(Context context, String name, String key) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);
         String data = sp.getString(key, "");
         return data;
     }
 
-    public static Subject getSubject(Context context){
-        String data= LocalDataUtils.getLocalData(context,LocalDataUtils.localDataName,LocalDataUtils.keySubject);
-        if(null!=data){
-            Subject subject= new Gson().fromJson(data, Subject.class);
+    public static boolean getLocalDataBoolean(Context context, String name, String key) {
+        SharedPreferences sp = context.getSharedPreferences(name, 0);
+        boolean data = sp.getBoolean(key, false);
+        return data;
+    }
+
+    public static Subject getSubject(Context context) {
+        String data = LocalDataUtils.getLocalData(context, LocalDataUtils.localDataName, LocalDataUtils.keySubject);
+        if (null != data) {
+            Subject subject = new Gson().fromJson(data, Subject.class);
             return subject;
         }
         return null;
     }
 
-    public static Course getCourse(Context context){
+    public static Course getCourse(Context context) {
         String courseStr = LocalDataUtils.getLocalData(context, LocalDataUtils.localDataName, LocalDataUtils.keyCourse);
-        Course course= new Gson().fromJson(courseStr, Course.class);
+        Course course = new Gson().fromJson(courseStr, Course.class);
         return course;
 
+    }
+
+    public static User getUser(Context context) {
+        User user = null;
+        String userStr = LocalDataUtils.getLocalData(context, LocalDataUtils.localUserName, LocalDataUtils.keyUser);
+        if (null != userStr) {
+            user = new Gson().fromJson(userStr, User.class);
+
+        }
+        return user;
+    }
+
+    public static MemberInfo getMemberInfo(Context context) {
+        MemberInfo memberInfo = null;
+        String userStr = LocalDataUtils.getLocalData(context, LocalDataUtils.localUserName, LocalDataUtils.keyMember);
+        if (null != userStr) {
+            memberInfo = new Gson().fromJson(userStr, MemberInfo.class);
+
+        }
+        return memberInfo;
     }
 
 //    /**

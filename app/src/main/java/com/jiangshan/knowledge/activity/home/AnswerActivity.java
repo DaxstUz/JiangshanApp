@@ -95,6 +95,10 @@ public class AnswerActivity extends BaseActivity {
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
 
+
+    private boolean answerNext;
+    private boolean settingVibrator;
+
     private int billId;
 
     @Override
@@ -187,6 +191,10 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        answerNext = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerNext);
+        settingVibrator = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator);
+
         ivCollect = findView(R.id.iv_collect);
         tv_collect_count = findView(R.id.tv_collect_count);
         tv_answer_right = findView(R.id.tv_answer_right);
@@ -200,7 +208,7 @@ public class AnswerActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 rvChapterMain.setVisibility(View.GONE);
-                answer.setCurrentItem(position,false);
+                answer.setCurrentItem(position, false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter.notifyDataSetChanged();
             }
@@ -373,4 +381,15 @@ public class AnswerActivity extends BaseActivity {
     public void onEnd(Call call) {
         hideDialog();
     }
+
+    public void nextQuestion(boolean answerRight) {
+//        System.out.println(questionDatas.size() + "  下标信息：" + answer.getCurrentItem());
+        if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
+            answer.setCurrentItem(answer.getCurrentItem() + 1, false);
+        } else if (settingVibrator) {
+            vibrator();
+        }
+    }
+
+
 }

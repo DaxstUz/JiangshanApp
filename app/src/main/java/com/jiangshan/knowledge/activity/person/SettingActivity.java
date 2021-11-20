@@ -20,6 +20,9 @@ public class SettingActivity extends BaseActivity {
     private RelativeLayout rl_clear;
 
     private Switch switchErrorAnswer;
+    private Switch switchAnswerNext;
+    private Switch switchAnswerShow;
+    private Switch switchHand;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,12 +32,12 @@ public class SettingActivity extends BaseActivity {
         setTitle("设置");
         setBackViewVisiable();
 
-        rl_clear=findViewById(R.id.rl_clear);
+        rl_clear = findViewById(R.id.rl_clear);
         rl_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LocalDataUtils.saveLocalData(SettingActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, "");
-                startActivity(new Intent(SettingActivity.this,LoginActivity.class));
+                startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                 finish();
             }
         });
@@ -43,19 +46,38 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initView() {
-        switchErrorAnswer =findViewById(R.id.switch_error_answer);
+        switchErrorAnswer = findViewById(R.id.switch_error_answer);
+        switchErrorAnswer.setChecked(LocalDataUtils.getLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator));
+
+        switchAnswerNext = findViewById(R.id.switch_answer_next);
+        switchAnswerNext.setChecked(LocalDataUtils.getLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerNext));
+
+        switchAnswerShow = findViewById(R.id.switch_answer_show);
+        switchAnswerShow.setChecked(LocalDataUtils.getLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow));
+
+        switchHand = findViewById(R.id.switch_hand);
+        switchHand.setChecked(LocalDataUtils.getLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyHand));
+
     }
 
 
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.switch_answer_show:
+                LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow, switchAnswerShow.isChecked());
+                break;
+            case R.id.switch_hand:
+                LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyHand, switchHand.isChecked());
+                break;
+            case R.id.switch_answer_next:
+                LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerNext, switchAnswerNext.isChecked());
+                break;
             case R.id.switch_error_answer:
-                if(switchErrorAnswer.isChecked()){
+                LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator, switchErrorAnswer.isChecked());
+                if (switchErrorAnswer.isChecked()) {
                     vibrator();
                 }
                 break;
         }
-
     }
-
 }

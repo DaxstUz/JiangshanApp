@@ -191,6 +191,9 @@ public class PayActivity extends BaseActivity implements PayUtil {
                     public void onSucceed(HttpData<MemberInfo> result) {
                         if (result.isSuccess()) {
                             MemberInfo memberInfo=result.getData();
+                            Gson gson = new Gson();
+                            String member = gson.toJson(result.getData());
+                            LocalDataUtils.saveLocalData(PayActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
                             if(1==memberInfo.getMemberType()){
                                 tvUserName.setText(memberInfo.getCreator()+"(非会员)");
                             }else{

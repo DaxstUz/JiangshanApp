@@ -23,11 +23,11 @@
 
         <Switch
             android:id="@+id/switch_error_answer"
-            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:layout_alignParentEnd="true"
+            android:checked="true"
+            android:onClick="onClick"
             android:thumb="@drawable/switch_custom_thumb_selector"
             android:track="@drawable/switch_custom_track_selector" />
     </RelativeLayout>
@@ -46,13 +46,15 @@
             android:textSize="18sp" />
 
         <Switch
-            android:id="@+id/switch2"
+            android:id="@+id/switch_answer_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:onClick="onClick"
             android:thumb="@drawable/switch_custom_thumb_selector"
             android:track="@drawable/switch_custom_track_selector" />
     </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -68,10 +70,11 @@
             android:textSize="18sp" />
 
         <Switch
-            android:id="@+id/switch3"
+            android:id="@+id/switch_answer_show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:onClick="onClick"
             android:thumb="@drawable/switch_custom_thumb_selector"
             android:track="@drawable/switch_custom_track_selector" />
     </RelativeLayout>
@@ -90,10 +93,11 @@
             android:textSize="18sp" />
 
         <Switch
-            android:id="@+id/switch4"
+            android:id="@+id/switch_hand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:onClick="onClick"
             android:thumb="@drawable/switch_custom_thumb_selector"
             android:track="@drawable/switch_custom_track_selector" />
     </RelativeLayout>

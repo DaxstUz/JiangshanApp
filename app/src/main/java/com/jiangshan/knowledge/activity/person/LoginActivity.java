@@ -14,9 +14,12 @@ import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
 import com.jiangshan.knowledge.http.api.GetTicketApi;
 import com.jiangshan.knowledge.http.api.LoginApi;
 import com.jiangshan.knowledge.http.api.LoginWeixinApi;
+import com.jiangshan.knowledge.http.entity.MemberInfo;
+import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.entity.UserWeixin;
 import com.jiangshan.knowledge.http.model.HttpData;
@@ -26,9 +29,6 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 /**
  * 测试账号密码：15013211890/123456
@@ -69,6 +69,7 @@ public class LoginActivity extends BaseActivity {
                             EasyConfig.getInstance().addParam("token", result.getData().getToken());
                             EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
                             setResult(RESULT_OK);
+                            getMemberData();
                             finish();
                         }
 
@@ -82,6 +83,23 @@ public class LoginActivity extends BaseActivity {
         } else {
             ToastUtils.show("请输入账号和密码！");
         }
+    }
+
+    private void getMemberData() {
+        Subject subject = LocalDataUtils.getSubject(this);
+        EasyHttp.get(this)
+                .api(new GetMemberInfoApi().setSubjectCode(subject.getSubjectCode()))
+                .request(new HttpCallback<HttpData<MemberInfo>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<MemberInfo> result) {
+                        if (result.isSuccess()) {
+                            MemberInfo memberInfo = result.getData();
+                            Gson gson = new Gson();
+                            String member = gson.toJson(result.getData());
+                            LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
+                        }
+                    }
+                });
     }
 
     /**
@@ -142,7 +160,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                 ToastUtils.show(throwable.getMessage().substring(throwable.getMessage().indexOf("错误信息：") + 5));
-                System.out.println(" platformLogin onError"+i+" error ===>"+throwable.getMessage());
+                System.out.println(" platformLogin onError" + i + " error ===>" + throwable.getMessage());
 
             }
 

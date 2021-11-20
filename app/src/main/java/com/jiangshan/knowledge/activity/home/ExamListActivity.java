@@ -13,12 +13,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.ExamAdapter;
 import com.jiangshan.knowledge.http.api.GetExamApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Exam;
+import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
@@ -37,6 +39,8 @@ public class ExamListActivity extends BaseActivity {
 
     private List<Exam> datas = new ArrayList<>();
 
+    private MemberInfo memberInfo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,7 @@ public class ExamListActivity extends BaseActivity {
         initView();
 
         getExamData();
+        memberInfo = LocalDataUtils.getMemberInfo(this);
     }
 
     private void initView() {
@@ -56,18 +61,31 @@ public class ExamListActivity extends BaseActivity {
         examAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Intent intent=new Intent(ExamListActivity.this, SelectAnserModelActivity.class);
-                intent.putExtra("examCode",datas.get(position).getExamCode());
-                intent.putExtra("examName",datas.get(position).getExamName());
-                startActivityForResult(intent, RESULT_OK);
+
+                if (canEdit(datas.get(position))) {
+                    Intent intent = new Intent(ExamListActivity.this, SelectAnserModelActivity.class);
+                    intent.putExtra("examCode", datas.get(position).getExamCode());
+                    intent.putExtra("examName", datas.get(position).getExamName());
+                    startActivityForResult(intent, RESULT_OK);
+                } else {
+                    ToastUtils.show("这是会员专享，请去开通会员。");
+                }
+
             }
         });
     }
 
+    private boolean canEdit(Exam exam) {
+        if (0 == exam.getMemberType() && (null == memberInfo || (null != memberInfo && 1 == memberInfo.getMemberType()))) {
+            return false;
+        }
+        return true;
+    }
+
     private void getExamData() {
-        int examType=getIntent().getIntExtra("examType",1);
-        Subject subject= LocalDataUtils.getSubject(this);
-        Course course=LocalDataUtils.getCourse(this);
+        int examType = getIntent().getIntExtra("examType", 1);
+        Subject subject = LocalDataUtils.getSubject(this);
+        Course course = LocalDataUtils.getCourse(this);
         EasyHttp.get(this)
                 .api(new GetExamApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType))
                 .request(new HttpCallback<HttpListData<Exam>>(this) {
@@ -80,6 +98,5 @@ public class ExamListActivity extends BaseActivity {
                     }
                 });
     }
-
 }
 

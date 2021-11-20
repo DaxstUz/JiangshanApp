@@ -18,6 +18,7 @@ import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.http.api.ExamAnswerApi;
 import com.jiangshan.knowledge.http.entity.Answer;
 import com.jiangshan.knowledge.http.entity.Question;
+import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
 /**
  * auth s_yz  2021/10/13
@@ -52,12 +53,9 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
     private View itemView;
     private Answer answer = new Answer();
 
-    public LocalAnserHolderView(View itemView) {
-        super(itemView);
-        this.itemView = itemView;
-    }
-
     private AnswerActivity answerActivity;
+
+    private boolean answerRight;//答题是否正确
 
     public LocalAnserHolderView(View itemView, AnswerActivity answerActivity) {
         super(itemView);
@@ -95,54 +93,8 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
         llAnswerB.setOnClickListener(this);
         llAnswerC.setOnClickListener(this);
         llAnswerD.setOnClickListener(this);
-
-//        addListener();
     }
 
-    private void addListener() {
-
-        llAnswerA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                resetButtonDrawable();
-                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(1);
-                answer.setOptionNo("A");
-                examCommit();
-            }
-        });
-        llAnswerB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetButtonDrawable();
-                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(2);
-                answer.setOptionNo("B");
-                examCommit();
-            }
-        });
-        llAnswerC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetButtonDrawable();
-                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(3);
-                answer.setOptionNo("C");
-                examCommit();
-            }
-        });
-        llAnswerD.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetButtonDrawable();
-                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(4);
-                answer.setOptionNo("D");
-                examCommit();
-            }
-        });
-    }
 
     private void resetButtonDrawable() {
         ivAnswerA.setImageResource(R.mipmap.rb_answer_a);
@@ -154,9 +106,11 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
     private static final String ALLANSWER = "ABCD";
 
     private void setSelect() {
-
         //用户的答案
-        int userIndex = (null == data.getUserAnswer() ? -1 : ALLANSWER.indexOf(data.getUserAnswer()) + 1);
+        int userIndex = (null == data.getUserAnswer() ? -1 : ALLANSWER.indexOf(data.getUserAnswer().trim()) + 1);
+        //正确的答案
+        int rightIndex = ALLANSWER.indexOf(data.getChoiceAnswer()) + 1;
+
         switch (userIndex) {
             case 1:
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
@@ -172,12 +126,16 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 break;
         }
 
+        if (showAnalysis || (answerShow && rightIndex == userIndex)) {//显示答案解析
+            llAnswerAnalysis.setVisibility(View.VISIBLE);
+        } else {
+            llAnswerAnalysis.setVisibility(View.GONE);
+        }
+
         if (!showAnalysis) {
             return;
         }
 
-        //正确的答案
-        int rightIndex = ALLANSWER.indexOf(data.getChoiceAnswer()) + 1;
         switch (rightIndex) {
             case 1:
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
@@ -223,18 +181,19 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 }
                 break;
         }
+
     }
 
     private Question data;
-
     private boolean showAnalysis;
+    private boolean answerShow;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
         this.data = data;
-//        System.out.println("updateUI===>" + new Gson().toJson(data));
         showAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showAnalysis", false);
+        answerShow = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
         resetButtonDrawable();
         setSelect();
 
@@ -267,12 +226,6 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 tvAnswerD.setText(content);
             }
         }
-
-        if (showAnalysis) {
-            llAnswerAnalysis.setVisibility(View.VISIBLE);
-        }
-
-
     }
 
     private void examCommit() {
@@ -299,6 +252,9 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 answer.setOptionNo("A");
                 data.setUserAnswer("A");
                 examCommit();
+                if ("A".equals(data.getChoiceAnswer())) {
+                    answerRight = true;
+                }
                 break;
             case R.id.ll_answer_b:
                 resetButtonDrawable();
@@ -307,6 +263,9 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 answer.setOptionNo("B");
                 data.setUserAnswer("B");
                 examCommit();
+                if ("B".equals(data.getChoiceAnswer())) {
+                    answerRight = true;
+                }
                 break;
             case R.id.ll_answer_c:
                 resetButtonDrawable();
@@ -315,6 +274,9 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 answer.setOptionNo("C");
                 data.setUserAnswer("C");
                 examCommit();
+                if ("C".equals(data.getChoiceAnswer())) {
+                    answerRight = true;
+                }
                 break;
             case R.id.ll_answer_d:
                 resetButtonDrawable();
@@ -323,11 +285,15 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 answer.setOptionNo("D");
                 data.setUserAnswer("D");
                 examCommit();
+                if ("D".equals(data.getChoiceAnswer())) {
+                    answerRight = true;
+                }
                 break;
         }
+        answerActivity.nextQuestion(answerRight);
+        if (answerShow && answerRight) {
+            llAnswerAnalysis.setVisibility(View.VISIBLE);
+        }
+        answerRight = false;
     }
-
-//    public void setSelectItem(int index){
-//        tvRank.setText(index + "");
-//    }
 }
