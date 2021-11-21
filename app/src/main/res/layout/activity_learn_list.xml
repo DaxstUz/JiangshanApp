@@ -127,7 +127,7 @@
                                 android:background="@drawable/rank_bg_blue"
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
-                                android:text="正确率:80%"
+                                android:text="正确率:100%"
                                 android:textColor="@color/colorWhite" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -179,7 +179,7 @@
                                 android:background="@drawable/rank_bg_blue"
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
-                                android:text="正确率:80%"
+                                android:text="正确率:100%"
                                 android:textColor="@color/colorWhite" />
 
                         </LinearLayout>
@@ -235,7 +235,7 @@
                                 android:background="@drawable/rank_bg_blue"
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
-                                android:text="正确率:80%"
+                                android:text="正确率:100%"
                                 android:textColor="@color/colorWhite" />
 
                         </LinearLayout>

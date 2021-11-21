@@ -218,6 +218,9 @@ public class LearnListActivity extends BaseActivity {
     }
 
     private void updateSelfRank(Rank rank) {
+        if(null==rank){
+            return;
+        }
         tvRankName.setText(rank.getNickname());
         tvRate.setText(rank.getRightRate() + "%");
         tvNo.setText(rank.getNo() + "");
