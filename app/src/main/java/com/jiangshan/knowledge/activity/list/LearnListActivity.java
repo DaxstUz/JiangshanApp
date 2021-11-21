@@ -1,22 +1,30 @@
 package com.jiangshan.knowledge.activity.list;
 
+import static com.umeng.socialize.utils.ContextUtil.getContext;
+
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
+import com.github.siyamed.shapeimageview.CircularImageView;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.list.adapter.RankAdapter;
+import com.jiangshan.knowledge.http.api.GetMyRankApi;
 import com.jiangshan.knowledge.http.api.GetRankApi;
 import com.jiangshan.knowledge.http.entity.Rank;
 import com.jiangshan.knowledge.http.entity.Subject;
+import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.CustomLoadMoreView;
@@ -27,21 +35,37 @@ import java.util.List;
 public class LearnListActivity extends BaseActivity {
 
     private RecyclerView rvNews;
-
     private RankAdapter rankAdapter;
 
     private List<Rank> datas = new ArrayList<>();
-
-//    private RadioButton rbWeek;
-//    private RadioButton rbDay;
-//    private RadioButton rbMonth;
-
     private RadioGroup rgRank;
 
     private SwipeRefreshLayout swipeLayout;
 
     String rankType = "day";
     private int pageNum = 1;
+
+    private TextView tvRankName;
+    private TextView tvRate;
+    private TextView tvNo;
+    private TextView tvRise;
+    private TextView tvAnserInfo;
+    private ImageView ivRate;
+
+    private CircularImageView iv_user_head_one;
+    private TextView tv_rank_name_one;
+    private TextView tv_anser_info_one;
+    private TextView tv_rate_one;
+
+    private CircularImageView iv_user_head_two;
+    private TextView tv_rank_name_two;
+    private TextView tv_anser_info_two;
+    private TextView tv_rate_two;
+
+    private CircularImageView iv_user_head_three;
+    private TextView tv_rank_name_three;
+    private TextView tv_anser_info_three;
+    private TextView tv_rate_three;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +75,6 @@ public class LearnListActivity extends BaseActivity {
         initView();
 
         initLoadMore();
-
         getRankData();
     }
 
@@ -73,10 +96,30 @@ public class LearnListActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        iv_user_head_one = findViewById(R.id.iv_user_head_one);
+        tv_rank_name_one = findViewById(R.id.tv_rank_name_one);
+        tv_anser_info_one = findViewById(R.id.tv_anser_info_one);
+        tv_rate_one = findViewById(R.id.tv_rate_one);
+
+        iv_user_head_two = findViewById(R.id.iv_user_head_two);
+        tv_rank_name_two = findViewById(R.id.tv_rank_name_two);
+        tv_anser_info_two = findViewById(R.id.tv_anser_info_two);
+        tv_rate_two = findViewById(R.id.tv_rate_two);
+
+        iv_user_head_three = findViewById(R.id.iv_user_head_three);
+        tv_rank_name_three = findViewById(R.id.tv_rank_name_three);
+        tv_anser_info_three = findViewById(R.id.tv_anser_info_three);
+        tv_rate_three = findViewById(R.id.tv_rate_three);
+
+        tvRankName = findViewById(R.id.tv_rank_name);
+        tvRate = findViewById(R.id.tv_rate);
+        tvNo = findViewById(R.id.tv_no);
+        tvRise = findViewById(R.id.tv_rise);
+        tvAnserInfo = findViewById(R.id.tv_anser_info);
+        ivRate = findViewById(R.id.iv_rate);
+
         rvNews = findViewById(R.id.rv_news);
-//        rbWeek = findViewById(R.id.rb_week);
-//        rbDay = findViewById(R.id.rb_day);
-//        rbMonth = findViewById(R.id.rb_month);
 
         swipeLayout = findViewById(R.id.swipeLayout);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -138,7 +181,7 @@ public class LearnListActivity extends BaseActivity {
                                 datas.clear();
                             }
                             datas.addAll(result.getData().getList());
-                            rankAdapter.notifyDataSetChanged();
+                            updateRankUi();
                         }
                     }
 
@@ -150,6 +193,82 @@ public class LearnListActivity extends BaseActivity {
                         rankAdapter.getLoadMoreModule().loadMoreFail();
                     }
                 });
+
+        getRankDataSelf();
     }
 
+    private void getRankDataSelf() {
+        Subject subject = LocalDataUtils.getSubject(this);
+        EasyHttp.get(this)
+                .api(new GetMyRankApi().setSujectCode(subject.getSubjectCode()).setRankType(rankType))
+                .request(new HttpCallback<HttpData<Rank>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<Rank> result) {
+
+                        if (result.isSuccess()) {
+                            updateSelfRank(result.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(Exception e) {
+                        super.onFail(e);
+                    }
+                });
+    }
+
+    private void updateSelfRank(Rank rank) {
+        tvRankName.setText(rank.getNickname());
+        tvRate.setText(rank.getRightRate() + "%");
+        tvNo.setText(rank.getNo() + "");
+
+        if (0 != rank.getRise()) {
+            if (0 < rank.getRise()) {
+                tvRise.setText(rank.getRise() + "");
+                ivRate.setImageResource(R.mipmap.up);
+                tvRise.setTextColor(getContext().getResources().getColor(R.color.colorRed));
+            } else {
+                tvRise.setText(Math.abs(rank.getRise()) + "");
+                tvRise.setTextColor(getContext().getResources().getColor(R.color.colorGreen));
+                ivRate.setImageResource(R.mipmap.down);
+            }
+
+        }
+        tvAnserInfo.setText(rank.getRightQty() + "/" + rank.getAnswerQty());
+        CircularImageView userHead = findView(R.id.iv_user_head);
+        Glide.with(getContext()).load(rank.getFigureUrl()).into(userHead);
+    }
+
+
+    private void updateRankUi() {
+
+        if (datas.size() >= 3&& 1==pageNum ) {
+            Rank rankOne = datas.get(0);
+            tv_rank_name_one.setText(rankOne.getNickname());
+            tv_rate_one.setText("正确率:" + rankOne.getRightRate() + "%");
+            tv_anser_info_one.setText(rankOne.getRightQty() + "");
+            Glide.with(getContext()).load(rankOne.getFigureUrl()).into(iv_user_head_one);
+
+            Rank rankTwo = datas.get(1);
+            tv_rank_name_two.setText(rankTwo.getNickname());
+            tv_rate_two.setText("正确率:" + rankTwo.getRightRate() + "%");
+            tv_anser_info_two.setText(rankTwo.getRightQty() + "");
+            Glide.with(getContext()).load(rankTwo.getFigureUrl()).into(iv_user_head_two);
+
+            Rank rankThree = datas.get(2);
+            tv_rank_name_three.setText(rankThree.getNickname());
+            tv_rate_three.setText("正确率:" + rankThree.getRightRate() + "%");
+            tv_anser_info_three.setText(rankThree.getRightQty() + "");
+            Glide.with(getContext()).load(rankThree.getFigureUrl()).into(iv_user_head_three);
+
+            datas.remove(rankOne);
+            datas.remove(rankTwo);
+            datas.remove(rankThree);
+            rankAdapter.notifyDataSetChanged();
+        } else {
+            rankAdapter.notifyDataSetChanged();
+        }
+
+
+    }
 }

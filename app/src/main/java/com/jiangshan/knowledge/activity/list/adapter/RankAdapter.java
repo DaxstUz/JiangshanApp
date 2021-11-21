@@ -26,7 +26,7 @@ public class RankAdapter extends BaseQuickAdapter<Rank, BaseViewHolder> implemen
     protected void convert(@NonNull BaseViewHolder baseViewHolder, Rank rank) {
         baseViewHolder.setText(R.id.tv_rank_name, rank.getNickname());
         baseViewHolder.setText(R.id.tv_rate, rank.getRightRate() + "%");
-        baseViewHolder.setText(R.id.tv_no, rank.getNo() + "");
+        baseViewHolder.setText(R.id.tv_no, rank.getNo()+ "");
 
 
         if (0 != rank.getRise()) {
@@ -39,14 +39,10 @@ public class RankAdapter extends BaseQuickAdapter<Rank, BaseViewHolder> implemen
                 baseViewHolder.setTextColor(R.id.tv_rise, getContext().getResources().getColor(R.color.colorGreen));
                 baseViewHolder.setImageResource(R.id.iv_rate, R.mipmap.down);
             }
-
         }
 
         baseViewHolder.setText(R.id.tv_anser_info, rank.getRightQty() + "/" + rank.getAnswerQty());
         CircularImageView userHead = baseViewHolder.findView(R.id.iv_user_head);
         Glide.with(getContext()).load(rank.getFigureUrl()).into(userHead);
-        baseViewHolder.setText(R.id.tv_rank_name, rank.getNickname());
-
     }
-
 }

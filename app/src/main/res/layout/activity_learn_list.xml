@@ -13,57 +13,246 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:scrollbars="none">
 
-            <RadioGroup
-                android:id="@+id/rg_rank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb_week"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/rank_bg_week"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周榜"
-                    android:textColor="@drawable/rank_txt_color" />
-
-                <RadioButton
-                    android:id="@+id/rb_day"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/rank_bg_day"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="日榜"
-                    android:textColor="@drawable/rank_txt_color" />
-
-                <RadioButton
-                    android:id="@+id/rb_month"
-                    android:layout_width="60dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/rank_bg_month"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="月榜"
-                    android:textColor="@drawable/rank_txt_color" />
-            </RadioGroup>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_news"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/border_padding_10"
-                android:background="@drawable/login_bg_white" />
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/rg_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_week"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rank_bg_week"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="周榜"
+                        android:textColor="@drawable/rank_txt_color" />
+
+                    <RadioButton
+                        android:id="@+id/rb_day"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rank_bg_day"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="日榜"
+                        android:textColor="@drawable/rank_txt_color" />
+
+                    <RadioButton
+                        android:id="@+id/rb_month"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/rank_bg_month"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="月榜"
+                        android:textColor="@drawable/rank_txt_color" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/border_padding_10"
+                    android:background="@drawable/login_bg_white">
+
+                    <include layout="@layout/item_rank" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/border_padding_10"
+                        android:layout_marginRight="@dimen/border_padding_10"
+                        android:layout_weight="1"
+                        android:paddingTop="@dimen/border_padding_10">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/login_bg_white" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <com.github.siyamed.shapeimageview.CircularImageView
+                                android:id="@+id/iv_user_head_two"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@mipmap/icon_app" />
+
+                            <TextView
+                                android:id="@+id/tv_rank_name_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23434"
+                                android:textColor="@color/colorBlack" />
+
+                            <TextView
+                                android:id="@+id/tv_anser_info_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="11111"
+                                android:textColor="@color/colorRed" />
+
+                            <TextView
+                                android:id="@+id/tv_rate_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/rank_bg_blue"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:text="正确率:80%"
+                                android:textColor="@color/colorWhite" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="130dp"
+                        android:layout_weight="1">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="30dp"
+                            android:background="@drawable/login_bg_white" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <com.github.siyamed.shapeimageview.CircularImageView
+                                android:id="@+id/iv_user_head_one"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:src="@mipmap/icon_app" />
+
+                            <TextView
+                                android:id="@+id/tv_rank_name_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23434"
+                                android:textColor="@color/colorBlack" />
+
+                            <TextView
+                                android:id="@+id/tv_anser_info_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="11111"
+                                android:textColor="@color/colorRed" />
+
+                            <TextView
+                                android:id="@+id/tv_rate_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginTop="@dimen/border_padding_5"
+                                android:background="@drawable/rank_bg_blue"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:text="正确率:80%"
+                                android:textColor="@color/colorWhite" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/border_padding_10"
+                        android:layout_marginRight="@dimen/border_padding_10"
+                        android:paddingTop="@dimen/border_padding_10"
+                        android:layout_weight="1">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/login_bg_white" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <com.github.siyamed.shapeimageview.CircularImageView
+                                android:id="@+id/iv_user_head_three"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@mipmap/icon_app" />
+
+                            <TextView
+                                android:id="@+id/tv_rank_name_three"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23434"
+                                android:textColor="@color/colorBlack" />
+
+                            <TextView
+                                android:id="@+id/tv_anser_info_three"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="11111"
+                                android:textColor="@color/colorRed" />
+
+                            <TextView
+                                android:id="@+id/tv_rate_three"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:background="@drawable/rank_bg_blue"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:text="正确率:80%"
+                                android:textColor="@color/colorWhite" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/border_padding_10"
+                    android:background="@drawable/login_bg_white"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
