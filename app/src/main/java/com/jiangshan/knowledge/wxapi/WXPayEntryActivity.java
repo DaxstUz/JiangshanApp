@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.wxapi;
 
+import com.hjq.http.EasyLog;
 import com.jiangshan.knowledge.uitl.Utils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -12,6 +13,7 @@ public class WXPayEntryActivity extends WXCallbackActivity {
 
     @Override
     public void onResp(BaseResp resp) {
+//        EasyLog.print("WXPayEntryActivity ");
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             Utils.payUtil.payResult(resp.errCode);
             finish();

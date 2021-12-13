@@ -2,6 +2,7 @@ package com.jiangshan.knowledge.http.model;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -22,6 +23,7 @@ import com.hjq.http.exception.ServerException;
 import com.hjq.http.exception.TimeoutException;
 import com.hjq.http.exception.TokenException;
 import com.jiangshan.knowledge.R;
+import com.jiangshan.knowledge.activity.person.LoginActivity;
 import com.tencent.mmkv.MMKV;
 
 import org.json.JSONArray;
@@ -123,18 +125,19 @@ public final class RequestHandler implements IRequestHandler {
         if (result instanceof HttpData) {
             HttpData<?> model = (HttpData<?>) result;
 
-            if (model.isSuccess()) {
-                // 代表执行成功
-                return result;
-            }
-
-            if (model.getTokenFailure()) {
+//            if (model.getTokenFailure()) {
+            if (403==model.getCode()) {
                 // 代表登录失效，需要重新登录
                 throw new TokenException(mApplication.getString(R.string.http_token_error));
             }
 
-             //代表执行失败
-            throw new ResultException(model.getMsg(), model);
+//            if (model.isSuccess()) {
+                // 代表执行成功
+                return result;
+//            }
+
+//             //代表执行失败
+//            throw new ResultException(model.getMsg(), model);
 
         }
         return result;
@@ -146,8 +149,10 @@ public final class RequestHandler implements IRequestHandler {
         if (e instanceof HttpException) {
             if (e instanceof TokenException) {
                 // 登录信息失效，跳转到登录页
+                Intent intent= new Intent(mApplication, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                mApplication.startActivity(intent);
             }
-
             return e;
         }
 

@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.google.gson.Gson;
 import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
+import com.hjq.http.EasyLog;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
@@ -24,11 +25,16 @@ import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.entity.UserWeixin;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
+
+import okhttp3.Call;
 
 /**
  * 测试账号密码：15013211890/123456
@@ -109,7 +115,6 @@ public class LoginActivity extends BaseActivity {
         EasyHttp.post(this)
                 .api(new GetTicketApi())
                 .request(new HttpCallback<HttpData<String>>(this) {
-
                     @Override
                     public void onSucceed(HttpData<String> result) {
                         ticket = result.getData();
@@ -147,20 +152,21 @@ public class LoginActivity extends BaseActivity {
         UMShareAPI.get(this).getPlatformInfo(this, shareMedia, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
-                System.out.println(" platformLogin onStart");
+                EasyLog.print(" platformLogin onStart");
             }
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                System.out.println(" platformLogin onComplete" + new Gson().toJson(map));
+                EasyLog.print(" platformLogin onComplete" + new Gson().toJson(map));
                 UserWeixin userWeixin = new Gson().fromJson(new Gson().toJson(map), UserWeixin.class);
+                userWeixin.setTicket(ticket);
                 loginWeixin(userWeixin);
             }
 
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                 ToastUtils.show(throwable.getMessage().substring(throwable.getMessage().indexOf("错误信息：") + 5));
-                System.out.println(" platformLogin onError" + i + " error ===>" + throwable.getMessage());
+                EasyLog.print(" platformLogin onError" + i + " error ===>" + throwable.getMessage());
 
             }
 
@@ -170,9 +176,6 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    ;
-
-
     private void loginWeixin(UserWeixin user) {
         EasyHttp.post(this)
                 .api(new LoginWeixinApi())
@@ -181,13 +184,18 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onSucceed(HttpData<User> result) {
-                        Gson gson = new Gson();
-                        String user = gson.toJson(result.getData());
-                        LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, user);
-                        EasyConfig.getInstance().addParam("token", result.getData().getToken());
-                        EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
-                        setResult(RESULT_OK);
-                        finish();
+                        if(result.isSuccess()){
+                            Gson gson = new Gson();
+                            String user = gson.toJson(result.getData());
+                            LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, user);
+                            EasyConfig.getInstance().addParam("token", result.getData().getToken());
+                            EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
+                            setResult(RESULT_OK);
+                            finish();
+                        }else {
+//                            wXLaunchMiniProgram();
+                        }
+
                     }
 
                     @Override
@@ -197,6 +205,17 @@ public class LoginActivity extends BaseActivity {
                         getTicket();
                     }
                 });
+    }
+
+    private void wXLaunchMiniProgram() {
+        String appId = "wxfa7d7f1550fb111f"; // 填移动应用(App)的 AppId，非小程序的 AppID
+        IWXAPI api = WXAPIFactory.createWXAPI(this, appId);
+
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = "gh_2886a12a246e"; // 填小程序原始id
+        req.path = "pages/user/mine/mine?accessType=2";                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        api.sendReq(req);
     }
 
 }

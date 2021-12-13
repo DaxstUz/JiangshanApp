@@ -31,7 +31,7 @@ public class ExamAdapter extends BaseQuickAdapter<Exam, BaseViewHolder> {
         progressBar.setProgress(process);
         baseViewHolder.setText(R.id.tv_anser_info, data.getAnswerQuestionQty()+"/"+data.getQuestionQty()+"道题");
 
-        if (0 == data.getMemberType()) {
+        if (0 < data.getMemberType()) {
             baseViewHolder.setImageResource(R.id.iv_edit_icon, R.mipmap.vip);
         }
 

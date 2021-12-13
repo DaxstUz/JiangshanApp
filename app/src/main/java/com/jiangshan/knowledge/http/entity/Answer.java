@@ -9,7 +9,7 @@ public class Answer implements Serializable {
 
     private int lastQuestionIndex;
     private String memo;
-    private String optionNo;
+    private String optionNo="";
     private int questionId;
     private int billId;
 

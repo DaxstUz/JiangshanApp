@@ -11,7 +11,9 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
+import com.hjq.http.EasyLog;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.http.listener.OnHttpListener;
 import com.jiangshan.knowledge.R;
@@ -19,6 +21,9 @@ import com.jiangshan.knowledge.http.api.ExamAnswerApi;
 import com.jiangshan.knowledge.http.entity.Answer;
 import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * auth s_yz  2021/10/13
@@ -244,14 +249,17 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
         if (showAnalysis) {
             return;
         }
+
+        Set<String> userAnswerList = data.getUserAnswerList();
+        if (null == userAnswerList) {
+            data.setUserAnswerList(new HashSet<>());
+        }
         switch (v.getId()) {
             case R.id.ll_answer_a:
                 resetButtonDrawable();
                 ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(1);
-                answer.setOptionNo("A");
-                data.setUserAnswer("A");
-                examCommit();
+                answer.setOptionNo(answer.getOptionNo() + ",A");
+                data.getUserAnswerList().add("A");
                 if ("A".equals(data.getChoiceAnswer())) {
                     answerRight = true;
                 }
@@ -259,10 +267,8 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
             case R.id.ll_answer_b:
                 resetButtonDrawable();
                 ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(2);
-                answer.setOptionNo("B");
-                data.setUserAnswer("B");
-                examCommit();
+                answer.setOptionNo(answer.getOptionNo() + ",B");
+                data.getUserAnswerList().add("B");
                 if ("B".equals(data.getChoiceAnswer())) {
                     answerRight = true;
                 }
@@ -270,10 +276,8 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
             case R.id.ll_answer_c:
                 resetButtonDrawable();
                 ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(3);
-                answer.setOptionNo("C");
-                data.setUserAnswer("C");
-                examCommit();
+                answer.setOptionNo(answer.getOptionNo() + ",C");
+                data.getUserAnswerList().add("C");
                 if ("C".equals(data.getChoiceAnswer())) {
                     answerRight = true;
                 }
@@ -281,19 +285,27 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
             case R.id.ll_answer_d:
                 resetButtonDrawable();
                 ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
-                data.setChooseIndex(4);
-                answer.setOptionNo("D");
-                data.setUserAnswer("D");
-                examCommit();
+                answer.setOptionNo(answer.getOptionNo() + ",D");
+                data.getUserAnswerList().add("D");
                 if ("D".equals(data.getChoiceAnswer())) {
                     answerRight = true;
                 }
                 break;
         }
-        answerActivity.nextQuestion(answerRight);
+
+        setSelect();
+        if (1 == data.getQuestionType()) {//单选
+            answer.setOptionNo(answer.getOptionNo().substring(1));
+//            EasyLog.print(new Gson().toJson(answer));
+            examCommit();
+            answerActivity.nextQuestion(answerRight);
+        } else if (2 == data.getQuestionType()) {//多选
+
+        }
         if (answerShow && answerRight) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);
         }
+
         answerRight = false;
     }
 }

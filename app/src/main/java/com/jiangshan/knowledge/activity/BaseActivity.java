@@ -225,7 +225,6 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 
     @Override
     public void onStart(Call call) {
-//        showDialog();
     }
 
     @Override

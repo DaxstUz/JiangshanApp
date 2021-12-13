@@ -1,8 +1,11 @@
 package com.jiangshan.knowledge.http.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * auth s_yz  2021/10/21
@@ -16,12 +19,12 @@ public class Question implements Serializable {
     private String content;
     private String contextTitle;
     private String choiceAnswer;
-    private List<String> choiceAnswerList;
+    private Set<String> choiceAnswerList;
     private int rank;
     private Integer wrongFlag;
     private Integer collectFlag;
     private String userAnswer;
-    private List<String> userAnswerList;
+    private Set<String> userAnswerList;
     private String answerAnalysis;
     private String comment;
     private int questionType;
@@ -41,17 +44,17 @@ public class Question implements Serializable {
     private int rightRate;
     private String easyWrongChoice;
 
-    private int chooseIndex = -1;
+//    private int chooseIndex = -1;
 
     private List<QuestionOption> questionOptionList;
 
-    public int getChooseIndex() {
-        return chooseIndex;
-    }
-
-    public void setChooseIndex(int chooseIndex) {
-        this.chooseIndex = chooseIndex;
-    }
+//    public int getChooseIndex() {
+//        return chooseIndex;
+//    }
+//
+//    public void setChooseIndex(int chooseIndex) {
+//        this.chooseIndex = chooseIndex;
+//    }
 
     private int total;
 
@@ -119,11 +122,11 @@ public class Question implements Serializable {
         this.choiceAnswer = choiceAnswer;
     }
 
-    public List<String> getChoiceAnswerList() {
+    public Set<String> getChoiceAnswerList() {
         return choiceAnswerList;
     }
 
-    public void setChoiceAnswerList(List<String> choiceAnswerList) {
+    public void setChoiceAnswerList(Set<String> choiceAnswerList) {
         this.choiceAnswerList = choiceAnswerList;
     }
 
@@ -159,12 +162,17 @@ public class Question implements Serializable {
         this.userAnswer = userAnswer;
     }
 
-    public List<String> getUserAnswerList() {
+    public Set<String> getUserAnswerList() {
         return userAnswerList;
     }
 
-    public void setUserAnswerList(List<String> userAnswerList) {
-        this.userAnswerList = userAnswerList;
+    public void setUserAnswerList(Set<String> userAnswerList) {
+        if(null==userAnswerList){
+            this.userAnswerList=new HashSet<>();
+        }else{
+            this.userAnswerList = userAnswerList;
+        }
+
     }
 
     public String getAnswerAnalysis() {

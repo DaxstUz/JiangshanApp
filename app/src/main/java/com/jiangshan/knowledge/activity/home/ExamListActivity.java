@@ -76,7 +76,7 @@ public class ExamListActivity extends BaseActivity {
     }
 
     private boolean canEdit(Exam exam) {
-        if (0 == exam.getMemberType() && (null == memberInfo || (null != memberInfo && 1 == memberInfo.getMemberType()))) {
+        if (0 < exam.getMemberType() && (null == memberInfo || (null != memberInfo && 0 == memberInfo.getMemberType()))) {
             return false;
         }
         return true;

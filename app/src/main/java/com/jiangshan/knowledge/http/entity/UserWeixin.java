@@ -24,6 +24,15 @@ public class UserWeixin extends User {
     private String expires_in;
     private String refreshToken;
     private String sex;
+    private String ticket;
+
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
 
     public String getCountry() {
         return country;
