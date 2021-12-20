@@ -69,7 +69,7 @@ public class LearnListActivity extends BaseActivity {
     private TextView tv_anser_info_three;
     private TextView tv_rate_three;
 
-    private LinearLayout ll_my;
+    private LinearLayout llMy;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class LearnListActivity extends BaseActivity {
 
     private void initView() {
 
-        ll_my = findViewById(R.id.ll_my);
+        llMy = findViewById(R.id.ll_my);
 
         iv_user_head_one = findViewById(R.id.iv_user_head_one);
         tv_rank_name_one = findViewById(R.id.tv_rank_name_one);
@@ -212,6 +212,7 @@ public class LearnListActivity extends BaseActivity {
                     public void onSucceed(HttpData<Rank> result) {
 
                         if (result.isSuccess()) {
+                            llMy.setVisibility(View.GONE);
                             updateSelfRank(result.getData());
                         }
                     }
@@ -228,7 +229,7 @@ public class LearnListActivity extends BaseActivity {
             return;
         }
 
-        ll_my.setVisibility(View.VISIBLE);
+        llMy.setVisibility(View.VISIBLE);
         tvRankName.setText(rank.getNickname());
         tvRate.setText(rank.getRightRate() + "%");
         tvNo.setText(rank.getNo() + "");
