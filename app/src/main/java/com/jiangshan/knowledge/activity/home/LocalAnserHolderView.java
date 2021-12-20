@@ -3,32 +3,40 @@ package com.jiangshan.knowledge.activity.home;
 import android.os.Build;
 import android.text.Html;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.EasyLog;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.http.listener.OnHttpListener;
 import com.jiangshan.knowledge.R;
+import com.jiangshan.knowledge.activity.home.adapter.AnswerItemAdapter;
 import com.jiangshan.knowledge.http.api.ExamAnswerApi;
 import com.jiangshan.knowledge.http.entity.Answer;
 import com.jiangshan.knowledge.http.entity.Question;
+import com.jiangshan.knowledge.http.entity.QuestionOption;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * auth s_yz  2021/10/13
  */
-public class LocalAnserHolderView extends Holder<Question> implements View.OnClickListener {
+public class LocalAnserHolderView extends Holder<Question> {
 
     private TextView chapterCount;
     private TextView chapterName;
@@ -40,25 +48,14 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
 
     private LinearLayout llAnswerAnalysis;
 
-    private TextView tvAnswerA;
-    private TextView tvAnswerB;
-    private TextView tvAnswerC;
-    private TextView tvAnswerD;
-
-    private ImageView ivAnswerA;
-    private ImageView ivAnswerB;
-    private ImageView ivAnswerC;
-    private ImageView ivAnswerD;
-
-    private LinearLayout llAnswerA;
-    private LinearLayout llAnswerB;
-    private LinearLayout llAnswerC;
-    private LinearLayout llAnswerD;
-
     private View itemView;
     private Answer answer = new Answer();
 
     private AnswerActivity answerActivity;
+
+    private RecyclerView rv_answer_item;
+    private AnswerItemAdapter answerItemAdapter;
+    private List<QuestionOption> questionOptionList = new ArrayList<>();
 
     private boolean answerRight;//答题是否正确
 
@@ -79,113 +76,7 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
         tvChoiceAnswer = itemView.findViewById(R.id.tv_choice_answer);
 
         llAnswerAnalysis = itemView.findViewById(R.id.ll_answer_analysis);
-
-        tvAnswerA = itemView.findViewById(R.id.rb_answer_a);
-        tvAnswerB = itemView.findViewById(R.id.rb_answer_b);
-        tvAnswerC = itemView.findViewById(R.id.rb_answer_c);
-        tvAnswerD = itemView.findViewById(R.id.rb_answer_d);
-
-        ivAnswerA = itemView.findViewById(R.id.iv_answer_a);
-        ivAnswerB = itemView.findViewById(R.id.iv_answer_b);
-        ivAnswerC = itemView.findViewById(R.id.iv_answer_c);
-        ivAnswerD = itemView.findViewById(R.id.iv_answer_d);
-
-        llAnswerA = itemView.findViewById(R.id.ll_answer_a);
-        llAnswerB = itemView.findViewById(R.id.ll_answer_b);
-        llAnswerC = itemView.findViewById(R.id.ll_answer_c);
-        llAnswerD = itemView.findViewById(R.id.ll_answer_d);
-        llAnswerA.setOnClickListener(this);
-        llAnswerB.setOnClickListener(this);
-        llAnswerC.setOnClickListener(this);
-        llAnswerD.setOnClickListener(this);
-    }
-
-
-    private void resetButtonDrawable() {
-        ivAnswerA.setImageResource(R.mipmap.rb_answer_a);
-        ivAnswerB.setImageResource(R.mipmap.rb_answer_b);
-        ivAnswerC.setImageResource(R.mipmap.rb_answer_c);
-        ivAnswerD.setImageResource(R.mipmap.rb_answer_d);
-    }
-
-    private static final String ALLANSWER = "ABCD";
-
-    private void setSelect() {
-        //用户的答案
-        int userIndex = (null == data.getUserAnswer() ? -1 : ALLANSWER.indexOf(data.getUserAnswer().trim()) + 1);
-        //正确的答案
-        int rightIndex = ALLANSWER.indexOf(data.getChoiceAnswer()) + 1;
-
-        switch (userIndex) {
-            case 1:
-                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
-                break;
-            case 2:
-                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
-                break;
-            case 3:
-                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
-                break;
-            case 4:
-                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
-                break;
-        }
-
-        if (showAnalysis || (answerShow && rightIndex == userIndex)) {//显示答案解析
-            llAnswerAnalysis.setVisibility(View.VISIBLE);
-        } else {
-            llAnswerAnalysis.setVisibility(View.GONE);
-        }
-
-        if (!showAnalysis) {
-            return;
-        }
-
-        switch (rightIndex) {
-            case 1:
-                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
-                break;
-            case 2:
-                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
-                break;
-            case 3:
-                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
-                break;
-            case 4:
-                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
-                break;
-        }
-
-        switch (userIndex) {
-            case 1:
-                if (rightIndex == 1) {
-                    ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
-                } else {
-                    ivAnswerA.setImageResource(R.mipmap.rb_answer_error);
-                }
-                break;
-            case 2:
-                if (rightIndex == 2) {
-                    ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
-                } else {
-                    ivAnswerB.setImageResource(R.mipmap.rb_answer_error);
-                }
-                break;
-            case 3:
-                if (rightIndex == 3) {
-                    ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
-                } else {
-                    ivAnswerC.setImageResource(R.mipmap.rb_answer_error);
-                }
-                break;
-            case 4:
-                if (rightIndex == 4) {
-                    ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
-                } else {
-                    ivAnswerD.setImageResource(R.mipmap.rb_answer_error);
-                }
-                break;
-        }
+        rv_answer_item = itemView.findViewById(R.id.rv_answer_item);
 
     }
 
@@ -196,11 +87,41 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
+
+        Set<String> userAnswerList = data.getUserAnswerList();
+        if (null == userAnswerList) {
+            userAnswerList = new HashSet<>();
+            data.setUserAnswerList(userAnswerList);
+        }
+
+        rv_answer_item.setLayoutManager(new LinearLayoutManager((AnswerActivity) itemView.getContext()));
+        questionOptionList.clear();
+        questionOptionList.addAll(data.getQuestionOptionList());
+        answerItemAdapter = new AnswerItemAdapter(R.layout.item_question_option, questionOptionList);
+        answerItemAdapter.setChoiceAnswerList(data.getChoiceAnswerList());
+        answerItemAdapter.setUserAnswerList(userAnswerList);
+        rv_answer_item.setAdapter(answerItemAdapter);
+
+        Set<String> finalUserAnswerList = userAnswerList;
+        answerItemAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                if (1 == data.getQuestionType()) {//单选
+                    finalUserAnswerList.clear();
+                }
+                if (finalUserAnswerList.contains(questionOptionList.get(position).getOptionNo())) {
+                    finalUserAnswerList.remove(questionOptionList.get(position).getOptionNo());
+                } else {
+                    finalUserAnswerList.add(questionOptionList.get(position).getOptionNo());
+                }
+                answerItemAdapter.notifyDataSetChanged();
+                onOptionClick();
+            }
+        });
+
         this.data = data;
         showAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showAnalysis", false);
         answerShow = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
-        resetButtonDrawable();
-        setSelect();
 
         answer.setQuestionId(data.getId());
         answer.setBillId(data.getBillId());
@@ -216,20 +137,8 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
         tvQuestionContent.setText("          " + Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT));
         tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
 
-        for (int i = 0; i < data.getQuestionOptionList().size(); i++) {
-            String content = Html.fromHtml(data.getQuestionOptionList().get(i).getContent(), Html.FROM_HTML_MODE_COMPACT).toString();
-            content = content.replace("\n", "");
-            if (0 == i) {
-                tvAnswerA.setText(content);
-            } else if (1 == i) {
-                tvAnswerB.setText(content);
-            }
-            if (2 == i) {
-                tvAnswerC.setText(content);
-            }
-            if (3 == i) {
-                tvAnswerD.setText(content);
-            }
+        if (showAnalysis) {
+            llAnswerAnalysis.setVisibility(View.VISIBLE);
         }
     }
 
@@ -244,68 +153,50 @@ public class LocalAnserHolderView extends Holder<Question> implements View.OnCli
                 });
     }
 
-    @Override
-    public void onClick(View v) {
-        if (showAnalysis) {
+
+    public void onOptionClick() {
+//        EasyLog.print("onOptionClick！");
+
+        if (0 == data.getUserAnswerList().size()) {
             return;
         }
-
-        Set<String> userAnswerList = data.getUserAnswerList();
-        if (null == userAnswerList) {
-            data.setUserAnswerList(new HashSet<>());
+        String optionStr = "";
+        for (String option : data.getUserAnswerList()
+        ) {
+            optionStr += "," + option;
         }
-        switch (v.getId()) {
-            case R.id.ll_answer_a:
-                resetButtonDrawable();
-                ivAnswerA.setImageResource(R.mipmap.rb_answer_right);
-                answer.setOptionNo(answer.getOptionNo() + ",A");
-                data.getUserAnswerList().add("A");
-                if ("A".equals(data.getChoiceAnswer())) {
-                    answerRight = true;
-                }
-                break;
-            case R.id.ll_answer_b:
-                resetButtonDrawable();
-                ivAnswerB.setImageResource(R.mipmap.rb_answer_right);
-                answer.setOptionNo(answer.getOptionNo() + ",B");
-                data.getUserAnswerList().add("B");
-                if ("B".equals(data.getChoiceAnswer())) {
-                    answerRight = true;
-                }
-                break;
-            case R.id.ll_answer_c:
-                resetButtonDrawable();
-                ivAnswerC.setImageResource(R.mipmap.rb_answer_right);
-                answer.setOptionNo(answer.getOptionNo() + ",C");
-                data.getUserAnswerList().add("C");
-                if ("C".equals(data.getChoiceAnswer())) {
-                    answerRight = true;
-                }
-                break;
-            case R.id.ll_answer_d:
-                resetButtonDrawable();
-                ivAnswerD.setImageResource(R.mipmap.rb_answer_right);
-                answer.setOptionNo(answer.getOptionNo() + ",D");
-                data.getUserAnswerList().add("D");
-                if ("D".equals(data.getChoiceAnswer())) {
-                    answerRight = true;
-                }
-                break;
-        }
+        answer.setOptionNo(optionStr.substring(1));
 
-        setSelect();
         if (1 == data.getQuestionType()) {//单选
-            answer.setOptionNo(answer.getOptionNo().substring(1));
-//            EasyLog.print(new Gson().toJson(answer));
+
+            if (data.getChoiceAnswerList().size() == data.getUserAnswerList().size() && data.getChoiceAnswerList().containsAll(data.getUserAnswerList())) {
+                answerRight = true;
+            } else {
+                answerRight = false;
+            }
             examCommit();
             answerActivity.nextQuestion(answerRight);
         } else if (2 == data.getQuestionType()) {//多选
-
+            if (null != data.getUserAnswerList()) {
+                EasyLog.print(new Gson().toJson(answer.getOptionNo()));
+                if (data.getChoiceAnswerList().size() == data.getUserAnswerList().size() && data.getChoiceAnswerList().containsAll(data.getUserAnswerList())) {
+                    answerRight = true;
+                    examCommit();
+                    answerActivity.nextQuestion(answerRight);
+                }
+                if (!data.getChoiceAnswerList().containsAll(data.getUserAnswerList())) {
+                    answerRight = false;
+                    examCommit();
+                    answerActivity.nextQuestion(answerRight);
+                }
+            }
         }
-        if (answerShow && answerRight) {
+        if (showAnalysis || (answerShow && answerRight)) {
+            answerRight = false;
             llAnswerAnalysis.setVisibility(View.VISIBLE);
+        } else {
+            llAnswerAnalysis.setVisibility(View.GONE);
         }
-
-        answerRight = false;
     }
+
 }

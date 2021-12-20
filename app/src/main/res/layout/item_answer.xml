@@ -67,88 +67,10 @@
             android:layout_margin="@dimen/border_padding_10"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ll_answer_a"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_answer_item"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_answer_a"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/border_padding_5"
-                    android:src="@mipmap/rb_answer_a" />
-
-                <TextView
-                    android:id="@+id/rb_answer_a"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:background="@color/b1" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/ll_answer_b"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_answer_b"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/border_padding_5"
-                    android:src="@mipmap/rb_answer_b" />
-
-                <TextView
-                    android:id="@+id/rb_answer_b"
-                    android:layout_width="match_parent"
-                    android:textSize="18sp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/b1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_answer_c"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_answer_c"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/border_padding_5"
-                    android:src="@mipmap/rb_answer_c" />
-
-                <TextView
-                    android:id="@+id/rb_answer_c"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:background="@color/b1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_answer_d"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_answer_d"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/border_padding_5"
-                    android:src="@mipmap/rb_answer_d" />
-
-                <TextView
-                    android:id="@+id/rb_answer_d"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/b1"
-                    android:textSize="18sp"
-                     />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

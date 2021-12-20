@@ -190,25 +190,27 @@ public class PayActivity extends BaseActivity implements PayUtil {
                     @Override
                     public void onSucceed(HttpData<MemberInfo> result) {
                         if (result.isSuccess()) {
-                            MemberInfo memberInfo=result.getData();
-                            Gson gson = new Gson();
-                            String member = gson.toJson(result.getData());
-                            LocalDataUtils.saveLocalData(PayActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
-                            if(1==memberInfo.getMemberType()){
-                                tvUserName.setText(memberInfo.getCreator()+"(非会员)");
-                            }else{
-                                tvUserName.setText(memberInfo.getCreator()+"(会员)");
-                            }
-
-                            tvMonthCount.setText(memberInfo.getMemberMonth()+"");
-                            tvChargeCount.setText(memberInfo.getTotalQty()+"");
-
                             String userStr = LocalDataUtils.getLocalData(PayActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser);
                             if (null != userStr) {
                                 User user = new Gson().fromJson(userStr, User.class);
                                 if (null != user) {
                                     Glide.with(PayActivity.this).load(user.getAvatar()).into(ivUserHead);
+                                    tvUserName.setText(user.getNickname()+"(非会员)");
                                 }
+                            }
+                            MemberInfo memberInfo=result.getData();
+                            if(null==memberInfo){
+                                return;
+                            }
+                            Gson gson = new Gson();
+                            String member = gson.toJson(result.getData());
+                            LocalDataUtils.saveLocalData(PayActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
+                            if(null==memberInfo||1==memberInfo.getMemberType()){
+                                tvUserName.setText(memberInfo.getCreator()+"(非会员)");
+                            }else{
+                                tvUserName.setText(memberInfo.getCreator()+"(会员)");
+                                tvMonthCount.setText(memberInfo.getMemberMonth()+"");
+                                tvChargeCount.setText(memberInfo.getTotalQty()+"");
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.activity.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.ChapterMainAdapter;
+import com.jiangshan.knowledge.activity.person.SettingActivity;
 import com.jiangshan.knowledge.http.api.ExamEndApi;
 import com.jiangshan.knowledge.http.api.ExamStartApi;
 import com.jiangshan.knowledge.http.api.GetExamCollectListApi;
@@ -84,6 +86,7 @@ public class AnswerActivity extends BaseActivity {
 
     private LinearLayout llAnswerCount;
     private LinearLayout llCollect;
+    private LinearLayout ll_setting;
 
     private boolean showDiaglog = true;
 
@@ -96,8 +99,8 @@ public class AnswerActivity extends BaseActivity {
     private ChapterMainAdapter chapterMainAdapter;
 
 
-    private boolean answerNext;
-    private boolean settingVibrator;
+    private boolean answerNext;//开启答对跳转下一题
+    private boolean settingVibrator;//震动
 
     private int billId;
 
@@ -115,7 +118,6 @@ public class AnswerActivity extends BaseActivity {
         } else {
             examStart();
         }
-
     }
 
     private int pageNum = 1;
@@ -214,6 +216,15 @@ public class AnswerActivity extends BaseActivity {
             }
         });
 
+        ll_setting = findView(R.id.ll_setting);
+        ll_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(AnswerActivity.this, SettingActivity.class);
+                startActivityForResult(intent,0);
+            }
+        });
+
         llCollect = findView(R.id.ll_collect);
         llCollect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,6 +281,13 @@ public class AnswerActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        answerNext = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerNext);
+        settingVibrator = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator);
     }
 
     private void updateCount(Question question) {
@@ -383,7 +401,7 @@ public class AnswerActivity extends BaseActivity {
     }
 
     public void nextQuestion(boolean answerRight) {
-//        System.out.println(questionDatas.size() + "  下标信息：" + answer.getCurrentItem());
+//        System.out.println(questionDatas.size() + "  下标信息：" + answer.getCurrentItem()+" answerNext:"+answerNext);
         if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
             answer.setCurrentItem(answer.getCurrentItem() + 1, false);
         } else if (settingVibrator) {

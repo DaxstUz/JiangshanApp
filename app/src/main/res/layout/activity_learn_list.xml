@@ -63,16 +63,20 @@
                 </RadioGroup>
 
                 <LinearLayout
+                    android:id="@+id/ll_my"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/border_padding_10"
+                    android:layout_marginTop="@dimen/border_padding_10"
+                    android:layout_marginRight="@dimen/border_padding_10"
+                    android:layout_marginLeft="@dimen/border_padding_10"
                     android:background="@drawable/login_bg_white">
-
                     <include layout="@layout/item_rank" />
                 </LinearLayout>
 
 
                 <LinearLayout
+                    android:layout_marginTop="@dimen/border_padding_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

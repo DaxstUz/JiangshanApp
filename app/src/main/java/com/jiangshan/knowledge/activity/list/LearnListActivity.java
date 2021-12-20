@@ -3,7 +3,9 @@ package com.jiangshan.knowledge.activity.list;
 import static com.umeng.socialize.utils.ContextUtil.getContext;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -67,6 +69,8 @@ public class LearnListActivity extends BaseActivity {
     private TextView tv_anser_info_three;
     private TextView tv_rate_three;
 
+    private LinearLayout ll_my;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +100,8 @@ public class LearnListActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        ll_my = findViewById(R.id.ll_my);
 
         iv_user_head_one = findViewById(R.id.iv_user_head_one);
         tv_rank_name_one = findViewById(R.id.tv_rank_name_one);
@@ -221,6 +227,8 @@ public class LearnListActivity extends BaseActivity {
         if(null==rank){
             return;
         }
+
+        ll_my.setVisibility(View.VISIBLE);
         tvRankName.setText(rank.getNickname());
         tvRate.setText(rank.getRightRate() + "%");
         tvNo.setText(rank.getNo() + "");

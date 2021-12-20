@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/anser_model_bg.xml" value="0.125" />
         <entry key="app/src/main/res/drawable/anser_model_bg_normal.xml" value="0.11" />
         <entry key="app/src/main/res/drawable/anser_model_bg_press.xml" value="0.125" />
+        <entry key="app/src/main/res/drawable/answer_option_bg.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/answer_type_bg.xml" value="0.10555555555555556" />
         <entry key="app/src/main/res/drawable/chapter_main_bg.xml" value="0.2324074074074074" />
         <entry key="app/src/main/res/drawable/chapter_main_select_bg.xml" value="0.18611111111111112" />
@@ -92,6 +93,7 @@
         <entry key="app/src/main/res/layout/item_news_list.xml" value="0.15081521739130435" />
         <entry key="app/src/main/res/layout/item_pay_history.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/layout/item_person_conf.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/item_question_option.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_rank.xml" value="0.17074275362318841" />
         <entry key="app/src/main/res/layout/item_subject.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/item_subject_category.xml" value="0.1" />
