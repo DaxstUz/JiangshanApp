@@ -40,10 +40,9 @@
                     android:layout_height="wrap_content"
                     android:text="账号:"
                     android:textSize="18sp" />
-
+<!--                15013211890-->
                 <EditText
                     android:id="@+id/et_account"
-                    android:text="15013211890"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="请输入账号"
@@ -64,10 +63,9 @@
                     android:layout_height="wrap_content"
                     android:text="密码:"
                     android:textSize="18sp" />
-
+<!--                123456-->
                 <EditText
                     android:id="@+id/et_psd"
-                    android:text="123456"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="请输入密码"
