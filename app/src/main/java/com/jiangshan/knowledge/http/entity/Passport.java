@@ -1,13 +1,14 @@
 package com.jiangshan.knowledge.http.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * auth s_yz  2021/10/30
  */
 public class Passport implements Serializable {
 
-    private User userInfo;
+//    private User userInfo;
 
     private String appName;
     private String appNo;
@@ -18,13 +19,15 @@ public class Passport implements Serializable {
     private String welcomePicPath;
     private String noticeInfo;
 
-    public User getUserInfo() {
-        return userInfo;
-    }
+    private List<SubjectInfo> subjectInfoList;
 
-    public void setUserInfo(User userInfo) {
-        this.userInfo = userInfo;
-    }
+//    public User getUserInfo() {
+//        return userInfo;
+//    }
+//
+//    public void setUserInfo(User userInfo) {
+//        this.userInfo = userInfo;
+//    }
 
     public String getAppName() {
         return appName;
@@ -88,5 +91,13 @@ public class Passport implements Serializable {
 
     public void setNoticeInfo(String noticeInfo) {
         this.noticeInfo = noticeInfo;
+    }
+
+    public List<SubjectInfo> getSubjectInfoList() {
+        return subjectInfoList;
+    }
+
+    public void setSubjectInfoList(List<SubjectInfo> subjectInfoList) {
+        this.subjectInfoList = subjectInfoList;
     }
 }

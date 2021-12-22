@@ -79,6 +79,7 @@ public class SubjectDetailActivity extends BaseActivity {
                 tvSubjectName.setText(subject.getSubjectName());
                 courseList.clear();
                 courseList.addAll(subject.getCourseList());
+                LocalDataUtils.saveLocalData(SubjectDetailActivity.this,LocalDataUtils.localDataName,LocalDataUtils.keyCourse,new Gson().toJson(courseList.get(0)));
                 subjectDetailAdapter.notifyDataSetChanged();
             }
         }
@@ -89,6 +90,7 @@ public class SubjectDetailActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(RESULT_OK==resultCode){
             updateUI();
+            finish();
         }
     }
 }

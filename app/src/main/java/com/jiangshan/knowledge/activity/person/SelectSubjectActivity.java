@@ -12,12 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
-import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.activity.person.adapter.SubjectAdapter;
 import com.jiangshan.knowledge.activity.person.adapter.SubjectCategoryAdapter;
 import com.jiangshan.knowledge.http.api.SubjectCategoryApi;
@@ -38,10 +36,10 @@ public class SelectSubjectActivity extends BaseActivity {
     private RecyclerView rvSelectRight;
 
     private SubjectCategoryAdapter subjectCategoryAdapter;
-    private List<SubjectCategory> subjectCategories=new ArrayList<>();
+    private List<SubjectCategory> subjectCategories = new ArrayList<>();
 
     private SubjectAdapter subjectAdapter;
-    private List<Subject> subjects=new ArrayList<>();
+    private List<Subject> subjects = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,15 +54,15 @@ public class SelectSubjectActivity extends BaseActivity {
     }
 
     private void initView() {
-        rvSelectLeft=findViewById(R.id.rv_suject_left);
-        subjectCategoryAdapter=new SubjectCategoryAdapter(R.layout.item_subject_category,subjectCategories);
+        rvSelectLeft = findViewById(R.id.rv_suject_left);
+        subjectCategoryAdapter = new SubjectCategoryAdapter(R.layout.item_subject_category, subjectCategories);
         rvSelectLeft.setAdapter(subjectCategoryAdapter);
-        rvSelectLeft.setLayoutManager(new LinearLayoutManager(getApplicationContext(),RecyclerView.VERTICAL,false));
+        rvSelectLeft.setLayoutManager(new LinearLayoutManager(getApplicationContext(), RecyclerView.VERTICAL, false));
 
-        rvSelectRight=findViewById(R.id.rv_suject_right);
-        subjectAdapter=new SubjectAdapter(R.layout.item_subject,subjects);
+        rvSelectRight = findViewById(R.id.rv_suject_right);
+        subjectAdapter = new SubjectAdapter(R.layout.item_subject, subjects);
         rvSelectRight.setAdapter(subjectAdapter);
-        rvSelectRight.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        rvSelectRight.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
         bindListerner();
     }
@@ -86,10 +84,13 @@ public class SelectSubjectActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 Gson gson = new Gson();
-                String subject=gson.toJson(subjects.get(position));
-                LocalDataUtils.saveLocalData(SelectSubjectActivity.this,LocalDataUtils.localDataName, LocalDataUtils.keySubject,subject);
+                String subject = gson.toJson(subjects.get(position));
+                LocalDataUtils.saveLocalData(SelectSubjectActivity.this, LocalDataUtils.localDataName, LocalDataUtils.keySubject, subject);
                 SelectedSubjectItem.setSlectedNavItem(position);
                 subjectAdapter.notifyDataSetChanged();
+
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
@@ -102,7 +103,7 @@ public class SelectSubjectActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpListDataAll<SubjectCategory> result) {
                         subjectCategories.addAll(result.getData());
-                        if(null!=result.getData()&&result.getData().size()>0){
+                        if (null != result.getData() && result.getData().size() > 0) {
                             subjects.addAll(result.getData().get(SelectedSubjectCategoryItem.getSlectedNavItem()).getSubjectInfoList());
                         }
                         subjectCategoryAdapter.notifyDataSetChanged();

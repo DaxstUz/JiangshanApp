@@ -559,6 +559,21 @@ public class DateUtil {
         return sdf.format(str);
     }
 
+    public static Date paseFromLong(Long obj) {
+        if (null == obj) {
+            return null;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
+        try {
+            return sdf.parse(sdf.format(obj));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String paseFromStr2(Object str) {
         if (null == str) {
             return "";

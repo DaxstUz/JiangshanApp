@@ -15,11 +15,14 @@ import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.HomeActivity;
 import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
+import com.jiangshan.knowledge.http.api.GetPassportApi;
 import com.jiangshan.knowledge.http.api.GetTicketApi;
 import com.jiangshan.knowledge.http.api.LoginApi;
 import com.jiangshan.knowledge.http.api.LoginWeixinApi;
 import com.jiangshan.knowledge.http.entity.MemberInfo;
+import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.entity.UserWeixin;
@@ -76,6 +79,7 @@ public class LoginActivity extends BaseActivity {
                             EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
                             setResult(RESULT_OK);
                             getMemberData();
+                            getInitData();
                             finish();
                         }
 
@@ -191,6 +195,7 @@ public class LoginActivity extends BaseActivity {
                             EasyConfig.getInstance().addParam("token", result.getData().getToken());
                             EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
                             setResult(RESULT_OK);
+                            getInitData();
                             finish();
                         }else {
 //                            wXLaunchMiniProgram();
@@ -218,4 +223,16 @@ public class LoginActivity extends BaseActivity {
         api.sendReq(req);
     }
 
+    private void getInitData() {
+        EasyHttp.post(this)
+                .api(new GetPassportApi())
+                .request(new HttpCallback<HttpData<Passport>>(this) {
+
+                    @Override
+                    public void onSucceed(HttpData<Passport> result) {
+                        Passport passport = result.getData();
+                        LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.passport, new Gson().toJson(passport));
+                    }
+                });
+    }
 }

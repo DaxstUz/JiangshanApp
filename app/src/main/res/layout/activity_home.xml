@@ -47,14 +47,16 @@
                 android:layout_marginLeft="10dp">
 
                 <TextView
+                    android:id="@+id/tv_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="距离考试还有" />
 
                 <TextView
+                    android:id="@+id/tv_exam_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10天"
+                    android:text="0天"
                     android:textColor="@color/colorRed"
                     android:textSize="18sp" />
             </LinearLayout>

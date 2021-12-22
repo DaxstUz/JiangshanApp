@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,12 +34,15 @@ import com.jiangshan.knowledge.http.entity.ExamHistory;
 import com.jiangshan.knowledge.http.entity.Menu;
 import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
+import com.jiangshan.knowledge.http.entity.SubjectInfo;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
+import com.jiangshan.knowledge.uitl.DateUtil;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends BaseActivity {
@@ -51,6 +55,9 @@ public class HomeActivity extends BaseActivity {
     private RecyclerView rvMenu;
     private MenuAdapter menuAdapter;
     private List<Menu> menuDatas = new ArrayList<>();
+
+    private TextView tvExamDay;
+    private TextView tvTips;
 
     //最近做题
     private RecyclerView rvExam;
@@ -71,7 +78,6 @@ public class HomeActivity extends BaseActivity {
 
         getInitData();
 
-
         getData();
         initLoadMore();
     }
@@ -86,6 +92,9 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initView() {
+        tvTips = findView(R.id.tv_tips);
+        tvExamDay = findView(R.id.tv_exam_day);
+
         rlTitle = findView(R.id.rl_title);
         rlTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +205,7 @@ public class HomeActivity extends BaseActivity {
         rvExam = findViewById(R.id.rv_exam);
         examAdapter = new ExamHistoryListAdapter(R.layout.item_exam_history_list, datas);
         rvExam.setAdapter(examAdapter);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 return super.canScrollVertically();
@@ -232,6 +241,7 @@ public class HomeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateUI();
+        setExamDay();
     }
 
     private void getInitData() {
@@ -243,8 +253,36 @@ public class HomeActivity extends BaseActivity {
                     public void onSucceed(HttpData<Passport> result) {
                         Passport passport = result.getData();
                         LocalDataUtils.saveLocalData(HomeActivity.this, LocalDataUtils.localUserName, LocalDataUtils.passport, new Gson().toJson(passport));
+                        setExamDay();
                     }
                 });
+    }
+
+    private void setExamDay() {
+        Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
+        if (null != passport) {
+            Subject subject = LocalDataUtils.getSubject(this);
+            if (null == subject) {
+                return;
+            }
+            SubjectInfo subjectInfo = null;
+            for (int i = 0; i < passport.getSubjectInfoList().size(); i++) {
+                if (
+                        passport.getSubjectInfoList().get(i).getSubjectCode().equals(subject.getSubjectCode())
+                ) {
+                    subjectInfo = passport.getSubjectInfoList().get(i);
+                }
+            }
+            if (null != subjectInfo) {
+                int day = (int) ((DateUtil.paseFromLong(subjectInfo.getExamTime()).getTime()-new Date().getTime()) / 24 / 60 / 60 / 1000);
+                if(day>0){
+                    tvExamDay.setText(day + "天");
+                }else{
+                    tvTips.setText("江山老师恭祝您考试顺利通过！");
+                    tvExamDay.setVisibility(View.GONE);
+                }
+            }
+        }
     }
 
 
