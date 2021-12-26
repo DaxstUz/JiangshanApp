@@ -574,11 +574,9 @@ public class AnswerActivity extends BaseActivity {
         if (modelLight) {
             tvModelRead.setText("夜间模式");
             ivModelRead.setImageResource(R.mipmap.model_night);
-            ll_answer_main.setBackgroundColor(getContext().getResources().getColor(R.color.colorWhite));
         } else {
             tvModelRead.setText("日间模式");
             ivModelRead.setImageResource(R.mipmap.model_light);
-            ll_answer_main.setBackgroundColor(getContext().getResources().getColor(R.color.colorChargeBg));
         }
     }
 
