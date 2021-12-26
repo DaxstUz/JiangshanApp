@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
     android:scrollbars="none">
 
     <LinearLayout
@@ -85,6 +86,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/border_padding_10"
+            android:background="@color/colorWhite"
             android:visibility="gone">
 
             <FrameLayout

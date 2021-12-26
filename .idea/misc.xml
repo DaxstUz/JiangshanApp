@@ -18,6 +18,8 @@
         <entry key="app/src/main/res/drawable/charge_main_bg_commit.xml" value="0.24351851851851852" />
         <entry key="app/src/main/res/drawable/charge_member_bg.xml" value="0.20092592592592592" />
         <entry key="app/src/main/res/drawable/charge_record_bg.xml" value="0.26614583333333336" />
+        <entry key="app/src/main/res/drawable/feedback_bg_commit.xml" value="0.14351851851851852" />
+        <entry key="app/src/main/res/drawable/feedback_bg_content.xml" value="0.15462962962962962" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/login_bg_green.xml" value="0.10963870176406282" />
         <entry key="app/src/main/res/drawable/login_bg_white.xml" value="0.1" />
@@ -74,6 +76,7 @@
         <entry key="app/src/main/res/layout/activity_person.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_person_detail.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_person_setting.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_question_feedback.xml" value="0.21739130434782608" />
         <entry key="app/src/main/res/layout/activity_select_detail.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_select_subject.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_special_count.xml" value="0.16621376811594202" />
@@ -93,6 +96,7 @@
         <entry key="app/src/main/res/layout/item_news_list.xml" value="0.15081521739130435" />
         <entry key="app/src/main/res/layout/item_pay_history.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/layout/item_person_conf.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/item_question_feedback_option.xml" value="0.19746376811594202" />
         <entry key="app/src/main/res/layout/item_question_option.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_rank.xml" value="0.17074275362318841" />
         <entry key="app/src/main/res/layout/item_subject.xml" value="0.1480978260869565" />

@@ -85,6 +85,10 @@
         <activity
             android:name=".activity.home.HistoryAnswerActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.home.QuestionFeedbackActivity"
+            android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".activity.news.NewsActivity"
@@ -92,6 +96,7 @@
         <activity
             android:name=".activity.news.ArticleDetailActivity"
             android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".activity.person.PersonActivity"

@@ -19,9 +19,6 @@
         android:id="@+id/tv_answer_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/b1"
-        android:text="sdfsdfsdfdsfsdf"
         android:textSize="18sp" />
-
 </LinearLayout>
 

@@ -53,7 +53,7 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     private AnswerActivity answerActivity;
 
-    private RecyclerView rv_answer_item;
+    private RecyclerView rvAnswerItem;
     private AnswerItemAdapter answerItemAdapter;
     private List<QuestionOption> questionOptionList = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvChoiceAnswer = itemView.findViewById(R.id.tv_choice_answer);
 
         llAnswerAnalysis = itemView.findViewById(R.id.ll_answer_analysis);
-        rv_answer_item = itemView.findViewById(R.id.rv_answer_item);
+        rvAnswerItem = itemView.findViewById(R.id.rv_answer_item);
 
     }
 
@@ -94,13 +94,13 @@ public class LocalAnserHolderView extends Holder<Question> {
             data.setUserAnswerList(userAnswerList);
         }
 
-        rv_answer_item.setLayoutManager(new LinearLayoutManager((AnswerActivity) itemView.getContext()));
+        rvAnswerItem.setLayoutManager(new LinearLayoutManager((AnswerActivity) itemView.getContext()));
         questionOptionList.clear();
         questionOptionList.addAll(data.getQuestionOptionList());
         answerItemAdapter = new AnswerItemAdapter(R.layout.item_question_option, questionOptionList);
         answerItemAdapter.setChoiceAnswerList(data.getChoiceAnswerList());
         answerItemAdapter.setUserAnswerList(userAnswerList);
-        rv_answer_item.setAdapter(answerItemAdapter);
+        rvAnswerItem.setAdapter(answerItemAdapter);
 
         Set<String> finalUserAnswerList = userAnswerList;
         answerItemAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -139,6 +139,8 @@ public class LocalAnserHolderView extends Holder<Question> {
 
         if (showAnalysis) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);
+        }else{
+            llAnswerAnalysis.setVisibility(View.GONE);
         }
     }
 
@@ -156,7 +158,6 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     public void onOptionClick() {
 //        EasyLog.print("onOptionClick！");
-
         if (0 == data.getUserAnswerList().size()) {
             return;
         }
@@ -198,5 +199,4 @@ public class LocalAnserHolderView extends Holder<Question> {
             llAnswerAnalysis.setVisibility(View.GONE);
         }
     }
-
 }

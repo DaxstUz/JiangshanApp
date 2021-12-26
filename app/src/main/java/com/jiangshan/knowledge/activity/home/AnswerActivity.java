@@ -88,12 +88,17 @@ public class AnswerActivity extends BaseActivity {
     private LinearLayout llCollect;
     private LinearLayout ll_setting;
 
+    private LinearLayout llSettingLine;
+    private LinearLayout ll_setting_more;
+
     private boolean showDiaglog = true;
 
     private ImageView ivCollect;
     private TextView tv_collect_count;
     private TextView tv_answer_right;
     private TextView tv_answer_error;
+
+    private TextView tv_model;
 
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
@@ -134,7 +139,6 @@ public class AnswerActivity extends BaseActivity {
         if ("collect".equals(type)) {
             api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).getApi();
         }
-
         if (null == api) {
             return;
         }
@@ -193,10 +197,13 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void initView() {
-
         answerNext = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerNext);
         settingVibrator = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator);
 
+        llSettingLine = findView(R.id.ll_setting_line);
+        ll_setting_more = findView(R.id.ll_setting_more);
+
+        tv_model = findView(R.id.tv_model);
         ivCollect = findView(R.id.iv_collect);
         tv_collect_count = findView(R.id.tv_collect_count);
         tv_answer_right = findView(R.id.tv_answer_right);
@@ -206,6 +213,21 @@ public class AnswerActivity extends BaseActivity {
         chapterMainAdapter = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas);
         rvChapterMain.setAdapter(chapterMainAdapter);
         rvChapterMain.setLayoutManager(new GridLayoutManager(this, 6));
+
+        ll_setting = findView(R.id.ll_setting);
+        llCollect = findView(R.id.ll_collect);
+        llAnswerCount = findView(R.id.ll_answer_count);
+
+        operate = findView(R.id.ll_operate);
+        operate.setVisibility(View.VISIBLE);
+
+        answer = findView(R.id.answer);
+
+        setModel();
+        setListener();
+    }
+
+    private void setListener() {
         chapterMainAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
@@ -216,40 +238,7 @@ public class AnswerActivity extends BaseActivity {
             }
         });
 
-        ll_setting = findView(R.id.ll_setting);
-        ll_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(AnswerActivity.this, SettingActivity.class);
-                startActivityForResult(intent,0);
-            }
-        });
 
-        llCollect = findView(R.id.ll_collect);
-        llCollect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                postCollect();
-            }
-        });
-
-        llAnswerCount = findView(R.id.ll_answer_count);
-        llAnswerCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rvChapterMain.setVisibility(View.VISIBLE);
-            }
-        });
-        operate = findView(R.id.ll_operate);
-        operate.setVisibility(View.VISIBLE);
-        operate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                examEnd();
-            }
-        });
-
-        answer = findView(R.id.answer);
         answer.setPages(
                 new CBViewHolderCreator() {
                     @Override
@@ -281,6 +270,19 @@ public class AnswerActivity extends BaseActivity {
             }
         });
 
+        operate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                examEnd();
+            }
+        });
+
+        answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llSettingLine.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -401,7 +403,6 @@ public class AnswerActivity extends BaseActivity {
     }
 
     public void nextQuestion(boolean answerRight) {
-//        System.out.println(questionDatas.size() + "  下标信息：" + answer.getCurrentItem()+" answerNext:"+answerNext);
         if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
             answer.setCurrentItem(answer.getCurrentItem() + 1, false);
         } else if (settingVibrator) {
@@ -409,5 +410,47 @@ public class AnswerActivity extends BaseActivity {
         }
     }
 
+    public void answerClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.ll_collect:
+                postCollect();
+                break;
+            case R.id.ll_close:
+                llSettingLine.setVisibility(View.GONE);
+                break;
+            case R.id.ll_answer_count:
+                rvChapterMain.setVisibility(View.VISIBLE);
+                break;
+            case R.id.ll_setting_more:
+                llSettingLine.setVisibility(View.VISIBLE);
+                break;
+            case R.id.ll_setting:
+                intent = new Intent(AnswerActivity.this, SettingActivity.class);
+                startActivityForResult(intent, 0);
+                break;
+            case R.id.ll_question_feedback:
+                intent = new Intent(AnswerActivity.this, QuestionFeedbackActivity.class);
+                intent.putExtra("question", questionDatas.get(answer.getCurrentItem()));
+                intent.putExtra("examCode", getIntent().getStringExtra("examCode"));
+                startActivityForResult(intent, 0);
+                break;
+            case R.id.ll_switch_model:
+                boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+                getIntent().putExtra("showAnalysis", !showAnalysis);
+                setModel();
+                answer.notifyDataSetChanged();
+                break;
+        }
+    }
+
+    private void setModel() {
+        boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+        if (showAnalysis) {
+            tv_model.setText("答题模式");
+        } else {
+            tv_model.setText("背景模式");
+        }
+    }
 
 }

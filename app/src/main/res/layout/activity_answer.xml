@@ -11,23 +11,22 @@
 
         <include layout="@layout/comm_title" />
 
-
         <com.bigkoo.convenientbanner.ConvenientBanner xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/answer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:canLoop="true" />
-
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_answer_count"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_title"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:background="@color/b3"
+        android:onClick="answerClick"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,9 +47,9 @@
                     android:id="@+id/tv_answer_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorGreen"
                     android:padding="@dimen/border_padding_5"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/colorGreen" />
             </LinearLayout>
 
             <LinearLayout
@@ -68,9 +67,9 @@
                     android:id="@+id/tv_answer_error"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorRed"
                     android:padding="@dimen/border_padding_5"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/colorRed" />
             </LinearLayout>
 
             <LinearLayout
@@ -78,7 +77,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:onClick="answerClick">
 
                 <ImageView
                     android:id="@+id/iv_collect"
@@ -90,17 +90,18 @@
                     android:id="@+id/tv_collect_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorGreen"
                     android:padding="@dimen/border_padding_5"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="@color/colorGreen" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_setting"
+                android:id="@+id/ll_setting_more"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:onClick="answerClick">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -112,10 +113,116 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_chapter_main"
-            android:scrollbars="none"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:visibility="gone" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_setting_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/b3"
+        android:onClick="answerClick"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/border_padding_5"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_question_feedback"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="answerClick"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/answer_right" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="反馈问题" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/answer_error" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="夜间模式" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="answerClick"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/setting" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设置" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_switch_model"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="answerClick"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/answer_uncollect" />
+                <TextView
+                    android:id="@+id/tv_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="背景模式" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_close"
+            android:onClick="answerClick"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:background="@color/colorWhite"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="关闭"
+                android:textSize="18sp"
+                android:padding="@dimen/border_padding_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

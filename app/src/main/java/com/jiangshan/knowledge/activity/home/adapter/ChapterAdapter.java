@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.google.gson.Gson;
+import com.hjq.http.EasyLog;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.home.SelectAnserModelActivity;
 import com.jiangshan.knowledge.http.entity.Chapter;
@@ -30,7 +32,8 @@ public class ChapterAdapter extends BaseQuickAdapter<Chapter, BaseViewHolder> {
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, Chapter chapter) {
         baseViewHolder.setText(R.id.tv_chapter_name, chapter.getChapterName());
-        String chapterNo=chapter.getChapterCode().substring(4,6);
+//        EasyLog.print("chapterCode==> "+new Gson().toJson(chapter));
+        String chapterNo=chapter.getChapterCode();
         baseViewHolder.setText(R.id.tv_chapter_no, "【"+chapterNo+"】");
 
         RecyclerView rvChapter = baseViewHolder.findView(R.id.rv_chapter);
