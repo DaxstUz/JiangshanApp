@@ -31,6 +31,8 @@ public class LocalDataUtils {
 
     public static final String lightValue = "lightValue";
 
+    public static final String fontSizeValue = "fontSizeValue";
+
 
     public static void saveLocalData(Context context, String name, String key, String data) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);
@@ -67,7 +69,7 @@ public class LocalDataUtils {
 
     public static int getLocalDataInteger(Context context, String name, String key) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);
-        int data = sp.getInt(key, 50);
+        int data = sp.getInt(key, 20);
         return data;
     }
 

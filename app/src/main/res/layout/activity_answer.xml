@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ll_answer_main"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/b1"
@@ -133,37 +132,96 @@
         android:visibility="gone">
 
         <RelativeLayout
-            android:padding="@dimen/border_padding_5"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="30dp"
+            android:padding="@dimen/border_padding_5">
+
             <ImageView
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/model_light_small" />
+
             <ImageView
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/model_light_big" />
-            <SeekBar
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
+                android:src="@mipmap/model_light_big" />
+
+            <SeekBar
                 android:id="@+id/sb_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:max="255"
+                android:clickable="false"
                 android:maxHeight="4dp"
                 android:minHeight="4dp"
-                android:max="255"
-                android:progressDrawable="@drawable/progressbar_color"
-                android:progress="55"/>
+                android:progress="55"
+                android:progressDrawable="@drawable/progressbar_color" />
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_marginTop="@dimen/border_padding_5"
             android:layout_width="match_parent"
-            android:padding="@dimen/border_padding_5"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/border_padding_5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="字号" />
+
+            <TextView
+                android:id="@+id/rv_font_size_del"
+                android:gravity="center"
+                android:onClick="answerClick"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="@dimen/border_padding_10"
+                android:background="@drawable/change_font_size_bg"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/tv_font_size"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/border_padding_10"
+                android:text="15" />
+
+            <TextView
+                android:onClick="answerClick"
+                android:id="@+id/rv_font_size_add"
+                android:gravity="center"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="@dimen/border_padding_10"
+                android:background="@drawable/change_font_size_bg"
+                android:text="+" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/border_padding_5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="背景" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/border_padding_5">
+
             <LinearLayout
                 android:id="@+id/ll_question_feedback"
                 android:layout_width="0dp"
@@ -185,12 +243,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:onClick="answerClick"
                 android:id="@+id/ll_model_read"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="answerClick"
                 android:orientation="vertical">
 
                 <ImageView
@@ -198,6 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/model_night" />
+
                 <TextView
                     android:id="@+id/tv_model_read"
                     android:layout_width="wrap_content"
@@ -213,10 +272,12 @@
                 android:gravity="center"
                 android:onClick="answerClick"
                 android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/answer_setting" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -237,6 +298,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/model_answer" />
+
                 <TextView
                     android:id="@+id/tv_model"
                     android:layout_width="wrap_content"
@@ -247,17 +309,18 @@
 
         <LinearLayout
             android:id="@+id/ll_close"
-            android:onClick="answerClick"
             android:layout_width="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:background="@color/colorWhite"
-            android:layout_height="wrap_content">
+            android:gravity="center"
+            android:onClick="answerClick">
+
             <TextView
-                android:text="关闭"
-                android:textSize="18sp"
-                android:padding="@dimen/border_padding_10"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:padding="@dimen/border_padding_10"
+                android:text="关闭"
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

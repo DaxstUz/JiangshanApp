@@ -23,7 +23,6 @@ import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hjq.http.EasyHttp;
-import com.hjq.http.EasyLog;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -91,25 +90,27 @@ public class AnswerActivity extends BaseActivity {
     private LinearLayout operate;
 
     private LinearLayout llAnswerCount;
-    private LinearLayout llCollect;
-    private LinearLayout ll_setting;
+//    private LinearLayout llCollect;
+//    private LinearLayout ll_setting;
 
     private LinearLayout ll_answer_main;
 
     private LinearLayout llSettingLine;
-    private LinearLayout ll_setting_more;
+//    private LinearLayout ll_setting_more;
 
     private boolean showDiaglog = true;
 
     private ImageView ivCollect;
-    private TextView tv_collect_count;
-    private TextView tv_answer_right;
-    private TextView tv_answer_error;
+    private TextView tvCollectCount;
+    private TextView tvAnswerRight;
+    private TextView tvAnswerError;
 
-    private TextView tv_model;
-    private TextView tv_model_read;
-    private ImageView iv_model;
-    private ImageView iv_model_read;
+    private TextView tv_font_size;
+
+    private TextView tvModel;
+    private TextView tvModelRead;
+    private ImageView ivModel;
+    private ImageView ivModelRead;
 
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
@@ -120,6 +121,8 @@ public class AnswerActivity extends BaseActivity {
     private boolean settingVibrator;//震动
 
     private int billId;
+
+    private int fontSizeValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -213,29 +216,25 @@ public class AnswerActivity extends BaseActivity {
         settingVibrator = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator);
 
         llSettingLine = findView(R.id.ll_setting_line);
-        ll_setting_more = findView(R.id.ll_setting_more);
-
+        tv_font_size = findView(R.id.tv_font_size);
         sb_light = findView(R.id.sb_light);
         ll_answer_main = findView(R.id.ll_answer_main);
 
-        iv_model_read = findView(R.id.iv_model_read);
-        tv_model_read = findView(R.id.tv_model_read);
+        ivModelRead = findView(R.id.iv_model_read);
+        tvModelRead = findView(R.id.tv_model_read);
 
-        iv_model = findView(R.id.iv_model);
-
-        tv_model = findView(R.id.tv_model);
+        ivModel = findView(R.id.iv_model);
+        tvModel = findView(R.id.tv_model);
         ivCollect = findView(R.id.iv_collect);
-        tv_collect_count = findView(R.id.tv_collect_count);
-        tv_answer_right = findView(R.id.tv_answer_right);
-        tv_answer_error = findView(R.id.tv_answer_error);
+        tvCollectCount = findView(R.id.tv_collect_count);
+        tvAnswerRight = findView(R.id.tv_answer_right);
+        tvAnswerError = findView(R.id.tv_answer_error);
 
         rvChapterMain = findView(R.id.rv_chapter_main);
         chapterMainAdapter = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas);
         rvChapterMain.setAdapter(chapterMainAdapter);
         rvChapterMain.setLayoutManager(new GridLayoutManager(this, 6));
 
-        ll_setting = findView(R.id.ll_setting);
-        llCollect = findView(R.id.ll_collect);
         llAnswerCount = findView(R.id.ll_answer_count);
 
         operate = findView(R.id.ll_operate);
@@ -248,18 +247,22 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void setListener() {
+        fontSizeValue = LocalDataUtils.getLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
+        tv_font_size.setText(fontSizeValue + "");
         int modelLight = LocalDataUtils.getLocalDataInteger(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.lightValue);
         sb_light.setProgress(modelLight);
         sb_light.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 LocalDataUtils.saveLocalDataInteger(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.lightValue, progress);
-                setBrightness(AnswerActivity.this,progress);
+                setBrightness(AnswerActivity.this, progress);
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -406,9 +409,9 @@ public class AnswerActivity extends BaseActivity {
                 rightCount++;
             }
         }
-        tv_collect_count.setText(collectCount + "");
-        tv_answer_right.setText(rightCount + "");
-        tv_answer_error.setText(errorCount + "");
+        tvCollectCount.setText(collectCount + "");
+        tvAnswerRight.setText(rightCount + "");
+        tvAnswerError.setText(errorCount + "");
     }
 
 
@@ -450,6 +453,26 @@ public class AnswerActivity extends BaseActivity {
     public void answerClick(View view) {
         Intent intent;
         switch (view.getId()) {
+            case R.id.rv_font_size_del:
+                if (fontSizeValue >= 19) {
+                    fontSizeValue--;
+                    LocalDataUtils.saveLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue, fontSizeValue);
+                    tv_font_size.setText(fontSizeValue + "");
+                    answer.notifyDataSetChanged();
+                } else {
+                    ToastUtils.show("最小字号为18！");
+                }
+                break;
+            case R.id.rv_font_size_add:
+                if (fontSizeValue <= 32) {
+                    fontSizeValue++;
+                    LocalDataUtils.saveLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue, fontSizeValue);
+                    tv_font_size.setText(fontSizeValue + "");
+                    answer.notifyDataSetChanged();
+                } else {
+                    ToastUtils.show("最大字号为33！");
+                }
+                break;
             case R.id.ll_collect:
                 postCollect();
                 break;
@@ -504,21 +527,21 @@ public class AnswerActivity extends BaseActivity {
     private void setModel() {
         boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
         if (showAnalysis) {
-            tv_model.setText("答题模式");
-            iv_model.setImageResource(R.mipmap.model_answer);
+            tvModel.setText("答题模式");
+            ivModel.setImageResource(R.mipmap.model_answer);
         } else {
-            tv_model.setText("背景模式");
-            iv_model.setImageResource(R.mipmap.model_read);
+            tvModel.setText("背景模式");
+            ivModel.setImageResource(R.mipmap.model_read);
         }
 
         boolean modelLight = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
         if (modelLight) {
-            tv_model_read.setText("夜间模式");
-            iv_model_read.setImageResource(R.mipmap.model_night);
+            tvModelRead.setText("夜间模式");
+            ivModelRead.setImageResource(R.mipmap.model_night);
             ll_answer_main.setBackgroundColor(getContext().getResources().getColor(R.color.colorWhite));
         } else {
-            tv_model_read.setText("日间模式");
-            iv_model_read.setImageResource(R.mipmap.model_light);
+            tvModelRead.setText("日间模式");
+            ivModelRead.setImageResource(R.mipmap.model_light);
             ll_answer_main.setBackgroundColor(getContext().getResources().getColor(R.color.colorChargeBg));
         }
     }

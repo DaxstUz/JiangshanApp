@@ -46,6 +46,12 @@ public class LocalAnserHolderView extends Holder<Question> {
     private TextView tvAnswerAnalysis;
     private TextView tvChoiceAnswer;
 
+    private TextView tvAly;
+    private TextView tvRightAnswer;
+
+    private TextView tvDetailQuestion;
+    private TextView tvAnswer;
+
     private LinearLayout llAnswerAnalysis;
 
     private View itemView;
@@ -75,8 +81,14 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvAnswerAnalysis = itemView.findViewById(R.id.tv_answer_analysis);
         tvChoiceAnswer = itemView.findViewById(R.id.tv_choice_answer);
 
+        tvDetailQuestion = itemView.findViewById(R.id.tv_detail_question);
+        tvAnswer = itemView.findViewById(R.id.tv_answer);
+
         llAnswerAnalysis = itemView.findViewById(R.id.ll_answer_analysis);
         rvAnswerItem = itemView.findViewById(R.id.rv_answer_item);
+
+        tvAly = itemView.findViewById(R.id.tv_aly);
+        tvRightAnswer = itemView.findViewById(R.id.tv_right_answer);
     }
 
     private Question data;
@@ -86,13 +98,17 @@ public class LocalAnserHolderView extends Holder<Question> {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
+        int fontSizeValue = LocalDataUtils.getLocalDataInteger((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
+
         boolean modelLight = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
-        if(!modelLight){
+        if (!modelLight) {
             itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
             llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
-        }else{
+            tvDetailQuestion.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
+        } else {
             itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
             llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
+            tvDetailQuestion.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
         }
 
         Set<String> userAnswerList = data.getUserAnswerList();
@@ -140,13 +156,26 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvRank.setText(data.getRank() + "");
 
         tvQuestionType.setText(data.getQuestionTypeDesc());
+
         tvChoiceAnswer.setText(data.getChoiceAnswer());
-        tvQuestionContent.setText("          " + Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT));
+        tvQuestionContent.setText("             " + Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT));
         tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
+
+        tvRank.setTextSize(fontSizeValue);
+        tvChoiceAnswer.setTextSize(fontSizeValue);
+        chapterName.setTextSize(fontSizeValue);
+        chapterCount.setTextSize(fontSizeValue);
+        tvQuestionType.setTextSize(fontSizeValue);
+        tvAnswerAnalysis.setTextSize(fontSizeValue);
+        tvQuestionContent.setTextSize(fontSizeValue);
+        tvAly.setTextSize(fontSizeValue);
+        tvRightAnswer.setTextSize(fontSizeValue);
+        tvDetailQuestion.setTextSize(fontSizeValue);
+        tvAnswer.setTextSize(fontSizeValue);
 
         if (showAnalysis) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             llAnswerAnalysis.setVisibility(View.GONE);
         }
     }

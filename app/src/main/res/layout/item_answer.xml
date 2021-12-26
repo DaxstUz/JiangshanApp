@@ -104,17 +104,19 @@
                     android:background="@color/b3" />
 
                 <TextView
+                    android:id="@+id/tv_detail_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/b1"
                     android:paddingLeft="@dimen/border_padding_10"
                     android:textColor="@color/bg_title"
                     android:paddingRight="@dimen/border_padding_10"
                     android:text="试题详解" />
+
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tv_answer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/answer_type_bg"
@@ -128,6 +130,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tv_right_answer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/bg_title"
@@ -142,6 +145,7 @@
 
 
             <TextView
+                android:id="@+id/tv_aly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/answer_type_bg"

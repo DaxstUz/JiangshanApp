@@ -2,6 +2,7 @@ package com.jiangshan.knowledge.activity.home.adapter;
 
 import android.os.Build;
 import android.text.Html;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,7 +11,9 @@ import androidx.annotation.RequiresApi;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.jiangshan.knowledge.R;
+import com.jiangshan.knowledge.activity.home.AnswerActivity;
 import com.jiangshan.knowledge.http.entity.QuestionOption;
+import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -31,9 +34,17 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, QuestionOption data) {
+
+        int fontSizeValue = LocalDataUtils.getLocalDataInteger(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
+        TextView tv_answer_content=baseViewHolder.findView(R.id.tv_answer_content);
+//        TextView tv_answer_option=baseViewHolder.findView(R.id.tv_answer_option);
+        tv_answer_content.setTextSize(fontSizeValue);
+//        tv_answer_option.setTextSize(fontSizeValue);
+
         String content = Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT).toString();
         content = content.replace("\n", "");
         baseViewHolder.setText(R.id.tv_answer_content, content);
+
 
         if (null != userAnswerList && null != choiceAnswerList) {
             String optionNo = data.getOptionNo();
