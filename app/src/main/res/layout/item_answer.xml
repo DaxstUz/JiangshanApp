@@ -59,6 +59,7 @@
                 android:id="@+id/tv_question_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/bg_title"
                 android:textSize="19sp" />
         </FrameLayout>
 
@@ -108,6 +109,7 @@
                     android:layout_gravity="center"
                     android:background="@color/b1"
                     android:paddingLeft="@dimen/border_padding_10"
+                    android:textColor="@color/bg_title"
                     android:paddingRight="@dimen/border_padding_10"
                     android:text="试题详解" />
             </FrameLayout>
@@ -118,7 +120,8 @@
                 android:background="@drawable/answer_type_bg"
                 android:padding="2dp"
                 android:text="答案"
-                android:textColor="@color/b3" />
+                android:textColor="@color/bg_title"
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -127,6 +130,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/bg_title"
                     android:text="正确答案 " />
 
                 <TextView
@@ -143,12 +147,14 @@
                 android:background="@drawable/answer_type_bg"
                 android:padding="2dp"
                 android:text="解析"
-                android:textColor="@color/b3" />
+                android:textColor="@color/bg_title"
+                 />
 
             <TextView
                 android:id="@+id/tv_answer_analysis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/bg_title"
                 android:text="content" />
         </LinearLayout>
 

@@ -94,7 +94,7 @@ dependencies {
 
     //banner
     implementation 'com.bigkoo:convenientbanner:2.1.5'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0+'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     //umeng
     implementation  'com.umeng.umsdk:common:9.4.2'//必选

@@ -27,6 +27,7 @@ public class LocalDataUtils {
     public static final String keyAnsewerNext = "settingAnsewerNext";
     public static final String keyAnsewerShow = "settingAnsewerShow";
     public static final String keyHand = "settingHand";
+    public static final String modelLight = "modelLight";
 
 
     public static void saveLocalData(Context context, String name, String key, String data) {

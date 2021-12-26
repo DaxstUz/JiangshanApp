@@ -77,7 +77,6 @@ public class LocalAnserHolderView extends Holder<Question> {
 
         llAnswerAnalysis = itemView.findViewById(R.id.ll_answer_analysis);
         rvAnswerItem = itemView.findViewById(R.id.rv_answer_item);
-
     }
 
     private Question data;
@@ -87,6 +86,14 @@ public class LocalAnserHolderView extends Holder<Question> {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
+        boolean modelLight = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
+        if(!modelLight){
+            itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
+            llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
+        }else{
+            itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
+            llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
+        }
 
         Set<String> userAnswerList = data.getUserAnswerList();
         if (null == userAnswerList) {

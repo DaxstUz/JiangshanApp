@@ -1,5 +1,7 @@
 package com.jiangshan.knowledge.activity.home;
 
+import static com.umeng.socialize.utils.ContextUtil.getContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -88,6 +90,8 @@ public class AnswerActivity extends BaseActivity {
     private LinearLayout llCollect;
     private LinearLayout ll_setting;
 
+    private LinearLayout ll_answer_main;
+
     private LinearLayout llSettingLine;
     private LinearLayout ll_setting_more;
 
@@ -99,6 +103,9 @@ public class AnswerActivity extends BaseActivity {
     private TextView tv_answer_error;
 
     private TextView tv_model;
+    private TextView tv_model_read;
+    private ImageView iv_model;
+    private ImageView iv_model_read;
 
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
@@ -202,6 +209,13 @@ public class AnswerActivity extends BaseActivity {
 
         llSettingLine = findView(R.id.ll_setting_line);
         ll_setting_more = findView(R.id.ll_setting_more);
+
+        ll_answer_main = findView(R.id.ll_answer_main);
+
+        iv_model_read = findView(R.id.iv_model_read);
+        tv_model_read = findView(R.id.tv_model_read);
+
+        iv_model = findView(R.id.iv_model);
 
         tv_model = findView(R.id.tv_model);
         ivCollect = findView(R.id.iv_collect);
@@ -419,6 +433,13 @@ public class AnswerActivity extends BaseActivity {
             case R.id.ll_close:
                 llSettingLine.setVisibility(View.GONE);
                 break;
+            case R.id.ll_model_read:
+                boolean modelLight = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
+                LocalDataUtils.saveLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight,!modelLight);
+                setModel();
+                answer.notifyDataSetChanged();
+                llSettingLine.setVisibility(View.GONE);
+                break;
             case R.id.ll_answer_count:
                 rvChapterMain.setVisibility(View.VISIBLE);
                 break;
@@ -428,6 +449,7 @@ public class AnswerActivity extends BaseActivity {
             case R.id.ll_setting:
                 intent = new Intent(AnswerActivity.this, SettingActivity.class);
                 startActivityForResult(intent, 0);
+                llSettingLine.setVisibility(View.GONE);
                 break;
             case R.id.ll_question_feedback:
                 intent = new Intent(AnswerActivity.this, QuestionFeedbackActivity.class);
@@ -440,6 +462,7 @@ public class AnswerActivity extends BaseActivity {
                 getIntent().putExtra("showAnalysis", !showAnalysis);
                 setModel();
                 answer.notifyDataSetChanged();
+                llSettingLine.setVisibility(View.GONE);
                 break;
         }
     }
@@ -448,8 +471,21 @@ public class AnswerActivity extends BaseActivity {
         boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
         if (showAnalysis) {
             tv_model.setText("答题模式");
+            iv_model.setImageResource(R.mipmap.model_answer);
         } else {
             tv_model.setText("背景模式");
+            iv_model.setImageResource(R.mipmap.model_read);
+        }
+
+        boolean modelLight = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
+        if (modelLight) {
+            tv_model_read.setText("夜间模式");
+            iv_model_read.setImageResource(R.mipmap.model_night);
+            ll_answer_main.setBackgroundColor(getContext().getResources().getColor(R.color.colorWhite));
+        } else {
+            tv_model_read.setText("日间模式");
+            iv_model_read.setImageResource(R.mipmap.model_light);
+            ll_answer_main.setBackgroundColor(getContext().getResources().getColor(R.color.colorChargeBg));
         }
     }
 
