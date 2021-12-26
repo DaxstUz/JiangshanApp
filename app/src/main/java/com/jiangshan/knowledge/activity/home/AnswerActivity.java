@@ -2,11 +2,14 @@ package com.jiangshan.knowledge.activity.home;
 
 import static com.umeng.socialize.utils.ContextUtil.getContext;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +23,7 @@ import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hjq.http.EasyHttp;
+import com.hjq.http.EasyLog;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -110,6 +114,7 @@ public class AnswerActivity extends BaseActivity {
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
 
+    private SeekBar sb_light;
 
     private boolean answerNext;//开启答对跳转下一题
     private boolean settingVibrator;//震动
@@ -210,6 +215,7 @@ public class AnswerActivity extends BaseActivity {
         llSettingLine = findView(R.id.ll_setting_line);
         ll_setting_more = findView(R.id.ll_setting_more);
 
+        sb_light = findView(R.id.sb_light);
         ll_answer_main = findView(R.id.ll_answer_main);
 
         iv_model_read = findView(R.id.iv_model_read);
@@ -242,6 +248,24 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void setListener() {
+        int modelLight = LocalDataUtils.getLocalDataInteger(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.lightValue);
+        sb_light.setProgress(modelLight);
+        sb_light.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                LocalDataUtils.saveLocalDataInteger(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.lightValue, progress);
+                setBrightness(AnswerActivity.this,progress);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         chapterMainAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
@@ -251,7 +275,6 @@ public class AnswerActivity extends BaseActivity {
                 chapterMainAdapter.notifyDataSetChanged();
             }
         });
-
 
         answer.setPages(
                 new CBViewHolderCreator() {
@@ -435,7 +458,7 @@ public class AnswerActivity extends BaseActivity {
                 break;
             case R.id.ll_model_read:
                 boolean modelLight = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
-                LocalDataUtils.saveLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight,!modelLight);
+                LocalDataUtils.saveLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight, !modelLight);
                 setModel();
                 answer.notifyDataSetChanged();
                 llSettingLine.setVisibility(View.GONE);
@@ -465,6 +488,17 @@ public class AnswerActivity extends BaseActivity {
                 llSettingLine.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    /**
+     * 设置当前Activity显示时的亮度
+     * 屏幕亮度最大数值一般为255，各款手机有所不同
+     * screenBrightness 的取值范围在[0,1]之间
+     */
+    public static void setBrightness(Activity activity, int brightness) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.screenBrightness = Float.valueOf(brightness) * (1f / 255f);
+        activity.getWindow().setAttributes(lp);
     }
 
     private void setModel() {

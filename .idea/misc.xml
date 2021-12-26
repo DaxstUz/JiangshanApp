@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/drawable/mark_bg_type_press.xml" value="0.18981481481481483" />
         <entry key="app/src/main/res/drawable/mark_txt_color.xml" value="0.18871794871794872" />
         <entry key="app/src/main/res/drawable/menu_bg_main.xml" value="0.16666666666666666" />
+        <entry key="app/src/main/res/drawable/progressbar_color.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/rank_bg_blue.xml" value="0.10648148148148148" />
         <entry key="app/src/main/res/drawable/rank_bg_day.xml" value="0.10648148148148148" />
         <entry key="app/src/main/res/drawable/rank_bg_day_normal.xml" value="0.11851851851851852" />
@@ -57,7 +58,7 @@
         <entry key="app/src/main/res/drawable/tab_txt_color.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/activity_adapter_list.xml" value="0.1272644927536232" />
         <entry key="app/src/main/res/layout/activity_anser_model.xml" value="0.15070921985815602" />
-        <entry key="app/src/main/res/layout/activity_answer.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_answer.xml" value="0.17973362077199379" />
         <entry key="app/src/main/res/layout/activity_article_detail.xml" value="0.11651469098277609" />
         <entry key="app/src/main/res/layout/activity_exam_list.xml" value="0.11141304347826086" />
         <entry key="app/src/main/res/layout/activity_exam_mark.xml" value="0.1" />

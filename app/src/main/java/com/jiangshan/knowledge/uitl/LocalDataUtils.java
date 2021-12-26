@@ -29,6 +29,8 @@ public class LocalDataUtils {
     public static final String keyHand = "settingHand";
     public static final String modelLight = "modelLight";
 
+    public static final String lightValue = "lightValue";
+
 
     public static void saveLocalData(Context context, String name, String key, String data) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);
@@ -44,6 +46,13 @@ public class LocalDataUtils {
         editor.commit();
     }
 
+    public static void saveLocalDataInteger(Context context, String name, String key, int data) {
+        SharedPreferences sp = context.getSharedPreferences(name, 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(key, data);
+        editor.commit();
+    }
+
     public static String getLocalData(Context context, String name, String key) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);
         String data = sp.getString(key, "");
@@ -53,6 +62,12 @@ public class LocalDataUtils {
     public static boolean getLocalDataBoolean(Context context, String name, String key) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);
         boolean data = sp.getBoolean(key, false);
+        return data;
+    }
+
+    public static int getLocalDataInteger(Context context, String name, String key) {
+        SharedPreferences sp = context.getSharedPreferences(name, 0);
+        int data = sp.getInt(key, 50);
         return data;
     }
 
