@@ -4,6 +4,7 @@ import static com.umeng.socialize.utils.ContextUtil.getContext;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.adapter.AnswerBgColorAdapter;
 import com.jiangshan.knowledge.activity.home.adapter.ChapterMainAdapter;
 import com.jiangshan.knowledge.activity.person.SettingActivity;
 import com.jiangshan.knowledge.http.api.ExamEndApi;
@@ -36,6 +38,7 @@ import com.jiangshan.knowledge.http.api.GetExamCollectListApi;
 import com.jiangshan.knowledge.http.api.GetExamErrorListApi;
 import com.jiangshan.knowledge.http.api.QuestionMarkApi;
 import com.jiangshan.knowledge.http.api.UnCollectApi;
+import com.jiangshan.knowledge.http.entity.AnswerBgColor;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.http.entity.QuestionInfo;
@@ -88,16 +91,9 @@ public class AnswerActivity extends BaseActivity {
     private List<Question> questionDatas = new ArrayList();
 
     private LinearLayout operate;
-
     private LinearLayout llAnswerCount;
-//    private LinearLayout llCollect;
-//    private LinearLayout ll_setting;
-
     private LinearLayout ll_answer_main;
-
     private LinearLayout llSettingLine;
-//    private LinearLayout ll_setting_more;
-
     private boolean showDiaglog = true;
 
     private ImageView ivCollect;
@@ -105,17 +101,20 @@ public class AnswerActivity extends BaseActivity {
     private TextView tvAnswerRight;
     private TextView tvAnswerError;
 
-    private TextView tv_font_size;
-
+    private TextView tvFontSize;
     private TextView tvModel;
     private TextView tvModelRead;
     private ImageView ivModel;
     private ImageView ivModelRead;
 
+    private RecyclerView rv_bg_color;
+    private AnswerBgColorAdapter bgColorAdapter;
+    private List<AnswerBgColor> colorDatas=new ArrayList<>();
+
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
 
-    private SeekBar sb_light;
+    private SeekBar sbLight;
 
     private boolean answerNext;//开启答对跳转下一题
     private boolean settingVibrator;//震动
@@ -216,8 +215,8 @@ public class AnswerActivity extends BaseActivity {
         settingVibrator = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator);
 
         llSettingLine = findView(R.id.ll_setting_line);
-        tv_font_size = findView(R.id.tv_font_size);
-        sb_light = findView(R.id.sb_light);
+        tvFontSize = findView(R.id.tv_font_size);
+        sbLight = findView(R.id.sb_light);
         ll_answer_main = findView(R.id.ll_answer_main);
 
         ivModelRead = findView(R.id.iv_model_read);
@@ -229,6 +228,17 @@ public class AnswerActivity extends BaseActivity {
         tvCollectCount = findView(R.id.tv_collect_count);
         tvAnswerRight = findView(R.id.tv_answer_right);
         tvAnswerError = findView(R.id.tv_answer_error);
+
+        rv_bg_color = findView(R.id.rv_bg_color);
+        rv_bg_color.setLayoutManager(new GridLayoutManager(this,6));
+        colorDatas.add(new AnswerBgColor("#a1a1a1"));
+        colorDatas.add(new AnswerBgColor("#ea9c1f"));
+        colorDatas.add(new AnswerBgColor("#6b6b6b"));
+        colorDatas.add(new AnswerBgColor("#fcfcfc"));
+        colorDatas.add(new AnswerBgColor("#FFFFEB3B"));
+        colorDatas.add(new AnswerBgColor("#070000"));
+        bgColorAdapter=new AnswerBgColorAdapter(R.layout.item_answer_bg,colorDatas);
+        rv_bg_color.setAdapter(bgColorAdapter);
 
         rvChapterMain = findView(R.id.rv_chapter_main);
         chapterMainAdapter = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas);
@@ -242,16 +252,32 @@ public class AnswerActivity extends BaseActivity {
 
         answer = findView(R.id.answer);
 
+        String  bgColorValue = LocalDataUtils.getLocalData(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
+        if(null==bgColorValue||bgColorValue.length()==0){
+            bgColorValue="#ffffff";
+        }
+        answer.setBackgroundColor(Color.parseColor(bgColorValue));
         setModel();
         setListener();
     }
 
     private void setListener() {
+        bgColorAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue, colorDatas.get(position).getCorlorStr());
+                answer.notifyDataSetChanged();
+                answer.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
+                llSettingLine.setVisibility(View.GONE);
+            }
+        });
+
+
         fontSizeValue = LocalDataUtils.getLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
-        tv_font_size.setText(fontSizeValue + "");
+        tvFontSize.setText(fontSizeValue + "");
         int modelLight = LocalDataUtils.getLocalDataInteger(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.lightValue);
-        sb_light.setProgress(modelLight);
-        sb_light.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        sbLight.setProgress(modelLight);
+        sbLight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 LocalDataUtils.saveLocalDataInteger(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.lightValue, progress);
@@ -457,7 +483,7 @@ public class AnswerActivity extends BaseActivity {
                 if (fontSizeValue >= 19) {
                     fontSizeValue--;
                     LocalDataUtils.saveLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue, fontSizeValue);
-                    tv_font_size.setText(fontSizeValue + "");
+                    tvFontSize.setText(fontSizeValue + "");
                     answer.notifyDataSetChanged();
                 } else {
                     ToastUtils.show("最小字号为18！");
@@ -467,7 +493,7 @@ public class AnswerActivity extends BaseActivity {
                 if (fontSizeValue <= 32) {
                     fontSizeValue++;
                     LocalDataUtils.saveLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue, fontSizeValue);
-                    tv_font_size.setText(fontSizeValue + "");
+                    tvFontSize.setText(fontSizeValue + "");
                     answer.notifyDataSetChanged();
                 } else {
                     ToastUtils.show("最大字号为33！");
@@ -482,6 +508,15 @@ public class AnswerActivity extends BaseActivity {
             case R.id.ll_model_read:
                 boolean modelLight = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
                 LocalDataUtils.saveLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight, !modelLight);
+
+                if(modelLight){
+                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue,"#000000");
+                    answer.setBackgroundColor(Color.parseColor("#000000"));
+                }else{
+                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue,"#ffffff");
+                    answer.setBackgroundColor(Color.parseColor("#ffffff"));
+                }
+
                 setModel();
                 answer.notifyDataSetChanged();
                 llSettingLine.setVisibility(View.GONE);

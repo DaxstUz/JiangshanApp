@@ -18,14 +18,15 @@
           android:padding="@dimen/border_padding_10"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content">
+
           <com.github.siyamed.shapeimageview.CircularImageView
               android:id="@+id/iv_user_head"
               android:layout_width="40dp"
               android:layout_height="40dp"
               android:layout_marginRight="10dp"
               android:src="@mipmap/icon_app"
-              app:siBorderWidth="1dp"
-              app:siBorderColor="@color/colorRed"/>
+              app:siBorderColor="@color/colorRed"
+              app:siBorderWidth="1dp" />
 
           <TextView
               android:id="@+id/tv_user_name"

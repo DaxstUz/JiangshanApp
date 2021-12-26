@@ -7,7 +7,6 @@
         android:id="@+id/ll_answer_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/b1"
         android:orientation="vertical">
 
         <include layout="@layout/comm_title" />
@@ -215,6 +214,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="背景" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="@dimen/border_padding_10"
+                android:layout_width="match_parent"
+                android:id="@+id/rv_bg_color"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
         <LinearLayout

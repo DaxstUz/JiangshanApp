@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.activity.home;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
 import android.view.View;
@@ -98,18 +99,26 @@ public class LocalAnserHolderView extends Holder<Question> {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
-        int fontSizeValue = LocalDataUtils.getLocalDataInteger((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
+       int fontSizeValue = LocalDataUtils.getLocalDataInteger((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
 
-        boolean modelLight = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
-        if (!modelLight) {
-            itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
-            llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
-            tvDetailQuestion.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
-        } else {
-            itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
-            llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
-            tvDetailQuestion.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
+//        boolean modelLight = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
+//        if (!modelLight) {
+//            itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
+//            llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
+//            tvDetailQuestion.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorChargeBg));
+//        } else {
+//            itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
+//            llAnswerAnalysis.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
+//            tvDetailQuestion.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.colorWhite));
+//        }
+
+        String  bgColorValue = LocalDataUtils.getLocalData((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
+        if(null==bgColorValue||bgColorValue.length()==0){
+            bgColorValue="#ffffff";
         }
+        itemView.setBackgroundColor(Color.parseColor(bgColorValue));
+        llAnswerAnalysis.setBackgroundColor(Color.parseColor(bgColorValue));
+        tvDetailQuestion.setBackgroundColor(Color.parseColor(bgColorValue));
 
         Set<String> userAnswerList = data.getUserAnswerList();
         if (null == userAnswerList) {
@@ -193,7 +202,6 @@ public class LocalAnserHolderView extends Holder<Question> {
 
 
     public void onOptionClick() {
-//        EasyLog.print("onOptionClick！");
         if (0 == data.getUserAnswerList().size()) {
             return;
         }

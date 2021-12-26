@@ -86,6 +86,7 @@
         <entry key="app/src/main/res/layout/fragment_news.xml" value="0.18478260869565216" />
         <entry key="app/src/main/res/layout/item_adapter_main.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_answer.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_answer_bg.xml" value="0.23369565217391305" />
         <entry key="app/src/main/res/layout/item_banner.xml" value="0.1408514492753623" />
         <entry key="app/src/main/res/layout/item_chapter.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_chapter_chird.xml" value="0.1" />

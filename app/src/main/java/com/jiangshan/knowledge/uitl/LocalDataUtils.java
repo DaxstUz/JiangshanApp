@@ -32,6 +32,7 @@ public class LocalDataUtils {
     public static final String lightValue = "lightValue";
 
     public static final String fontSizeValue = "fontSizeValue";
+    public static final String bgColorValue = "bgColorValue";
 
 
     public static void saveLocalData(Context context, String name, String key, String data) {
