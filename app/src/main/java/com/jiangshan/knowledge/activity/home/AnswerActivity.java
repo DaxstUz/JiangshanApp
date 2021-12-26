@@ -537,6 +537,7 @@ public class AnswerActivity extends BaseActivity {
                 intent.putExtra("question", questionDatas.get(answer.getCurrentItem()));
                 intent.putExtra("examCode", getIntent().getStringExtra("examCode"));
                 startActivityForResult(intent, 0);
+                llSettingLine.setVisibility(View.GONE);
                 break;
             case R.id.ll_switch_model:
                 boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
