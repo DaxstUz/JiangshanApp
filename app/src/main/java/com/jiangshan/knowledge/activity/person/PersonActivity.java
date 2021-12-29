@@ -29,6 +29,10 @@ import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
 
@@ -106,12 +110,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         RelativeLayout feedback = findView(R.id.item_conf_feedback);
         ImageView ivFeedback = feedback.findViewById(R.id.iv_icon_conf);
         ivFeedback.setImageResource(R.mipmap.feedback);
-        feedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        feedback.setOnClickListener(this);
 
         RelativeLayout question = findView(R.id.item_conf_question);
         TextView tvQuestion = question.findViewById(R.id.tv_item_conf_name);
@@ -207,6 +206,18 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+            case R.id.item_conf_feedback:
+                String appId = "wxfa7d7f1550fb111f"; // 填移动应用(App)的 AppId
+                IWXAPI api = WXAPIFactory.createWXAPI(PersonActivity.this, appId);
+
+// 判断当前版本是否支持拉起客服会话
+                if (api.getWXAppSupportAPI() >= Build.SUPPORT_OPEN_CUSTOMER_SERVICE_CHAT) {
+                   WXOpenCustomerServiceChat.Req req = new WXOpenCustomerServiceChat.Req();
+                    req.corpId = "wwba19f094dd191e2a";                                  // 企业ID
+                    req.url = "https://work.weixin.qq.com/kfid/kfcaf303c420214e8bf";    // 客服URL
+                    api.sendReq(req);
+                }
+                break;
             case R.id.rl_charge:
                 startActivity(new Intent(PersonActivity.this, PayActivity.class));
                 break;

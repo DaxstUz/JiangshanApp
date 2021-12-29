@@ -21,7 +21,7 @@
 
     <color name="colorTips">#6b6b6b</color>
 
-    <color name="bg_title">#3db4fa</color>
+    <color name="bg_title">#3eb4fa</color>
 
     <color name="colorChargeBg">#33404c</color>
     <color name="colorChargeText">#c5cac9</color>
@@ -29,7 +29,7 @@
     <!-- 背景色 -->
     <color name="b1">#ffffff</color>
     <color name="b2">#fcfcfc</color>
-    <color name="b3">#FFDDDACF</color>
+    <color name="b3">#cdcdcd</color>
     <color name="b4">#22b6e7</color>
     <color name="b5">#82e664</color>
     <color name="b6">#bee664</color>
