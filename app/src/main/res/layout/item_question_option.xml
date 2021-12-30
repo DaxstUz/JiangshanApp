@@ -18,7 +18,6 @@
     <TextView
         android:id="@+id/tv_answer_content"
         android:layout_width="match_parent"
-        android:textColor="@color/bg_title"
         android:layout_height="wrap_content"
         android:textSize="18sp" />
 </LinearLayout>

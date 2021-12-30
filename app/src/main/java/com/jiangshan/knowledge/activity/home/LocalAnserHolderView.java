@@ -105,9 +105,9 @@ public class LocalAnserHolderView extends Holder<Question> {
         if (null == bgColorValue || bgColorValue.length() == 0) {
             bgColorValue = "#ffffff";
         }
-        itemView.setBackgroundColor(Color.parseColor(bgColorValue));
-        llAnswerAnalysis.setBackgroundColor(Color.parseColor(bgColorValue));
-        tvDetailQuestion.setBackgroundColor(Color.parseColor(bgColorValue));
+//        itemView.setBackgroundColor(Color.parseColor(bgColorValue));
+//        llAnswerAnalysis.setBackgroundColor(Color.parseColor(bgColorValue));
+//        tvDetailQuestion.setBackgroundColor(Color.parseColor(bgColorValue));
 
         Set<String> userAnswerList = data.getUserAnswerList();
         if (null == userAnswerList) {
@@ -171,11 +171,52 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvDetailQuestion.setTextSize(fontSizeValue);
         tvAnswer.setTextSize(fontSizeValue);
 
+        if ("#1d1d1f".equals(bgColorValue)) {
+            setTextColor("#78787a");
+        } else if ("#fdf2dc".equals(bgColorValue)) {
+            setTextColor("#483a2f");
+        } else if ("#e6cdae".equals(bgColorValue)) {
+            setTextColor("#362f27");
+        } else if ("#d2ecd3".equals(bgColorValue)) {
+            setTextColor("#1f3721");
+        } else if ("#f0e1e6".equals(bgColorValue)) {
+            setTextColor("#752935");
+        } else if ("#f3f7f9".equals(bgColorValue)) {
+            setTextColor("#333333");
+        } else if ("#ffffff".equals(bgColorValue)) {
+            setTextColor("#333333");
+        } else if ("#B3000000".equals(bgColorValue)) {
+            setTextColor("#cdcdcd");
+        }
+
         if (showAnalysis) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);
         } else {
             llAnswerAnalysis.setVisibility(View.GONE);
         }
+    }
+
+    private void setTextColor(String txtColor) {
+//        boolean modelLight = LocalDataUtils.getLocalDataBoolean(itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
+//        if(!modelLight){
+//            tvChoiceAnswer.setTextColor(Color.parseColor("#cdcdcd"));
+//            chapterCount.setTextColor(Color.parseColor("#cdcdcd"));
+//            tvAnswerAnalysis.setTextColor(Color.parseColor("#cdcdcd"));
+//            tvQuestionContent.setTextColor(Color.parseColor("#cdcdcd"));
+//            tvAly.setTextColor(Color.parseColor("#cdcdcd"));
+//            tvRightAnswer.setTextColor(Color.parseColor("#cdcdcd"));
+//            tvDetailQuestion.setTextColor(Color.parseColor("#cdcdcd"));
+//            tvAnswer.setTextColor(Color.parseColor("#cdcdcd"));
+//        }else{
+        tvChoiceAnswer.setTextColor(Color.parseColor(txtColor));
+        chapterCount.setTextColor(Color.parseColor(txtColor));
+        tvAnswerAnalysis.setTextColor(Color.parseColor(txtColor));
+        tvQuestionContent.setTextColor(Color.parseColor(txtColor));
+        tvAly.setTextColor(Color.parseColor(txtColor));
+        tvRightAnswer.setTextColor(Color.parseColor(txtColor));
+        tvDetailQuestion.setTextColor(Color.parseColor(txtColor));
+        tvAnswer.setTextColor(Color.parseColor(txtColor));
+//        }
     }
 
     private void examCommit() {

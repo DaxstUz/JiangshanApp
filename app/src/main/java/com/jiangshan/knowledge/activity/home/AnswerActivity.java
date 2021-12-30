@@ -231,12 +231,12 @@ public class AnswerActivity extends BaseActivity {
 
         rv_bg_color = findView(R.id.rv_bg_color);
         rv_bg_color.setLayoutManager(new GridLayoutManager(this,6));
-        colorDatas.add(new AnswerBgColor("#a1a1a1"));
-        colorDatas.add(new AnswerBgColor("#ea9c1f"));
-        colorDatas.add(new AnswerBgColor("#6b6b6b"));
-        colorDatas.add(new AnswerBgColor("#fcfcfc"));
-        colorDatas.add(new AnswerBgColor("#FFFFEB3B"));
-        colorDatas.add(new AnswerBgColor("#070000"));
+        colorDatas.add(new AnswerBgColor("#1d1d1f"));
+        colorDatas.add(new AnswerBgColor("#fdf2dc"));
+        colorDatas.add(new AnswerBgColor("#e6cdae"));
+        colorDatas.add(new AnswerBgColor("#d2ecd3"));
+        colorDatas.add(new AnswerBgColor("#f0e1e6"));
+        colorDatas.add(new AnswerBgColor("#f3f7f9"));
         bgColorAdapter=new AnswerBgColorAdapter(R.layout.item_answer_bg,colorDatas);
         rv_bg_color.setAdapter(bgColorAdapter);
 
@@ -510,8 +510,8 @@ public class AnswerActivity extends BaseActivity {
                 LocalDataUtils.saveLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight, !modelLight);
 
                 if(modelLight){
-                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue,"#000000");
-                    answer.setBackgroundColor(Color.parseColor("#000000"));
+                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue,"#B3000000");
+                    answer.setBackgroundColor(Color.parseColor("#B3000000"));
                 }else{
                     LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue,"#ffffff");
                     answer.setBackgroundColor(Color.parseColor("#ffffff"));

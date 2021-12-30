@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.activity.home.adapter;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
 import android.widget.TextView;
@@ -11,7 +12,6 @@ import androidx.annotation.RequiresApi;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.jiangshan.knowledge.R;
-import com.jiangshan.knowledge.activity.home.AnswerActivity;
 import com.jiangshan.knowledge.http.entity.QuestionOption;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
@@ -36,15 +36,40 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
     protected void convert(@NonNull BaseViewHolder baseViewHolder, QuestionOption data) {
 
         int fontSizeValue = LocalDataUtils.getLocalDataInteger(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
-        TextView tv_answer_content=baseViewHolder.findView(R.id.tv_answer_content);
-//        TextView tv_answer_option=baseViewHolder.findView(R.id.tv_answer_option);
+        TextView tv_answer_content = baseViewHolder.findView(R.id.tv_answer_content);
         tv_answer_content.setTextSize(fontSizeValue);
-//        tv_answer_option.setTextSize(fontSizeValue);
 
         String content = Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT).toString();
         content = content.replace("\n", "");
         baseViewHolder.setText(R.id.tv_answer_content, content);
 
+//        boolean modelLight = LocalDataUtils.getLocalDataBoolean(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
+//        if(!modelLight){
+//            tv_answer_content.setTextColor(Color.parseColor("#cdcdcd"));
+//        }else{
+        String bgColorValue = LocalDataUtils.getLocalData(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
+        if (null == bgColorValue || bgColorValue.length() == 0) {
+            bgColorValue = "#ffffff";
+        }
+        if ("#1d1d1f".equals(bgColorValue)) {
+            bgColorValue = "#78787a";
+        } else if ("#fdf2dc".equals(bgColorValue)) {
+            bgColorValue = "#483a2f";
+        } else if ("#e6cdae".equals(bgColorValue)) {
+            bgColorValue = "#362f27";
+        } else if ("#d2ecd3".equals(bgColorValue)) {
+            bgColorValue = "#1f3721";
+        } else if ("#f0e1e6".equals(bgColorValue)) {
+            bgColorValue = "#752935";
+        } else if ("#f3f7f9".equals(bgColorValue)) {
+            bgColorValue = "#333333";
+        } else if ("#ffffff".equals(bgColorValue)) {
+            bgColorValue = "#333333";
+        } else if ("#B3000000".equals(bgColorValue)) {
+            bgColorValue = "#cdcdcd";
+        }
+        tv_answer_content.setTextColor(Color.parseColor(bgColorValue));
+//        }
 
         if (null != userAnswerList && null != choiceAnswerList) {
             String optionNo = data.getOptionNo();
@@ -58,7 +83,7 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
                 baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
                 baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
             }
-        }else{
+        } else {
             baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
             baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
         }

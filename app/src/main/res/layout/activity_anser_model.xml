@@ -88,7 +88,7 @@
                     android:background="@drawable/anser_model_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:textColor="@drawable/tab_txt_color"
+                    android:textColor="@drawable/tab_txt_color_model"
                     android:text="背景解析" />
 
                 <RadioButton
@@ -100,7 +100,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/anser_model_bg"
                     android:button="@null"
-                    android:textColor="@drawable/tab_txt_color"
+                    android:textColor="@drawable/tab_txt_color_model"
                     android:gravity="center"
                     android:text="答题模式" />
             </RadioGroup>
