@@ -173,7 +173,10 @@ public class AnswerActivity extends BaseActivity {
                         chapterMainAdapter.setSelectIndex(0);
                         chapterMainAdapter.notifyDataSetChanged();
                         llAnswerCount.setVisibility(View.VISIBLE);
-                        updateCount(questionDatas.get(0));
+
+                        if(questionDatas.size()>0){
+                            updateCount(questionDatas.get(0));
+                        }
                     } else {
                         pageNum++;
                         getMarkData();

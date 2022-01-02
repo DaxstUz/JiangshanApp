@@ -48,6 +48,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/iv_edit_icon"
             android:padding="@dimen/border_padding_10"
             android:layout_gravity="end"
             android:src="@mipmap/chapter_edit"

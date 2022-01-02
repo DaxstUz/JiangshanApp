@@ -1,15 +1,11 @@
 package com.jiangshan.knowledge.activity.home.adapter;
 
-import android.content.Intent;
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.jiangshan.knowledge.R;
-import com.jiangshan.knowledge.activity.home.SelectAnserModelActivity;
 import com.jiangshan.knowledge.http.entity.Chapter;
 
 import java.util.List;
@@ -26,6 +22,10 @@ public class ChapterChirdAdapter extends BaseQuickAdapter<Chapter, BaseViewHolde
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, Chapter chapter) {
         baseViewHolder.setText(R.id.tv_chapter_name, chapter.getChapterName());
+
+        if (0 < chapter.getMemberType()) {
+            baseViewHolder.setImageResource(R.id.iv_edit_icon, R.mipmap.vip);
+        }
     }
 
 }

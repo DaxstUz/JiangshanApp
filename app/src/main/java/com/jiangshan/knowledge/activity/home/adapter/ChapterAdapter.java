@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.google.gson.Gson;
-import com.hjq.http.EasyLog;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.home.SelectAnserModelActivity;
 import com.jiangshan.knowledge.http.entity.Chapter;
+import com.jiangshan.knowledge.http.entity.Exam;
+import com.jiangshan.knowledge.http.entity.MemberInfo;
+import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
 import java.util.List;
 
@@ -33,20 +35,20 @@ public class ChapterAdapter extends BaseQuickAdapter<Chapter, BaseViewHolder> {
     protected void convert(@NonNull BaseViewHolder baseViewHolder, Chapter chapter) {
         baseViewHolder.setText(R.id.tv_chapter_name, chapter.getChapterName());
 //        EasyLog.print("chapterCode==> "+new Gson().toJson(chapter));
-        String chapterNo=chapter.getChapterCode();
-        baseViewHolder.setText(R.id.tv_chapter_no, "【"+chapterNo+"】");
+        String chapterNo = chapter.getChapterCode();
+        baseViewHolder.setText(R.id.tv_chapter_no, "【" + chapterNo + "】");
 
         RecyclerView rvChapter = baseViewHolder.findView(R.id.rv_chapter);
-        if(chapter.isOpen()){
-            baseViewHolder.setImageResource(R.id.iv_chapter_conf,R.mipmap.chapter_less);
+        if (chapter.isOpen()) {
+            baseViewHolder.setImageResource(R.id.iv_chapter_conf, R.mipmap.chapter_less);
             rvChapter.setVisibility(View.VISIBLE);
-            initChirdView(baseViewHolder,chapter);
-        }else{
-            baseViewHolder.setImageResource(R.id.iv_chapter_conf,R.mipmap.chapter_more);
+            initChirdView(baseViewHolder, chapter);
+        } else {
+            baseViewHolder.setImageResource(R.id.iv_chapter_conf, R.mipmap.chapter_more);
             rvChapter.setVisibility(View.GONE);
         }
 
-        FrameLayout flItem=baseViewHolder.findView(R.id.fl_item);
+        FrameLayout flItem = baseViewHolder.findView(R.id.fl_item);
         flItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,12 +67,25 @@ public class ChapterAdapter extends BaseQuickAdapter<Chapter, BaseViewHolder> {
         chapterAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Intent intent=new Intent(getContext(), SelectAnserModelActivity.class);
-                intent.putExtra("examCode",chapter.getChildren().get(position).getChapterCode());
-                intent.putExtra("examName",chapter.getChildren().get(position).getChapterName());
-                intent.putExtra("examType",3);
-                getContext().startActivity(intent);
+                if(canEdit(chapter.getChildren().get(position).getMemberType())){
+                    Intent intent = new Intent(getContext(), SelectAnserModelActivity.class);
+                    intent.putExtra("examCode", chapter.getChildren().get(position).getChapterCode());
+                    intent.putExtra("examName", chapter.getChildren().get(position).getChapterName());
+                    intent.putExtra("examType", 3);
+                    getContext().startActivity(intent);
+                }else{
+                    ToastUtils.show("这是会员专享，请去开通会员。");
+                }
             }
         });
+
+    }
+
+    private boolean canEdit(int memberType) {
+        MemberInfo memberInfo = LocalDataUtils.getMemberInfo(getContext());
+        if (0 < memberType && (null == memberInfo || (null != memberInfo && 0 == memberInfo.getMemberType()))) {
+            return false;
+        }
+        return true;
     }
 }
