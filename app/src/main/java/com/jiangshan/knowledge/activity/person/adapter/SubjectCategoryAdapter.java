@@ -30,10 +30,10 @@ public class SubjectCategoryAdapter extends BaseQuickAdapter<SubjectCategory, Ba
         super.onBindViewHolder(holder, position);
         if(position == SelectedSubjectCategoryItem.getSlectedNavItem()){
             holder.setBackgroundResource(R.id.ll_subject_category,R.color.b1);
-            holder.setTextColorRes(R.id.tv_subject_catgory,R.color.b3);
+            holder.setTextColorRes(R.id.tv_subject_catgory,R.color.bg_title);
         }else{
-            holder.setBackgroundResource(R.id.ll_subject_category,R.color.b3);
-            holder.setTextColorRes(R.id.tv_subject_catgory,R.color.b1);
+            holder.setBackgroundResource(R.id.ll_subject_category,R.color.E3);
+            holder.setTextColorRes(R.id.tv_subject_catgory,R.color.colorBlack0);
         }
     }
 }
