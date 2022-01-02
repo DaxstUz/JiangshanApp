@@ -24,10 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/b3"
         android:onClick="answerClick"
         android:orientation="vertical"
         android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/b3"
+            android:layout_height="1dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
