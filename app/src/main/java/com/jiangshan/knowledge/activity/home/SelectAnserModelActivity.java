@@ -172,4 +172,10 @@ public class SelectAnserModelActivity extends BaseActivity {
         examAdapter.getLoadMoreModule().setEnableLoadMoreIfNotFullPage(false);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUI();
+    }
 }
