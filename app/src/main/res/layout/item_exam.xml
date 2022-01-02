@@ -31,6 +31,9 @@
                 android:layout_height="wrap_content"
                 android:progress="30"
                 android:indeterminateTint="@color/bg_title"
+                android:maxHeight="4dp"
+                android:minHeight="4dp"
+                android:progressDrawable="@drawable/progressbar_color_exam"
                 />
 
             <TextView
