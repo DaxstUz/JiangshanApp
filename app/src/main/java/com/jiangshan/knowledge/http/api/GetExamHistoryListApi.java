@@ -5,11 +5,18 @@ import com.hjq.http.config.IRequestApi;
 
 public final class GetExamHistoryListApi implements IRequestApi {
 
-    String api="/user/exam/historyList";
+    String api = "/user/exam/historyList";
 
     @Override
     public String getApi() {
-        return api + "/" + subjectCode + "/" + courseCode+"?pageNum="+pageNum+"&pageSize="+pageSize;
+        api=api + "/" + subjectCode + "/" + courseCode + "?pageNum=" + pageNum + "&pageSize=" + pageSize;
+        if(examType>0){
+            api=api+"&examType"+examType;
+        }
+        if(examCode!=null){
+            api=api+"&examCode"+examCode;
+        }
+        return api;
     }
 
     private String subjectCode;
@@ -28,21 +35,34 @@ public final class GetExamHistoryListApi implements IRequestApi {
 
     @HttpRename("examType")
     private int examType;
-    public GetExamHistoryListApi setExamType(int examType) {
-        this.examType=examType;
+
+
+    @HttpRename("examCode")
+    private String examCode;
+
+    public GetExamHistoryListApi setExamCode(String examCode) {
+        this.examCode = examCode;
         return this;
     }
+
+    public GetExamHistoryListApi setExamType(int examType) {
+        this.examType = examType;
+        return this;
+    }
+
     @HttpRename("pageNum")
     private int pageNum;
+
     public GetExamHistoryListApi setPageNum(int pageNum) {
-        this.pageNum=pageNum;
+        this.pageNum = pageNum;
         return this;
     }
 
     @HttpRename("pageSize")
-    private int pageSize=10;
+    private int pageSize = 10;
+
     public GetExamHistoryListApi setPageSize(int pageSize) {
-        this.pageSize=pageSize;
+        this.pageSize = pageSize;
         return this;
     }
 }

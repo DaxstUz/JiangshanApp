@@ -41,6 +41,7 @@ public class ExamListActivity extends BaseActivity {
 
     private MemberInfo memberInfo;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -34,10 +34,10 @@
 
             <TextView
                 android:id="@+id/tv_anser_rate"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/border_padding_5"
-                android:text="正确率"
+                android:text="正确率100%"
                 android:textColor="@color/b3" />
 
             <ProgressBar
@@ -48,6 +48,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/border_padding_5"
                 android:indeterminateTint="@color/bg_title"
+                android:maxHeight="4dp"
+                android:minHeight="4dp"
+                android:progressDrawable="@drawable/progressbar_color_exam"
                 android:progress="30" />
 
             <TextView

@@ -127,6 +127,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"/>
                 </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_exam"
+                    android:background="@color/colorWhite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
             </FrameLayout>
         </LinearLayout>
     </ScrollView>
