@@ -1,5 +1,7 @@
 package com.jiangshan.knowledge.activity.home.adapter;
 
+import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -22,7 +24,14 @@ public class ChapterChirdAdapter extends BaseQuickAdapter<Chapter, BaseViewHolde
     @Override
     protected void convert(@NonNull BaseViewHolder baseViewHolder, Chapter chapter) {
         baseViewHolder.setText(R.id.tv_chapter_name, chapter.getChapterName());
-
+        baseViewHolder.setText(R.id.tv_anser_info, chapter.getAnswerQuestionQty()+"/"+chapter.getQuestionQty()+"道题");
+        ProgressBar progressBar = baseViewHolder.findView(R.id.pb_answer);
+        if(chapter.getQuestionQty()>0){
+                    int progress=(int)(100*(chapter.getAnswerQuestionQty()/chapter.getQuestionQty()));
+        progressBar.setProgress(progress);
+        }else{
+            baseViewHolder.setVisible(R.id.ll_chapter_answer_info,false);
+        }
         if (0 < chapter.getMemberType()) {
             baseViewHolder.setImageResource(R.id.iv_edit_icon, R.mipmap.vip);
         }

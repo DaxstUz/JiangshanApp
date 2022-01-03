@@ -74,12 +74,9 @@ public class HomeActivity extends BaseActivity {
         initView();
         initHistoryView();
         getBannerData();
-        updateUI();
-
-        getInitData();
-
-        getData();
         initLoadMore();
+
+        updateUI();
     }
 
     public void updateUI() {
@@ -89,6 +86,9 @@ public class HomeActivity extends BaseActivity {
         } else {
             setTitle(course.getCourseName());
         }
+
+        getInitData();
+        getData();
     }
 
     private void initView() {

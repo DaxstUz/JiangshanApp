@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,41 +20,72 @@
                 android:background="@color/bg_title" />
 
             <ImageView
-                android:layout_marginTop="@dimen/border_padding_10"
-                android:src="@mipmap/chapter_less_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/b1"
                 android:layout_gravity="center_horizontal"
-                />
+                android:layout_marginTop="@dimen/border_padding_10"
+                android:background="@color/b1"
+                android:src="@mipmap/chapter_less_small" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingTop="@dimen/border_padding_5"
             android:paddingBottom="@dimen/border_padding_10">
 
-            <TextView
-                android:id="@+id/tv_chapter_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_chapter_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_chapter_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_chapter_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_chapter_answer_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/pb_answer"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/border_padding_5"
+                    android:indeterminateTint="@color/bg_title"
+                    android:maxHeight="4dp"
+                    android:minHeight="4dp"
+                    android:progress="30"
+                    android:progressDrawable="@drawable/progressbar_color_exam" />
+                <TextView
+                    android:id="@+id/tv_anser_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1/75道题"
+                    android:textColor="@color/b3" />
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView
             android:id="@+id/iv_edit_icon"
-            android:padding="@dimen/border_padding_10"
-            android:layout_gravity="end"
-            android:src="@mipmap/chapter_edit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:padding="@dimen/border_padding_10"
+            android:src="@mipmap/chapter_edit" />
     </FrameLayout>
 
 </LinearLayout>

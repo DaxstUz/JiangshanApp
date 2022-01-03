@@ -68,11 +68,13 @@ public class ChapterAdapter extends BaseQuickAdapter<Chapter, BaseViewHolder> {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 if(canEdit(chapter.getChildren().get(position).getMemberType())){
-                    Intent intent = new Intent(getContext(), SelectAnserModelActivity.class);
-                    intent.putExtra("examCode", chapter.getChildren().get(position).getChapterCode());
-                    intent.putExtra("examName", chapter.getChildren().get(position).getChapterName());
-                    intent.putExtra("examType", 3);
-                    getContext().startActivity(intent);
+                    if(chapter.getChildren().get(position).getQuestionQty()>0){
+                        Intent intent = new Intent(getContext(), SelectAnserModelActivity.class);
+                        intent.putExtra("examCode", chapter.getChildren().get(position).getChapterCode());
+                        intent.putExtra("examName", chapter.getChildren().get(position).getChapterName());
+                        intent.putExtra("examType", 3);
+                        getContext().startActivity(intent);
+                    }
                 }else{
                     ToastUtils.show("这是会员专享，请去开通会员。");
                 }
