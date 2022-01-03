@@ -22,6 +22,13 @@ public class LoginApi implements IRequestApi {
         return this;
     }
 
+    @HttpRename("captchaCode")
+    private String captchaCode;
+    public LoginApi setCaptchaCode(String captchaCode) {
+        this.captchaCode = captchaCode;
+        return this;
+    }
+
     @HttpRename("mobileNumber")
     private String mobileNumber;
     public LoginApi setMobileNumber(String mobileNumber) {

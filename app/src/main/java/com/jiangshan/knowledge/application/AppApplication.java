@@ -3,6 +3,7 @@ package com.jiangshan.knowledge.application;
 import android.app.Application;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hjq.http.EasyConfig;
 import com.hjq.http.config.IRequestApi;

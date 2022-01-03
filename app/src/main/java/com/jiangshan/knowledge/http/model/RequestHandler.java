@@ -22,8 +22,10 @@ import com.hjq.http.exception.ResultException;
 import com.hjq.http.exception.ServerException;
 import com.hjq.http.exception.TimeoutException;
 import com.hjq.http.exception.TokenException;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.person.LoginActivity;
+import com.jiangshan.knowledge.http.api.LoginApi;
 import com.tencent.mmkv.MMKV;
 
 import org.json.JSONArray;
@@ -148,10 +150,14 @@ public final class RequestHandler implements IRequestHandler {
         // 判断这个异常是不是自己抛的
         if (e instanceof HttpException) {
             if (e instanceof TokenException) {
-                // 登录信息失效，跳转到登录页
-                Intent intent= new Intent(mApplication, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-                mApplication.startActivity(intent);
+//                if(!api.getApi().contains("passport/login/")){
+                    // 登录信息失效，跳转到登录页
+                    Intent intent= new Intent(mApplication, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                    mApplication.startActivity(intent);
+//                }else{
+//                    ToastUtils.show(e.getMessage());
+//                }
             }
             return e;
         }

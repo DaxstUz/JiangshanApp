@@ -3,10 +3,12 @@ package com.jiangshan.knowledge.activity.person;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
@@ -15,7 +17,6 @@ import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
-import com.jiangshan.knowledge.activity.home.HomeActivity;
 import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
 import com.jiangshan.knowledge.http.api.GetPassportApi;
 import com.jiangshan.knowledge.http.api.GetTicketApi;
@@ -37,8 +38,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
 
-import okhttp3.Call;
-
 /**
  * 测试账号密码：15013211890/123456
  * auth s_yz  2021/10/13
@@ -47,11 +46,16 @@ public class LoginActivity extends BaseActivity {
 
     private LinearLayout llLoginWeixin;
     private LinearLayout llLoginPhone;
+    private LinearLayout llCaptcha;
 
-    private EditText et_account;
-    private EditText et_psd;
+    private EditText etAccount;
+    private EditText etPsd;
+    private EditText etCaptcha;
+
+    private ImageView ivCaptcha;
 
     private String ticket;
+    private int errorCount = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,22 +69,40 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loginPhone() {
-        if (et_psd.getText().length() != 0 && et_account.getText().length() != 0) {
+        LoginApi loginApi = new LoginApi();
+        if (etPsd.getText().length() != 0 && etAccount.getText().length() != 0) {
+            if (errorCount >= 3) {
+                if (etPsd.getText().length() != 0) {
+                    loginApi.setCaptchaCode(etCaptcha.getText().toString());
+                } else {
+                    ToastUtils.show("请输入验证码！");
+                    return;
+                }
+            }
             EasyHttp.post(this)
-                    .api(new LoginApi().setTicket(ticket).setMobileNumber(et_account.getText().toString()).setUserPassword(et_psd.getText().toString()))
+                    .api(loginApi.setTicket(ticket).setMobileNumber(etAccount.getText().toString()).setUserPassword(etPsd.getText().toString()))
                     .request(new HttpCallback<HttpData<User>>(this) {
 
                         @Override
                         public void onSucceed(HttpData<User> result) {
-                            Gson gson = new Gson();
-                            String user = gson.toJson(result.getData());
-                            LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, user);
-                            EasyConfig.getInstance().addParam("token", result.getData().getToken());
-                            EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
-                            setResult(RESULT_OK);
-                            getMemberData();
-                            getInitData();
-                            finish();
+                            if (result.isSuccess()) {
+                                Gson gson = new Gson();
+                                String user = gson.toJson(result.getData());
+                                LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, user);
+                                EasyConfig.getInstance().addParam("token", result.getData().getToken());
+                                EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
+                                setResult(RESULT_OK);
+                                getMemberData();
+                                getInitData();
+                                finish();
+                            } else {
+                                ToastUtils.show(result.getMsg());
+                                errorCount++;
+                                Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha?" + System.currentTimeMillis()).into(ivCaptcha);
+                                if (errorCount >= 3) {
+                                    llCaptcha.setVisibility(View.VISIBLE);
+                                }
+                            }
                         }
 
                         @Override
@@ -122,14 +144,26 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<String> result) {
                         ticket = result.getData();
+                        Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha?" + System.currentTimeMillis()).into(ivCaptcha);
                     }
                 });
 
     }
 
     private void initView() {
-        et_account = findViewById(R.id.et_account);
-        et_psd = findViewById(R.id.et_psd);
+        llCaptcha = findViewById(R.id.ll_captcha);
+        etCaptcha = findViewById(R.id.et_captcha);
+        ivCaptcha = findViewById(R.id.iv_captcha);
+        ivCaptcha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha?" + System.currentTimeMillis()).into(ivCaptcha);
+                ivCaptcha.invalidate();
+            }
+        });
+
+        etAccount = findViewById(R.id.et_account);
+        etPsd = findViewById(R.id.et_psd);
 
         llLoginWeixin = findViewById(R.id.ll_login_weixin);
         llLoginWeixin.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +205,6 @@ public class LoginActivity extends BaseActivity {
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                 ToastUtils.show(throwable.getMessage().substring(throwable.getMessage().indexOf("错误信息：") + 5));
                 EasyLog.print(" platformLogin onError" + i + " error ===>" + throwable.getMessage());
-
             }
 
             @Override
@@ -188,7 +221,7 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onSucceed(HttpData<User> result) {
-                        if(result.isSuccess()){
+                        if (result.isSuccess()) {
                             Gson gson = new Gson();
                             String user = gson.toJson(result.getData());
                             LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, user);
@@ -197,7 +230,7 @@ public class LoginActivity extends BaseActivity {
                             setResult(RESULT_OK);
                             getInitData();
                             finish();
-                        }else {
+                        } else {
 //                            wXLaunchMiniProgram();
                         }
 
@@ -227,7 +260,6 @@ public class LoginActivity extends BaseActivity {
         EasyHttp.post(this)
                 .api(new GetPassportApi())
                 .request(new HttpCallback<HttpData<Passport>>(this) {
-
                     @Override
                     public void onSucceed(HttpData<Passport> result) {
                         Passport passport = result.getData();
@@ -235,4 +267,5 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
     }
+
 }
