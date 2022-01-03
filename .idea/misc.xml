@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/anser_model_bg.xml" value="0.125" />
         <entry key="app/src/main/res/drawable/anser_model_bg_normal.xml" value="0.11" />
         <entry key="app/src/main/res/drawable/anser_model_bg_press.xml" value="0.125" />
+        <entry key="app/src/main/res/drawable/answer_hand_bg.xml" value="0.24814814814814815" />
         <entry key="app/src/main/res/drawable/answer_option_bg.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/answer_type_bg.xml" value="0.10555555555555556" />
         <entry key="app/src/main/res/drawable/change_font_size_bg.xml" value="0.1648148148148148" />
@@ -85,7 +86,7 @@
         <entry key="app/src/main/res/layout/activity_select_subject.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_special_count.xml" value="0.16621376811594202" />
         <entry key="app/src/main/res/layout/comm_title.xml" value="0.13451086956521738" />
-        <entry key="app/src/main/res/layout/floating_view.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/layout/floating_view.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_news.xml" value="0.18478260869565216" />
         <entry key="app/src/main/res/layout/item_adapter_main.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_answer.xml" value="0.165" />

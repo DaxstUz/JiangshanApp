@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -52,6 +53,7 @@ import com.jiangshan.knowledge.http.entity.QuestionInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
+import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
 import java.util.ArrayList;
@@ -130,6 +132,10 @@ public class AnswerActivity extends BaseActivity {
 
     private int fontSizeValue;
 
+    public ConvenientBanner getAnswer() {
+        return answer;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,38 +151,11 @@ public class AnswerActivity extends BaseActivity {
             examStart();
         }
         getPermisson();
-
-        setSeeView();
     }
 
     private void setSeeView(){
-        WindowManager windowManager= (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-
-        WindowManager.LayoutParams layoutParams =new WindowManager.LayoutParams();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        }else {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
-        }
-        //悬浮窗弹出的位置
-        layoutParams.gravity = Gravity.RIGHT|Gravity.BOTTOM;
-
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        layoutParams.format = PixelFormat.RGBA_8888;
-        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.x =0;
-        layoutParams.y =100;
-
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-
-        View floatView = layoutInflater.inflate(R.layout.floating_view, null);
-
-        // 将悬浮窗控件添加到WindowManager
-        windowManager.addView(floatView, layoutParams);
-//        //设置触摸事件
-//        floatView.setOnTouchListener(new FloatingOnTouchListener());
+        FloatingWindowUtils.getInstance().init(this);
+        FloatingWindowUtils.getInstance().showFloatingWindow(R.layout.floating_view);
     }
 
     private void getPermisson() {
@@ -257,6 +236,7 @@ public class AnswerActivity extends BaseActivity {
                     chapterMainAdapter.notifyDataSetChanged();
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
+                    setSeeView();
                 }
             }
         });
@@ -338,7 +318,6 @@ public class AnswerActivity extends BaseActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
@@ -512,7 +491,6 @@ public class AnswerActivity extends BaseActivity {
             showDialog();
             showDiaglog = false;
         }
-
     }
 
     @Override
@@ -632,4 +610,9 @@ public class AnswerActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FloatingWindowUtils.getInstance().unInit();
+    }
 }
