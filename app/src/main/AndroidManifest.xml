@@ -14,22 +14,27 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"
+    <uses-permission
+        android:name="android.permission.CHANGE_CONFIGURATION"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <!--悬浮窗权限-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <queries>
         <package android:name="com.tencent.mm" />
         // 指定微信包名
-<!--                <package android:name="com.tencent.mobileqq" />-->
+        <!--                <package android:name="com.tencent.mobileqq" />-->
         //指定qq包名
         <!--        <package android:name="com.sina.weibo" />-->
         //指定微博包名

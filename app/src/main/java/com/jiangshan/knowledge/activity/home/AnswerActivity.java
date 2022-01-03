@@ -3,9 +3,16 @@ package com.jiangshan.knowledge.activity.home;
 import static com.umeng.socialize.utils.ContextUtil.getContext;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -109,7 +116,7 @@ public class AnswerActivity extends BaseActivity {
 
     private RecyclerView rv_bg_color;
     private AnswerBgColorAdapter bgColorAdapter;
-    private List<AnswerBgColor> colorDatas=new ArrayList<>();
+    private List<AnswerBgColor> colorDatas = new ArrayList<>();
 
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
@@ -136,6 +143,48 @@ public class AnswerActivity extends BaseActivity {
             getMarkData();
         } else {
             examStart();
+        }
+        getPermisson();
+
+        setSeeView();
+    }
+
+    private void setSeeView(){
+        WindowManager windowManager= (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+
+        WindowManager.LayoutParams layoutParams =new WindowManager.LayoutParams();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        }else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+        //悬浮窗弹出的位置
+        layoutParams.gravity = Gravity.RIGHT|Gravity.BOTTOM;
+
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        layoutParams.format = PixelFormat.RGBA_8888;
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.x =0;
+        layoutParams.y =100;
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+
+        View floatView = layoutInflater.inflate(R.layout.floating_view, null);
+
+        // 将悬浮窗控件添加到WindowManager
+        windowManager.addView(floatView, layoutParams);
+//        //设置触摸事件
+//        floatView.setOnTouchListener(new FloatingOnTouchListener());
+    }
+
+    private void getPermisson() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            boolean falg = Settings.canDrawOverlays(this);
+            if (!falg) {
+                startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 10086);
+            }
         }
     }
 
@@ -174,7 +223,7 @@ public class AnswerActivity extends BaseActivity {
                         chapterMainAdapter.notifyDataSetChanged();
                         llAnswerCount.setVisibility(View.VISIBLE);
 
-                        if(questionDatas.size()>0){
+                        if (questionDatas.size() > 0) {
                             updateCount(questionDatas.get(0));
                         }
                     } else {
@@ -233,14 +282,14 @@ public class AnswerActivity extends BaseActivity {
         tvAnswerError = findView(R.id.tv_answer_error);
 
         rv_bg_color = findView(R.id.rv_bg_color);
-        rv_bg_color.setLayoutManager(new GridLayoutManager(this,6));
+        rv_bg_color.setLayoutManager(new GridLayoutManager(this, 6));
         colorDatas.add(new AnswerBgColor("#1d1d1f"));
         colorDatas.add(new AnswerBgColor("#fdf2dc"));
         colorDatas.add(new AnswerBgColor("#e6cdae"));
         colorDatas.add(new AnswerBgColor("#d2ecd3"));
         colorDatas.add(new AnswerBgColor("#f0e1e6"));
         colorDatas.add(new AnswerBgColor("#f3f7f9"));
-        bgColorAdapter=new AnswerBgColorAdapter(R.layout.item_answer_bg,colorDatas);
+        bgColorAdapter = new AnswerBgColorAdapter(R.layout.item_answer_bg, colorDatas);
         rv_bg_color.setAdapter(bgColorAdapter);
 
         rvChapterMain = findView(R.id.rv_chapter_main);
@@ -255,9 +304,9 @@ public class AnswerActivity extends BaseActivity {
 
         answer = findView(R.id.answer);
 
-        String  bgColorValue = LocalDataUtils.getLocalData(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
-        if(null==bgColorValue||bgColorValue.length()==0){
-            bgColorValue="#ffffff";
+        String bgColorValue = LocalDataUtils.getLocalData(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
+        if (null == bgColorValue || bgColorValue.length() == 0) {
+            bgColorValue = "#ffffff";
         }
         answer.setBackgroundColor(Color.parseColor(bgColorValue));
         setModel();
@@ -512,11 +561,11 @@ public class AnswerActivity extends BaseActivity {
                 boolean modelLight = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
                 LocalDataUtils.saveLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.modelLight, !modelLight);
 
-                if(modelLight){
-                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue,"#B3000000");
+                if (modelLight) {
+                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue, "#B3000000");
                     answer.setBackgroundColor(Color.parseColor("#B3000000"));
-                }else{
-                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue,"#ffffff");
+                } else {
+                    LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue, "#ffffff");
                     answer.setBackgroundColor(Color.parseColor("#ffffff"));
                 }
 
