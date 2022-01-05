@@ -420,19 +420,19 @@ public class DialogUtil {
         leftBtn.setPadding(5, 5, 5, 5);
         leftBtn.setGravity(Gravity.CENTER);
 
-//        TextView rightBtn = ViewUtil.getTextView(context, attrs.btnVal[1]);
+        TextView rightBtn = ViewUtil.getTextView(context, attrs.btnVal[1]);
 //        rightBtn.setBackgroundDrawable(ViewUtil.createRoundCornerShapeDrawable(
 //                Utils.cornersize, 0, attrs.rightBtnColor));
-//        rightBtn.setTextColor(Color.parseColor(attrs.btnTextColor));
-//        rightBtn.setPadding(5, 5, 5, 5);
-//        rightBtn.setGravity(Gravity.CENTER);
+        rightBtn.setTextColor(Color.parseColor(attrs.btnTextColor));
+        rightBtn.setPadding(5, 5, 5, 5);
+        rightBtn.setGravity(Gravity.CENTER);
 
         LayoutParams btn1Params = ViewUtil
                 .getLinearLayoutParams(1);
         btn1Params.setMargins(10, 10, 10, 10);
         btn1Params.width = 120;
         leftBtn.setLayoutParams(btn1Params);
-//        rightBtn.setLayoutParams(btn1Params);
+        rightBtn.setLayoutParams(btn1Params);
 
         // 按钮布局
         LayoutParams btnParams = ViewUtil.getLinearLayoutParams(4);
@@ -442,21 +442,21 @@ public class DialogUtil {
         buttonLLl.setLayoutParams(btnParams);
         buttonLLl.addView(leftBtn);
 
-//        LinearLayout buttonRLl = ViewUtil.getLinLayout(context);
-//        buttonRLl.setGravity(Gravity.CENTER);
-//        buttonRLl.setLayoutParams(btnParams);
-//        buttonRLl.addView(rightBtn);
+        LinearLayout buttonRLl = ViewUtil.getLinLayout(context);
+        buttonRLl.setGravity(Gravity.CENTER);
+        buttonRLl.setLayoutParams(btnParams);
+        buttonRLl.addView(rightBtn);
 
         buttonLl.addView(buttonLLl);
 
-//        LayoutParams footsepLp = ViewUtil.getLinearLayoutParams(3);
-//        footsepLp.width = 2;
-//        footsepLp.height = 110;
-//        View footseprator = ViewUtil.getView(context, footsepLp);
-//        footseprator.setBackgroundColor(Color.parseColor(attrs.sepLineColor));
-//        buttonLl.addView(footseprator);
+        LayoutParams footsepLp = ViewUtil.getLinearLayoutParams(3);
+        footsepLp.width = 2;
+        footsepLp.height = 110;
+        View footseprator = ViewUtil.getView(context, footsepLp);
+        footseprator.setBackgroundColor(Color.parseColor(attrs.sepLineColor));
+        buttonLl.addView(footseprator);
 
-//        buttonLl.addView(buttonRLl);
+        buttonLl.addView(buttonRLl);
 
         leftBtn.setOnClickListener(new OnClickListener() {
             @Override
@@ -466,13 +466,13 @@ public class DialogUtil {
             }
         });
 
-//        rightBtn.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (click != null)
-//                    click.rightBtnClick(dlg);
-//            }
-//        });
+        rightBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (click != null)
+                    click.rightBtnClick(dlg);
+            }
+        });
         return buttonLl;
     }
 

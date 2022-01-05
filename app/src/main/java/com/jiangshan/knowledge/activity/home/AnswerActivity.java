@@ -3,17 +3,13 @@ package com.jiangshan.knowledge.activity.home;
 import static com.umeng.socialize.utils.ContextUtil.getContext;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -53,6 +49,8 @@ import com.jiangshan.knowledge.http.entity.QuestionInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
+import com.jiangshan.knowledge.uitl.AlertButtonClick;
+import com.jiangshan.knowledge.uitl.DialogUtil;
 import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
@@ -132,8 +130,12 @@ public class AnswerActivity extends BaseActivity {
 
     private int fontSizeValue;
 
-    public ConvenientBanner getAnswer() {
-        return answer;
+    public void showAnswer() {
+        int currentIndex = answer.getCurrentItem();
+        Question question = questionDatas.get(currentIndex);
+        question.setShowAnswer(!question.isShowAnswer());
+        answer.notifyDataSetChanged();
+        answer.setCurrentItem(currentIndex, false);
     }
 
     @Override
@@ -153,7 +155,7 @@ public class AnswerActivity extends BaseActivity {
         getPermisson();
     }
 
-    private void setSeeView(){
+    private void setSeeView() {
         FloatingWindowUtils.getInstance().init(this);
         FloatingWindowUtils.getInstance().showFloatingWindow(R.layout.floating_view);
     }
@@ -236,7 +238,10 @@ public class AnswerActivity extends BaseActivity {
                     chapterMainAdapter.notifyDataSetChanged();
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
-                    setSeeView();
+                    boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+                    if (!showAnalysis) {
+                        setSeeView();
+                    }
                 }
             }
         });
@@ -289,6 +294,8 @@ public class AnswerActivity extends BaseActivity {
             bgColorValue = "#ffffff";
         }
         answer.setBackgroundColor(Color.parseColor(bgColorValue));
+        rvChapterMain.setBackgroundColor(Color.parseColor(bgColorValue));
+        llAnswerCount.setBackgroundColor(Color.parseColor(bgColorValue));
         setModel();
         setListener();
     }
@@ -300,6 +307,8 @@ public class AnswerActivity extends BaseActivity {
                 LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue, colorDatas.get(position).getCorlorStr());
                 answer.notifyDataSetChanged();
                 answer.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
+                rvChapterMain.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
+                llAnswerCount.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
                 llSettingLine.setVisibility(View.GONE);
             }
         });
@@ -370,7 +379,24 @@ public class AnswerActivity extends BaseActivity {
         operate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                examEnd();
+                DialogUtil.DialogAttrs attrs = new DialogUtil.DialogAttrs();
+                attrs.msg = "确定提交吗？";
+                attrs.textGravity = Gravity.CENTER;
+                attrs.btnVal = new String[]{"取消", "确定"};
+                attrs.isCancelable = Boolean.FALSE;
+                DialogUtil.alertDialog(AnswerActivity.this, attrs, new AlertButtonClick() {
+                    @Override
+                    public void leftBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                    }
+
+                    @Override
+                    public void rightBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                        examEnd();
+                    }
+                });
+
             }
         });
 
@@ -501,7 +527,7 @@ public class AnswerActivity extends BaseActivity {
     public void nextQuestion(boolean answerRight) {
         if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
             answer.setCurrentItem(answer.getCurrentItem() + 1, false);
-        } else if (settingVibrator) {
+        } else if (settingVibrator && !answerRight) {
             vibrator();
         }
     }

@@ -11,6 +11,6 @@ public class TestServer extends ReleaseServer {
     @Override
     public String getHost() {
         return "https://api.51kpm.com/app";
-//        return "http://172.16.31.235:8181/app/";
+//        return "http://172.16.20.129:8181/app/";
     }
 }

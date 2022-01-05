@@ -40,6 +40,7 @@ import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.DateUtil;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.CustomLoadMoreView;
+import com.xuexiang.xupdate.XUpdate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,7 +107,7 @@ public class HomeActivity extends BaseActivity {
         rvMenu = findView(R.id.rv_menu);
         menuDatas.add(new Menu(1, "随机练习"));
         menuDatas.add(new Menu(2, "章节练习"));
-        menuDatas.add(new Menu(3, "真题练习"));
+        menuDatas.add(new Menu(3, "真题考试"));
         menuDatas.add(new Menu(4, "模拟考试"));
         menuDatas.add(new Menu(5, "错题集"));
         menuDatas.add(new Menu(6, "答题历史"));
@@ -254,6 +255,7 @@ public class HomeActivity extends BaseActivity {
                         Passport passport = result.getData();
                         LocalDataUtils.saveLocalData(HomeActivity.this, LocalDataUtils.localUserName, LocalDataUtils.passport, new Gson().toJson(passport));
                         setExamDay();
+                        updateApk();
                     }
                 });
     }

@@ -1,7 +1,10 @@
 package com.jiangshan.knowledge.activity.person;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,13 +65,13 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTitle("登录");
-        setBackViewVisiable();
-
+//        setBackViewVisiable();
         initView();
         getTicket();
+        hideBottomUIMenu();
     }
 
-    private void loginPhone() {
+    private void loginPhone() {//18900711210
         LoginApi loginApi = new LoginApi();
         if (etPsd.getText().length() != 0 && etAccount.getText().length() != 0) {
             if (errorCount >= 3) {
@@ -98,10 +101,10 @@ public class LoginActivity extends BaseActivity {
                             } else {
                                 ToastUtils.show(result.getMsg());
                                 errorCount++;
-                                Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha?" + System.currentTimeMillis()).into(ivCaptcha);
-                                if (errorCount >= 3) {
+                                if (errorCount >= 3 || 412 == result.getCode() || 411 == result.getCode()) {
                                     llCaptcha.setVisibility(View.VISIBLE);
                                 }
+                                getTicket();
                             }
                         }
 
@@ -144,7 +147,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<String> result) {
                         ticket = result.getData();
-                        Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha?" + System.currentTimeMillis()).into(ivCaptcha);
+                        Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha/" + ticket + "?" + System.currentTimeMillis()).into(ivCaptcha);
                     }
                 });
 
@@ -157,8 +160,7 @@ public class LoginActivity extends BaseActivity {
         ivCaptcha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha?" + System.currentTimeMillis()).into(ivCaptcha);
-                ivCaptcha.invalidate();
+                Glide.with(LoginActivity.this).load("https://api.51kpm.com/app/passport/captcha/" + ticket + "?" + System.currentTimeMillis()).into(ivCaptcha);
             }
         });
 
@@ -268,4 +270,16 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
+    protected void hideBottomUIMenu() {
+        //隐藏虚拟按键，并且全屏
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            Window _window = getWindow();
+            WindowManager.LayoutParams params = _window.getAttributes();
+            params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+            _window.setAttributes(params);
+        }
+    }
 }

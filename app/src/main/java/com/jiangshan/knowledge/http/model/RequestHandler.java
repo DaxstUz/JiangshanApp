@@ -150,14 +150,11 @@ public final class RequestHandler implements IRequestHandler {
         // 判断这个异常是不是自己抛的
         if (e instanceof HttpException) {
             if (e instanceof TokenException) {
-//                if(!api.getApi().contains("passport/login/")){
                     // 登录信息失效，跳转到登录页
+                    EasyLog.print("token失效http地址："+api.getApi());
                     Intent intent= new Intent(mApplication, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                     mApplication.startActivity(intent);
-//                }else{
-//                    ToastUtils.show(e.getMessage());
-//                }
             }
             return e;
         }

@@ -9,30 +9,43 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
+import com.hjq.http.EasyLog;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.ExamMarkActivity;
 import com.jiangshan.knowledge.activity.home.HistoryAnswerActivity;
+import com.jiangshan.knowledge.application.OKHttpUpdateHttpService;
 import com.jiangshan.knowledge.http.api.GetExamHistoryStatisticsApi;
 import com.jiangshan.knowledge.http.api.GetMarkCountApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.HistoryStatistics;
 import com.jiangshan.knowledge.http.entity.MarkCount;
+import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.jiangshan.knowledge.view.MyUpdateDialog;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.xuexiang.xupdate.entity.PromptEntity;
+import com.xuexiang.xupdate.entity.UpdateEntity;
+import com.xuexiang.xupdate.listener.IUpdateParseCallback;
+import com.xuexiang.xupdate.proxy.IPrompterProxy;
+import com.xuexiang.xupdate.proxy.IUpdateParser;
+import com.xuexiang.xupdate.proxy.impl.DefaultUpdateDownloader;
+import com.xuexiang.xupdate.service.OnFileDownloadListener;
+import com.xuexiang.xupdate.utils.FileUtils;
 
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
 
@@ -223,6 +236,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.item_conf_share:
 //                share(0, "测试分享标题", "测试风险内容", "http://www.baidu.com");
+
                 break;
             case R.id.btn_set:
                 startActivity(new Intent(getApplicationContext(), SettingActivity.class));
@@ -255,6 +269,36 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 startActivity(intent);
                 break;
 
+        }
+    }
+
+    public class CustomUpdateParser implements IUpdateParser {
+        @Override
+        public UpdateEntity parseJson(String json) throws Exception {
+
+            EasyLog.print("CustomUpdateParser parseJson:"+json);
+            Passport passport = new Gson().fromJson(json,Passport.class);
+            if (passport != null) {
+                return new UpdateEntity()
+                        .setHasUpdate(true)
+                        .setIsIgnorable(false)
+                        .setVersionCode(10)
+                        .setVersionName(passport.getAppVersion())
+                        .setUpdateContent(passport.getNoticeInfo())
+                        .setDownloadUrl(passport.getAppPath())
+                        .setSize(100);
+            }
+            return null;
+        }
+
+        @Override
+        public void parseJson(String json, IUpdateParseCallback callback) throws Exception {
+
+        }
+
+        @Override
+        public boolean isAsyncParser() {
+            return false;
         }
     }
 }

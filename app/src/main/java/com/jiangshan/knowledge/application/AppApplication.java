@@ -1,5 +1,7 @@
 package com.jiangshan.knowledge.application;
 
+import static com.xuexiang.xupdate.entity.UpdateError.ERROR.CHECK_NO_NEW_VERSION;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -24,6 +26,10 @@ import com.tencent.mmkv.MMKV;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
+import com.xuexiang.xupdate.XUpdate;
+import com.xuexiang.xupdate.entity.UpdateError;
+import com.xuexiang.xupdate.listener.OnUpdateFailureListener;
+import com.xuexiang.xupdate.utils.UpdateUtils;
 
 import okhttp3.OkHttpClient;
 
@@ -46,8 +52,31 @@ public class AppApplication extends Application {
         initUmeng();
         initHttp();
         initH5Web();
+
+        initUpdateApp();
     }
 
+    private void initUpdateApp(){
+        
+        XUpdate.get()
+                .debug(true)
+                .isWifiOnly(true)    //默认设置只在wifi下检查版本更新
+                .isGet(true)         //默认设置使用get请求检查版本
+                .isAutoMode(false)   //默认设置非自动模式，可根据具体使用配置
+                .param("versionCode", UpdateUtils.getVersionCode(this)) //设置默认公共请求参数
+                .param("appKey", getPackageName())
+                .setOnUpdateFailureListener(new OnUpdateFailureListener() { //设置版本更新出错的监听
+                    @Override
+                    public void onFailure(UpdateError error) {
+                        if (error.getCode() != CHECK_NO_NEW_VERSION) { //对不同错误进行处理
+                            ToastUtils.show(error.getMessage());
+                        }
+                    }
+                })
+                .supportSilentInstall(true)  //设置是否支持静默安装，默认是true
+                .setIUpdateHttpService(new OKHttpUpdateHttpService()) //这个必须设置！实现网络请求功能。
+                .init(this);
+    }
 
     private void initUmeng() {
 

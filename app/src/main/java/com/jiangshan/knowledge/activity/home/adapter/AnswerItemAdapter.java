@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.activity.home.adapter;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
@@ -43,10 +44,7 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
         content = content.replace("\n", "");
         baseViewHolder.setText(R.id.tv_answer_content, content);
 
-//        boolean modelLight = LocalDataUtils.getLocalDataBoolean(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.modelLight);
-//        if(!modelLight){
-//            tv_answer_content.setTextColor(Color.parseColor("#cdcdcd"));
-//        }else{
+
         String bgColorValue = LocalDataUtils.getLocalData(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
         if (null == bgColorValue || bgColorValue.length() == 0) {
             bgColorValue = "#ffffff";
@@ -69,10 +67,9 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
             bgColorValue = "#cdcdcd";
         }
         tv_answer_content.setTextColor(Color.parseColor(bgColorValue));
-//        }
 
+        String optionNo = data.getOptionNo();
         if (null != userAnswerList && null != choiceAnswerList) {
-            String optionNo = data.getOptionNo();
             if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
                 baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
                 baseViewHolder.setText(R.id.tv_answer_option, "");
@@ -88,6 +85,11 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
             baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
         }
 
+        boolean showAnalysis = ((Activity) getContext()).getIntent().getBooleanExtra("showAnalysis", false);
+        if (showAnalysis && choiceAnswerList.contains(optionNo)) {
+            baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
+            baseViewHolder.setText(R.id.tv_answer_option, "");
+        }
     }
 
     public Set<String> getChoiceAnswerList() {

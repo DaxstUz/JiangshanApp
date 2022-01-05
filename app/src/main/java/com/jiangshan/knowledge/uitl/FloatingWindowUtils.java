@@ -29,13 +29,11 @@ public class FloatingWindowUtils {
     private View floatView;
 
     private FloatingWindowUtils() {
-
     }
 
     private static class InstanceHolder {
 
         @SuppressLint("StaticFieldLeak")
-
         private static final FloatingWindowUtils sInstance = new FloatingWindowUtils();
 
         private InstanceHolder() {
@@ -102,9 +100,9 @@ public class FloatingWindowUtils {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(context, "点击了悬浮窗", Toast.LENGTH_SHORT).show();
-                boolean showAnalysis = ((AnswerActivity)context).getIntent().getBooleanExtra("showAnalysis", false);
-                ((AnswerActivity)context).getIntent().putExtra("showAnalysis", !showAnalysis);
-                ((AnswerActivity)context).getAnswer().notifyDataSetChanged();
+//                boolean showAnalysis = ((AnswerActivity)context).getIntent().getBooleanExtra("showAnalysis", false);
+//                ((AnswerActivity)context).getIntent().putExtra("showAnalysis", !showAnalysis);
+                ((AnswerActivity)context).showAnswer();
             }
         });
 

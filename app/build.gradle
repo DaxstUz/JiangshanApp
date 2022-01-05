@@ -120,4 +120,10 @@ dependencies {
 //    implementation  "com.alibaba.android:ddsharesdk:1.2.0@jar"//钉钉官方依赖库，必选
 //    implementation  'com.umeng.umsdk:share-alipay:7.1.6'//支付宝完整版
 
+    // androidx版本
+    implementation 'com.github.xuexiangjys:XUpdate:2.1.1'
+
+    //网络请求的实现一
+    implementation 'com.zhy:okhttputils:2.6.2'
+
 }

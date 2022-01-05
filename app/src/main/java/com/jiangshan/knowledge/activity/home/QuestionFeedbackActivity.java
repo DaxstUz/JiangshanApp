@@ -129,7 +129,7 @@ public class QuestionFeedbackActivity extends BaseActivity {
                             DialogUtil.DialogAttrs attrs = new DialogUtil.DialogAttrs();
                             attrs.msg = "感谢您提交本题问题反馈！";
                             attrs.textGravity = Gravity.CENTER;
-                            attrs.btnVal = new String[]{"确定"};
+                            attrs.btnVal = new String[]{"取消","确定"};
                             attrs.isCancelable = Boolean.FALSE;
                             DialogUtil.alertDialog(QuestionFeedbackActivity.this, attrs, new AlertButtonClick() {
                                 @Override

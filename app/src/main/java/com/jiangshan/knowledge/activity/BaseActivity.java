@@ -11,26 +11,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.hjq.http.EasyLog;
 import com.hjq.http.listener.OnHttpListener;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.activity.person.LoginActivity;
+import com.jiangshan.knowledge.activity.person.PersonActivity;
+import com.jiangshan.knowledge.application.OKHttpUpdateHttpService;
 import com.jiangshan.knowledge.http.entity.Course;
+import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.jiangshan.knowledge.view.MyUpdateDialog;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.xuexiang.xupdate.entity.PromptEntity;
+import com.xuexiang.xupdate.entity.UpdateEntity;
+import com.xuexiang.xupdate.proxy.IPrompterProxy;
+import com.xuexiang.xupdate.proxy.impl.DefaultUpdateDownloader;
+import com.xuexiang.xupdate.service.OnFileDownloadListener;
+import com.xuexiang.xupdate.utils.FileUtils;
 
 import okhttp3.Call;
 
@@ -262,5 +274,48 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
         return false;
+    }
+
+    protected void updateApk(){
+        Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
+
+
+        UpdateEntity updateEntity = new UpdateEntity()
+                .setHasUpdate(true)
+                .setIsIgnorable(false)
+                .setVersionCode(10)
+                .setVersionName(passport.getAppVersion())
+                .setApkCacheDir(FileUtils.getAppExtPath(this))
+                .setUpdateContent(passport.getNoticeInfo())
+                .setDownloadUrl(passport.getAppPath())
+                .setIUpdateHttpService(new OKHttpUpdateHttpService())
+                ;
+
+        MyUpdateDialog.newInstance(this, updateEntity, new IPrompterProxy() {
+            @Override
+            public String getUrl() {
+                return null;
+            }
+
+            @Override
+            public void startDownload(@NonNull UpdateEntity updateEntity, @Nullable OnFileDownloadListener downloadListener) {
+                new DefaultUpdateDownloader().startDownload(updateEntity,downloadListener);
+            }
+
+            @Override
+            public void backgroundDownload() {
+                EasyLog.print("backgroundDownload");
+            }
+
+            @Override
+            public void cancelDownload() {
+                EasyLog.print("cancelDownload");
+            }
+
+            @Override
+            public void recycle() {
+
+            }
+        }, new PromptEntity()).show();
     }
 }
