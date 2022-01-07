@@ -22,12 +22,10 @@ import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.activity.person.LoginActivity;
-import com.jiangshan.knowledge.activity.person.PersonActivity;
 import com.jiangshan.knowledge.application.OKHttpUpdateHttpService;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
-import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.MyUpdateDialog;
@@ -43,6 +41,7 @@ import com.xuexiang.xupdate.proxy.IPrompterProxy;
 import com.xuexiang.xupdate.proxy.impl.DefaultUpdateDownloader;
 import com.xuexiang.xupdate.service.OnFileDownloadListener;
 import com.xuexiang.xupdate.utils.FileUtils;
+import com.xuexiang.xupdate.utils.UpdateUtils;
 
 import okhttp3.Call;
 
@@ -70,7 +69,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
     /**
      * 调用震动
      */
-    protected void vibrator(){
+    protected void vibrator() {
         myVibrator.cancel();
         myVibrator.vibrate(300);
 //        myVibrator.vibrate(new long[]{100, 200, 100, 200}, 0);
@@ -256,29 +255,33 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 //        hideDialog();
     }
 
-    protected boolean judgeSuject(){
+    protected boolean judgeSuject() {
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
-        if(null==subject || null==course){
+        if (null == subject || null == course) {
             startActivity(new Intent(getApplicationContext(), SubjectDetailActivity.class));
             return false;
         }
         return true;
     }
 
-    protected boolean judgeLogin(){
+    protected boolean judgeLogin() {
         String userStr = LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.keyUser);
         if (null != userStr) {
             return true;
-        }else{
+        } else {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
         return false;
     }
 
-    protected void updateApk(){
+    protected void updateApk() {
         Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
-
+        String versionName = UpdateUtils.getVersionName(this);
+        int verson = UpdateUtils.compareVersionName(passport.getAppVersion(), versionName);
+        if (verson <= 0) {
+            return;
+        }
 
         UpdateEntity updateEntity = new UpdateEntity()
                 .setHasUpdate(true)
@@ -288,8 +291,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
                 .setApkCacheDir(FileUtils.getAppExtPath(this))
                 .setUpdateContent(passport.getNoticeInfo())
                 .setDownloadUrl(passport.getAppPath())
-                .setIUpdateHttpService(new OKHttpUpdateHttpService())
-                ;
+                .setIUpdateHttpService(new OKHttpUpdateHttpService());
 
         MyUpdateDialog.newInstance(this, updateEntity, new IPrompterProxy() {
             @Override
@@ -299,7 +301,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 
             @Override
             public void startDownload(@NonNull UpdateEntity updateEntity, @Nullable OnFileDownloadListener downloadListener) {
-                new DefaultUpdateDownloader().startDownload(updateEntity,downloadListener);
+                new DefaultUpdateDownloader().startDownload(updateEntity, downloadListener);
             }
 
             @Override
