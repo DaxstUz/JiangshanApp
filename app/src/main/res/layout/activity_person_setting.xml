@@ -131,6 +131,22 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_change_psd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@color/b1"
+        android:onClick="onClick"
+        android:padding="@dimen/border_padding_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改密码"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_clear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

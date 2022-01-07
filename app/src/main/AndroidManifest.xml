@@ -129,6 +129,11 @@
         <activity
             android:name=".activity.person.SettingActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.person.ChangePsdActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.person.SpecialContentActivity"
             android:screenOrientation="portrait" />
