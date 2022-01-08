@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.activity.person;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -63,7 +65,7 @@ public class ChangePhoneActivity extends BaseActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (second > 1) {
+            if (second > 1&& second<=60) {
                 second--;
                 tvPhoneCode.setText(second + "秒后获取验证码");
                 handler.postDelayed(new Runnable() {
@@ -85,7 +87,8 @@ public class ChangePhoneActivity extends BaseActivity {
         tvPhoneCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (second == 60) {
+                if (second >= 60) {
+                    second = 60;
                     handler.sendMessage(Message.obtain());
                     getSmsCode();
                 }
@@ -101,6 +104,7 @@ public class ChangePhoneActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Glide.with(ChangePhoneActivity.this).load("https://api.51kpm.com/app/passport/captcha/" + ticket + "?" + System.currentTimeMillis()).into(ivCaptcha);
+//                Glide.with(ChangePhoneActivity.this).load("http://172.16.20.134:8181/app/passport/captcha/" + ticket + "?" + System.currentTimeMillis()).into(ivCaptcha);
             }
         });
     }
@@ -116,6 +120,7 @@ public class ChangePhoneActivity extends BaseActivity {
                     public void onSucceed(HttpData<String> result) {
                         ticket = result.getData();
                         Glide.with(ChangePhoneActivity.this).load("https://api.51kpm.com/app/passport/captcha/" + ticket + "?" + System.currentTimeMillis()).into(ivCaptcha);
+//                        Glide.with(ChangePhoneActivity.this).load("http://172.16.20.134:8181/app/passport/captcha/" + ticket + "?" + System.currentTimeMillis()).into(ivCaptcha);
                     }
                 });
 
@@ -144,6 +149,8 @@ public class ChangePhoneActivity extends BaseActivity {
                     public void onSucceed(HttpData<String> result) {
                         if (result.isSuccess()) {
                         } else {
+                            second = 61;
+                            tvPhoneCode.setText("获取验证码");
                             ToastUtils.show(result.getMsg());
                         }
                     }
@@ -163,15 +170,11 @@ public class ChangePhoneActivity extends BaseActivity {
             ToastUtils.show("请输入手机号！");
             return;
         }
-        if (etCaptcha.getText().length() == 0) {
-            ToastUtils.show("请输入图形验证码！");
-            return;
-        }
         if (etPhoneCode.getText().length() == 0) {
             ToastUtils.show("请输入手机验证码！");
             return;
         }
-        changePonewApi.setSmsCode(etCaptcha.getText().toString()).setMobileNumber(etPhone.getText().toString()).setOpenid(user.getOpenId());
+        changePonewApi.setSmsCode(etPhoneCode.getText().toString()).setMobileNumber(etPhone.getText().toString()).setOpenid(user.getOpenId());
         EasyHttp.post(this)
                 .api(changePonewApi)
                 .request(new HttpCallback<HttpData<User>>(this) {
@@ -179,6 +182,13 @@ public class ChangePhoneActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<User> result) {
                         if (result.isSuccess()) {
+                            EasyConfig.getInstance().addParam("token", result.getData().getToken());
+                            EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
+                            if(0==getIntent().getIntExtra("firstChangePassword",1)){
+                                Intent intent = new Intent(ChangePhoneActivity.this, ChangePsdActivity.class);
+                                intent.putExtra("firstChangePassword", 0);
+                                ChangePhoneActivity.this.startActivity(intent);
+                            }
                             setResult(RESULT_OK);
                             finish();
                         } else {

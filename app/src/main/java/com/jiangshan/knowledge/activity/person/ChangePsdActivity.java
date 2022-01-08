@@ -1,6 +1,5 @@
 package com.jiangshan.knowledge.activity.person;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -85,8 +84,6 @@ public class ChangePsdActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<User> result) {
                         if (result.isSuccess()) {
-                            Intent intent = new Intent(ChangePsdActivity.this, ChangePhoneActivity.class);
-                            ChangePsdActivity.this.startActivity(intent);
                             setResult(RESULT_OK);
                             finish();
                         } else {

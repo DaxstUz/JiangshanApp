@@ -168,6 +168,9 @@ public class LearnListActivity extends BaseActivity {
 
     private void getRankData() {
         Subject subject = LocalDataUtils.getSubject(this);
+        if(null==subject){
+            return;
+        }
         EasyHttp.get(this)
                 .api(new GetRankApi().setSujectCode(subject.getSubjectCode()).setPageNum(pageNum).setRankType(rankType))
                 .request(new HttpCallback<HttpListData<Rank>>(this) {

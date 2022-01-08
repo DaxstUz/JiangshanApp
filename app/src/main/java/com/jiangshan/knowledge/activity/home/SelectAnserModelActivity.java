@@ -59,7 +59,7 @@ public class SelectAnserModelActivity extends BaseActivity {
         setTitle("江山老师题库");
         setBackViewVisiable();
 
-        memberType = getIntent().getIntExtra("memberType", 1);
+        memberType = getIntent().getIntExtra("memberType", 0);
 
         initView();
         updateUI();

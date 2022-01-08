@@ -40,7 +40,6 @@ import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.DateUtil;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.CustomLoadMoreView;
-import com.xuexiang.xupdate.XUpdate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,6 +83,7 @@ public class HomeActivity extends BaseActivity {
         Course course = LocalDataUtils.getCourse(this);
         if (null == course || course.getCourseName().length() == 0) {
             setTitle("请选择科目");
+            startActivity(new Intent(getApplicationContext(), SubjectDetailActivity.class));
         } else {
             setTitle(course.getCourseName());
         }
@@ -276,10 +276,10 @@ public class HomeActivity extends BaseActivity {
                 }
             }
             if (null != subjectInfo) {
-                int day = (int) ((DateUtil.paseFromLong(subjectInfo.getExamTime()).getTime()-new Date().getTime()) / 24 / 60 / 60 / 1000);
-                if(day>0){
+                int day = (int) ((DateUtil.paseFromLong(subjectInfo.getExamTime()).getTime() - new Date().getTime()) / 24 / 60 / 60 / 1000);
+                if (day > 0) {
                     tvExamDay.setText(day + "天");
-                }else{
+                } else {
                     tvTips.setText("江山老师恭祝您考试顺利通过！");
                     tvExamDay.setVisibility(View.GONE);
                 }
