@@ -26,11 +26,19 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            // true - 打开混淆
+            minifyEnabled true
+            // true - 打开资源压缩
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.jianshan_sign
         }
         debug {
+            // true - 打开混淆
+            minifyEnabled true
+            // true - 打开资源压缩
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.jianshan_sign
         }
     }

@@ -277,12 +277,15 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 
     protected void updateApk() {
         Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
+        if (null==passport) {
+            return;
+        }
         String versionName = UpdateUtils.getVersionName(this);
         int verson = UpdateUtils.compareVersionName(passport.getAppVersion(), versionName);
+        EasyLog.print("本地版本："+versionName+"  远程版本:"+passport.getAppVersion());
         if (verson <= 0) {
             return;
         }
-
         UpdateEntity updateEntity = new UpdateEntity()
                 .setHasUpdate(true)
                 .setIsIgnorable(false)

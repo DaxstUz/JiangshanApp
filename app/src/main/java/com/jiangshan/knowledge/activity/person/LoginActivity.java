@@ -123,13 +123,15 @@ public class LoginActivity extends BaseActivity {
 
     private void getMemberData() {
         Subject subject = LocalDataUtils.getSubject(this);
+        if(null==subject){
+            return;
+        }
         EasyHttp.get(this)
                 .api(new GetMemberInfoApi().setSubjectCode(subject.getSubjectCode()))
                 .request(new HttpCallback<HttpData<MemberInfo>>(this) {
                     @Override
                     public void onSucceed(HttpData<MemberInfo> result) {
                         if (result.isSuccess()) {
-                            MemberInfo memberInfo = result.getData();
                             Gson gson = new Gson();
                             String member = gson.toJson(result.getData());
                             LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
