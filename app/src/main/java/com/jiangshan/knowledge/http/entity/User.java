@@ -13,6 +13,34 @@ public class User implements Serializable {
     private String gender;
     private String token;
 
+    private String openId;
+    private String mobileNumber;
+    private int firstChangePassword;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public int getFirstChangePassword() {
+        return firstChangePassword;
+    }
+
+    public void setFirstChangePassword(int firstChangePassword) {
+        this.firstChangePassword = firstChangePassword;
+    }
+
     public int getUserId() {
         return userId;
     }

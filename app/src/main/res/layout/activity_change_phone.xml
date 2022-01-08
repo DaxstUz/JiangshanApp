@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:orientation="vertical">
@@ -23,24 +24,21 @@
                 android:id="@+id/ll_old_psd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="手机号:"
                     android:textSize="18sp" />
-<!--                15013211890-->
+                <!--                15013211890-->
                 <EditText
-                    android:id="@+id/et_old_psd"
+                    android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="请输入手机号"
-                    android:inputType="phone"
-                    />
+                    android:inputType="phone" />
             </LinearLayout>
 
 
@@ -48,17 +46,15 @@
                 android:id="@+id/ll_captcha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:visibility="visible"
-                android:paddingRight="10dp">
+                android:paddingRight="10dp"
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="验证码:"
+                    android:text="图形验证码:"
                     android:textSize="18sp" />
                 <!--                123456-->
                 <EditText
@@ -66,18 +62,17 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:hint="请输入验证码"
-                    />
+                    android:maxLines="1" />
+
                 <ImageView
                     android:id="@+id/iv_captcha"
                     android:layout_width="60dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
@@ -89,15 +84,19 @@
                     android:textSize="18sp" />
                 <!--                123456-->
                 <EditText
-                    android:id="@+id/et_captcha2"
-                    android:layout_width="120dp"
+                    android:id="@+id/et_phone_code"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:hint="请输入验证码"
-                    />
-                <ImageView
-                    android:id="@+id/iv_captcha2"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"/>
+                    android:hint="手机验证码"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:id="@+id/tv_phone_code"
+                    android:layout_width="wrap_content"
+                    android:text="获取验证码"
+                    android:padding="@dimen/border_padding_5"
+                    android:background="@drawable/change_font_size_bg"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -110,6 +109,7 @@
                 android:gravity="center"
                 android:onClick="onMyCLick"
                 android:padding="10dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

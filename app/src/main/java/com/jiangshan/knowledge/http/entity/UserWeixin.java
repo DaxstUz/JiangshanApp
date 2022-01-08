@@ -26,6 +26,14 @@ public class UserWeixin extends User {
     private String sex;
     private String ticket;
 
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
+
     public String getTicket() {
         return ticket;
     }
@@ -169,11 +177,4 @@ public class UserWeixin extends User {
         this.unionid = unionid;
     }
 
-    public String getOpenid() {
-        return openid;
-    }
-
-    public void setOpenid(String openid) {
-        this.openid = openid;
-    }
 }

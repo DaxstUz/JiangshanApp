@@ -133,6 +133,9 @@
         <activity
             android:name=".activity.person.ChangePsdActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.person.ChangePhoneActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.person.SpecialContentActivity"

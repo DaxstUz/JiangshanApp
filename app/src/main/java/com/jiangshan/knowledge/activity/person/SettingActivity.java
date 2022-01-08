@@ -64,7 +64,8 @@ public class SettingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_change_psd:
-                startActivity(new Intent(SettingActivity.this,ChangePsdActivity.class));
+//                startActivity(new Intent(SettingActivity.this,ChangePsdActivity.class));
+                startActivity(new Intent(SettingActivity.this,ChangePhoneActivity.class));
                 break;
             case R.id.switch_answer_show:
                 LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow, switchAnswerShow.isChecked());

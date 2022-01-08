@@ -227,14 +227,21 @@ public class LoginActivity extends BaseActivity {
                         if (result.isSuccess()) {
                             Gson gson = new Gson();
                             String user = gson.toJson(result.getData());
+                            EasyLog.print("user ===>" + user);
                             LocalDataUtils.saveLocalData(LoginActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, user);
                             EasyConfig.getInstance().addParam("token", result.getData().getToken());
                             EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
                             setResult(RESULT_OK);
                             getInitData();
-                            Intent intent=new Intent(LoginActivity.this,ChangePsdActivity.class);
-                            intent.putExtra("firstChangePassword",0);
-                            LoginActivity.this.startActivity(intent);
+
+                            if (result.getData().getFirstChangePassword() == 0) {
+                                Intent intent = new Intent(LoginActivity.this, ChangePsdActivity.class);
+                                intent.putExtra("firstChangePassword", 0);
+                                LoginActivity.this.startActivity(intent);
+                            } else if (result.getData().getMobileNumber().length() == 0) {
+                                Intent intent = new Intent(LoginActivity.this, ChangePhoneActivity.class);
+                                LoginActivity.this.startActivity(intent);
+                            }
                             finish();
                         }
                     }
