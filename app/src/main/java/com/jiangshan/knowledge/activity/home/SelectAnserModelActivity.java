@@ -17,16 +17,15 @@ import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.ExamHistoryListAdapter;
 import com.jiangshan.knowledge.http.api.GetExamHistoryListApi;
-import com.jiangshan.knowledge.http.api.GetExamHistoryStatisticsApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.ExamHistory;
-import com.jiangshan.knowledge.http.entity.HistoryStatistics;
+import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
-import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.CustomLoadMoreView;
@@ -51,6 +50,8 @@ public class SelectAnserModelActivity extends BaseActivity {
 
     private int pageNum = 1;
 
+    private int memberType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +59,10 @@ public class SelectAnserModelActivity extends BaseActivity {
         setTitle("江山老师题库");
         setBackViewVisiable();
 
+        memberType = getIntent().getIntExtra("memberType", 1);
+
         initView();
         updateUI();
-
         initLoadMore();
     }
 
@@ -76,49 +78,57 @@ public class SelectAnserModelActivity extends BaseActivity {
                 Intent intent = new Intent(SelectAnserModelActivity.this, AnswerActivity.class);
                 intent.putExtra("examCode", datas.get(position).getExamCode());
                 intent.putExtra("examName", datas.get(position).getExamName());
-                intent.putExtra("showAnalysis",true);
+                intent.putExtra("showAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }
         });
 
-        subjectName=findViewById(R.id.tv_subject_name);
-        courseName=findViewById(R.id.tv_course);
+        subjectName = findViewById(R.id.tv_subject_name);
+        courseName = findViewById(R.id.tv_course);
 
-        rbAnalysis=findViewById(R.id.rb_bg_analysis);
+        rbAnalysis = findViewById(R.id.rb_bg_analysis);
         rbAnalysis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(SelectAnserModelActivity.this,AnswerActivity.class);
-                intent.putExtra("examName",getIntent().getStringExtra("examName"));
-                intent.putExtra("examCode",getIntent().getStringExtra("examCode"));
-                intent.putExtra("examType",getIntent().getIntExtra("examType",1));
-                intent.putExtra("showAnalysis",true);
-                startActivityForResult(intent,RESULT_OK);
+                if (canEdit(memberType)) {
+                    Intent intent = new Intent(SelectAnserModelActivity.this, AnswerActivity.class);
+                    intent.putExtra("examName", getIntent().getStringExtra("examName"));
+                    intent.putExtra("examCode", getIntent().getStringExtra("examCode"));
+                    intent.putExtra("examType", getIntent().getIntExtra("examType", 1));
+                    intent.putExtra("showAnalysis", true);
+                    startActivityForResult(intent, RESULT_OK);
+                } else {
+                    ToastUtils.show("这是会员专享，请去开通会员。");
+                }
             }
         });
 
-        rbAnser=findViewById(R.id.rb_anser);
+        rbAnser = findViewById(R.id.rb_anser);
         rbAnser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(SelectAnserModelActivity.this,AnswerActivity.class);
-                intent.putExtra("examName",getIntent().getStringExtra("examName"));
-                intent.putExtra("examCode",getIntent().getStringExtra("examCode"));
-                intent.putExtra("examType",getIntent().getIntExtra("examType",1));
-                startActivityForResult(intent,RESULT_OK);
+                if (canEdit(memberType)) {
+                    Intent intent = new Intent(SelectAnserModelActivity.this, AnswerActivity.class);
+                    intent.putExtra("examName", getIntent().getStringExtra("examName"));
+                    intent.putExtra("examCode", getIntent().getStringExtra("examCode"));
+                    intent.putExtra("examType", getIntent().getIntExtra("examType", 1));
+                    startActivityForResult(intent, RESULT_OK);
+                } else {
+                    ToastUtils.show("这是会员专享，请去开通会员。");
+                }
             }
         });
     }
 
     private void updateUI() {
-        String data= LocalDataUtils.getLocalData(SelectAnserModelActivity.this,LocalDataUtils.localDataName,LocalDataUtils.keySubject);
-        if(null!=data){
-            Subject subject= new Gson().fromJson(data, Subject.class);
-            if(null!=subject){
+        String data = LocalDataUtils.getLocalData(SelectAnserModelActivity.this, LocalDataUtils.localDataName, LocalDataUtils.keySubject);
+        if (null != data) {
+            Subject subject = new Gson().fromJson(data, Subject.class);
+            if (null != subject) {
                 subjectName.setText(subject.getSubjectName());
                 String courseStr = LocalDataUtils.getLocalData(SelectAnserModelActivity.this, LocalDataUtils.localDataName, LocalDataUtils.keyCourse);
-                Course course= new Gson().fromJson(courseStr, Course.class);
-                if(null!=course){
+                Course course = new Gson().fromJson(courseStr, Course.class);
+                if (null != course) {
                     courseName.setText(course.getCourseName());
                 }
             }
@@ -135,7 +145,7 @@ public class SelectAnserModelActivity extends BaseActivity {
         }
 
         EasyHttp.get(this)
-                .api(new GetExamHistoryListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).setExamType(getIntent().getIntExtra("examType",1)).setExamCode(getIntent().getStringExtra("examCode")))
+                .api(new GetExamHistoryListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).setExamType(getIntent().getIntExtra("examType", 1)).setExamCode(getIntent().getStringExtra("examCode")))
                 .request(new HttpCallback<HttpListData<ExamHistory>>(this) {
                     @Override
                     public void onSucceed(HttpListData<ExamHistory> result) {
@@ -177,5 +187,13 @@ public class SelectAnserModelActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    private boolean canEdit(int memberType) {
+        MemberInfo memberInfo = LocalDataUtils.getMemberInfo(this);
+        if (0 < memberType && (null == memberInfo || (null != memberInfo && 0 == memberInfo.getMemberType()))) {
+            return false;
+        }
+        return true;
     }
 }

@@ -554,7 +554,7 @@ public class DateUtil {
         if (null == str) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
         return sdf.format(str);
     }

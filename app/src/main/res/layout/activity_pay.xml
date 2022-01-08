@@ -48,6 +48,14 @@
                         android:layout_toRightOf="@+id/iv_user_head"
                         android:text="名字"
                         android:textColor="@color/colorChargeText" />
+                    <ImageView
+                        android:id="@+id/iv_vip_tips"
+                        android:layout_marginLeft="@dimen/border_padding_5"
+                        android:layout_toRightOf="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/vip_tips"/>
 
                     <LinearLayout
                         android:id="@+id/ll_subject"
@@ -58,6 +66,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tv_vip_tips"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="成为会员，享多重权益"

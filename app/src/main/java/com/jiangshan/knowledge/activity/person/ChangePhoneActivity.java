@@ -19,7 +19,7 @@ import com.jiangshan.knowledge.http.model.HttpData;
 /**
  * auth s_yz  2022/1/7
  */
-public class ChangePsdActivity extends BaseActivity {
+public class ChangePhoneActivity extends BaseActivity {
 
     private EditText etOldPsd;
     private EditText etNewPsd;
@@ -32,8 +32,8 @@ public class ChangePsdActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_psd);
-        setTitle("修改密码");
+        setContentView(R.layout.activity_change_phone);
+        setTitle("绑定手机号");
         setBackViewVisiable();
 
         firstChangePassword = getIntent().getIntExtra("firstChangePassword", 1);

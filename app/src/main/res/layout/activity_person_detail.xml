@@ -145,12 +145,14 @@
         android:layout_width="match_parent"
         android:background="@drawable/charge_main_bg"
         android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/tv_vip_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="成为会员，享多重权益"
-            android:textColor="@color/colorChargeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textColor="@color/colorChargeText" />
         <TextView
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"

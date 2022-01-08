@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import com.jiangshan.knowledge.http.entity.Prepay;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
+import com.jiangshan.knowledge.uitl.DateUtil;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.uitl.PayUtil;
 import com.jiangshan.knowledge.uitl.Utils;
@@ -36,14 +38,14 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
  */
 public class PayActivity extends BaseActivity implements PayUtil {
 
-    private TextView tv_pay;
+    private TextView tvPay;
 
     private TextView tvUserName;
     private CircularImageView ivUserHead;
 
-    private LinearLayout ll_level_one;
-    private LinearLayout ll_level_two;
-    private LinearLayout ll_level_three;
+    private LinearLayout llLevelOne;
+    private LinearLayout llLevelTwo;
+    private LinearLayout llLevelThree;
 
     private TextView tvMoneyLevelOne;
     private TextView tvMoneyLevelTwo;
@@ -51,6 +53,9 @@ public class PayActivity extends BaseActivity implements PayUtil {
 
     private TextView tvMonthCount;
     private TextView tvChargeCount;
+
+    private TextView tvVipTips;
+    private ImageView ivVipTips;
 
     private int policyId = 1;
 
@@ -70,12 +75,14 @@ public class PayActivity extends BaseActivity implements PayUtil {
     }
 
     private void initView() {
-        ll_level_one = findViewById(R.id.ll_level_one);
-        ll_level_two = findViewById(R.id.ll_level_two);
-        ll_level_three = findViewById(R.id.ll_level_three);
+        llLevelOne = findViewById(R.id.ll_level_one);
+        llLevelTwo = findViewById(R.id.ll_level_two);
+        llLevelThree = findViewById(R.id.ll_level_three);
 
         tvMonthCount = findViewById(R.id.tv_month_count);
         tvChargeCount = findViewById(R.id.tv_charge_count);
+        tvVipTips = findViewById(R.id.tv_vip_tips);
+        ivVipTips = findView(R.id.iv_vip_tips);
 
         tvMoneyLevelOne = findViewById(R.id.tv_money_level_one);
         tvMoneyLevelTwo = findViewById(R.id.tv_money_level_two);
@@ -86,8 +93,8 @@ public class PayActivity extends BaseActivity implements PayUtil {
 
         tvUserName = findViewById(R.id.tv_user_name);
         ivUserHead = findViewById(R.id.iv_user_head);
-        tv_pay = findViewById(R.id.tv_pay);
-        tv_pay.setOnClickListener(new View.OnClickListener() {
+        tvPay = findViewById(R.id.tv_pay);
+        tvPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getPayOrder();
@@ -158,28 +165,28 @@ public class PayActivity extends BaseActivity implements PayUtil {
             case R.id.ll_level_one:
                 policyId = 1;
                 resetSelectBg();
-                tv_pay.setText("开通会员(6个月)");
-                ll_level_one.setBackgroundResource(R.drawable.charge_bg_money_select);
+                tvPay.setText("开通会员(6个月)");
+                llLevelOne.setBackgroundResource(R.drawable.charge_bg_money_select);
                 break;
             case R.id.ll_level_two:
                 policyId = 2;
                 resetSelectBg();
-                tv_pay.setText("开通会员(12个月)");
-                ll_level_two.setBackgroundResource(R.drawable.charge_bg_money_select);
+                tvPay.setText("开通会员(12个月)");
+                llLevelTwo.setBackgroundResource(R.drawable.charge_bg_money_select);
                 break;
             case R.id.ll_level_three:
                 policyId = 3;
                 resetSelectBg();
-                tv_pay.setText("开通会员(24个月)");
-                ll_level_three.setBackgroundResource(R.drawable.charge_bg_money_select);
+                tvPay.setText("开通会员(24个月)");
+                llLevelThree.setBackgroundResource(R.drawable.charge_bg_money_select);
                 break;
         }
     }
 
     private void resetSelectBg() {
-        ll_level_one.setBackgroundResource(R.drawable.charge_bg_money);
-        ll_level_two.setBackgroundResource(R.drawable.charge_bg_money);
-        ll_level_three.setBackgroundResource(R.drawable.charge_bg_money);
+        llLevelOne.setBackgroundResource(R.drawable.charge_bg_money);
+        llLevelTwo.setBackgroundResource(R.drawable.charge_bg_money);
+        llLevelThree.setBackgroundResource(R.drawable.charge_bg_money);
     }
 
     private void getMemberData() {
@@ -205,12 +212,14 @@ public class PayActivity extends BaseActivity implements PayUtil {
                             Gson gson = new Gson();
                             String member = gson.toJson(result.getData());
                             LocalDataUtils.saveLocalData(PayActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
-                            if(null==memberInfo||1==memberInfo.getMemberType()){
+                            if(null==memberInfo||1>memberInfo.getMemberType()){
                                 tvUserName.setText(memberInfo.getCreator()+"(非会员)");
                             }else{
                                 tvUserName.setText(memberInfo.getCreator()+"(会员)");
                                 tvMonthCount.setText(memberInfo.getMemberMonth()+"");
                                 tvChargeCount.setText(memberInfo.getTotalQty()+"");
+                                tvVipTips.setText("VIP会员 "+ DateUtil.paseFromStr(memberInfo.getEndDate())+" 到期");
+                                ivVipTips.setVisibility(View.VISIBLE);
                             }
                         }
                     }

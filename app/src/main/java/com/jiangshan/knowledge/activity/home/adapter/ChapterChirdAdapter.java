@@ -32,9 +32,9 @@ public class ChapterChirdAdapter extends BaseQuickAdapter<Chapter, BaseViewHolde
         }else{
             baseViewHolder.setVisible(R.id.ll_chapter_answer_info,false);
         }
-        if (0 < chapter.getMemberType()) {
-            baseViewHolder.setImageResource(R.id.iv_edit_icon, R.mipmap.vip);
-        }
+//        if (0 < chapter.getMemberType()) {
+//            baseViewHolder.setImageResource(R.id.iv_edit_icon, R.mipmap.vip);
+//        }
     }
 
 }

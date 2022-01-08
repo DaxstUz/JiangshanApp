@@ -38,7 +38,6 @@ public class ChapterListActivity extends BaseActivity {
         setBackViewVisiable();
 
         initView();
-
         getChapterData();
     }
 

@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.activity.person;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -68,7 +69,7 @@ public class LoginActivity extends BaseActivity {
 //        setBackViewVisiable();
         initView();
         getTicket();
-        hideBottomUIMenu();
+//        hideBottomUIMenu();
     }
 
     private void loginPhone() {//18900711210
@@ -231,11 +232,11 @@ public class LoginActivity extends BaseActivity {
                             EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
                             setResult(RESULT_OK);
                             getInitData();
+                            Intent intent=new Intent(LoginActivity.this,ChangePsdActivity.class);
+                            intent.putExtra("firstChangePassword",0);
+                            LoginActivity.this.startActivity(intent);
                             finish();
-                        } else {
-//                            wXLaunchMiniProgram();
                         }
-
                     }
 
                     @Override

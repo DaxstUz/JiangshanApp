@@ -31,63 +31,18 @@
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="原密码:"
+                    android:text="手机号:"
                     android:textSize="18sp" />
 <!--                15013211890-->
                 <EditText
                     android:id="@+id/et_old_psd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入原密码"
-                    android:inputType="textPassword"
+                    android:hint="请输入手机号"
+                    android:inputType="phone"
                     />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="新密码:"
-                    android:textSize="18sp" />
-<!--                123456-->
-                <EditText
-                    android:id="@+id/et_new_psd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请输入新密码"
-                    android:inputType="textPassword" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="密码确认:"
-                    android:textSize="18sp" />
-                <!--                123456-->
-                <EditText
-                    android:id="@+id/et_second_new_psd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="请再次输入新密码"
-                    android:inputType="textPassword" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_captcha"
@@ -97,7 +52,7 @@
                 android:layout_marginRight="30dp"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:paddingRight="10dp">
 
                 <TextView
@@ -116,6 +71,34 @@
                     android:id="@+id/iv_captcha"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="手机验证码:"
+                    android:textSize="18sp" />
+                <!--                123456-->
+                <EditText
+                    android:id="@+id/et_captcha2"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:hint="请输入验证码"
+                    />
+                <ImageView
+                    android:id="@+id/iv_captcha2"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"/>
+
             </LinearLayout>
 
             <LinearLayout

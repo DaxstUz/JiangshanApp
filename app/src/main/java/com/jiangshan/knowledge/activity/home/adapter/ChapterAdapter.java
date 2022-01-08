@@ -67,27 +67,22 @@ public class ChapterAdapter extends BaseQuickAdapter<Chapter, BaseViewHolder> {
         chapterAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                if(canEdit(chapter.getChildren().get(position).getMemberType())){
+//                if(canEdit(chapter.getChildren().get(position).getMemberType())){
                     if(chapter.getChildren().get(position).getQuestionQty()>0){
                         Intent intent = new Intent(getContext(), SelectAnserModelActivity.class);
                         intent.putExtra("examCode", chapter.getChildren().get(position).getChapterCode());
                         intent.putExtra("examName", chapter.getChildren().get(position).getChapterName());
                         intent.putExtra("examType", 3);
+                        intent.putExtra("memberType", chapter.getChildren().get(position).getMemberType());
                         getContext().startActivity(intent);
                     }
-                }else{
-                    ToastUtils.show("这是会员专享，请去开通会员。");
-                }
+//                }else{
+//                    ToastUtils.show("这是会员专享，请去开通会员。");
+//                }
             }
         });
 
     }
 
-    private boolean canEdit(int memberType) {
-        MemberInfo memberInfo = LocalDataUtils.getMemberInfo(getContext());
-        if (0 < memberType && (null == memberInfo || (null != memberInfo && 0 == memberInfo.getMemberType()))) {
-            return false;
-        }
-        return true;
-    }
+
 }
