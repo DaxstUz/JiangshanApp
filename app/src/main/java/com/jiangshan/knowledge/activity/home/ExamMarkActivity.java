@@ -68,8 +68,10 @@ public class ExamMarkActivity extends BaseActivity {
         tv_mark_title = findViewById(R.id.tv_mark_title);
         if ("error".equals(getIntent().getStringExtra("type"))) {
             tv_mark_title.setText("我的错题总数");
+            markType=2;
         } else if ("collect".equals(getIntent().getStringExtra("type"))) {
             tv_mark_title.setText("我的收藏总数");
+            markType=1;
         }
 
         rg_answer_mark = findViewById(R.id.rg_answer_mark);
@@ -79,11 +81,11 @@ public class ExamMarkActivity extends BaseActivity {
                 switch (checkedId) {
                     case R.id.rb_mark_true:
                         examType = 1;
-                        markType = 1;
+//                        markType = 1;
                         break;
                     case R.id.rb_mark_moni:
                         examType = 2;
-                        markType = 2;
+//                        markType = 2;
                         break;
                 }
                 getData();

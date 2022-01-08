@@ -27,6 +27,7 @@ import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.HistoryStatistics;
 import com.jiangshan.knowledge.http.entity.MarkCount;
 import com.jiangshan.knowledge.http.entity.MemberInfo;
+import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
@@ -228,7 +229,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(PersonActivity.this, PayActivity.class));
                 break;
             case R.id.item_conf_share:
-//                share(0, "测试分享标题", "测试风险内容", "http://www.baidu.com");
+                Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
+                if (null==passport) {
+                    return;
+                }
+                share(0, "江山老师题库app！", "江山老师题库APP提供一/二级建造师、造价工程师、信息系统项目管理师、系统集成项目管理工程师等考试题库练习及考点总结记忆！", passport.getAppPath());
                 break;
             case R.id.btn_set:
                 startActivity(new Intent(getApplicationContext(), SettingActivity.class));

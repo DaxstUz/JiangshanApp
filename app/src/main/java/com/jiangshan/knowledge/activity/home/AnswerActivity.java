@@ -482,7 +482,7 @@ public class AnswerActivity extends BaseActivity {
         int rightCount = 0;
         for (Question question : questionDatas
         ) {
-            if (null != question.getCollectFlag() && 0 == question.getCollectFlag()) {
+            if (null != question.getCollectFlag() && 1 == question.getCollectFlag()) {
                 collectCount++;
             }
             if (null != question.getWrongFlag() && 1 == question.getWrongFlag()) {
@@ -525,6 +525,7 @@ public class AnswerActivity extends BaseActivity {
     }
 
     public void nextQuestion(boolean answerRight) {
+        rvChapterMain.setVisibility(View.GONE);
         if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
             answer.setCurrentItem(answer.getCurrentItem() + 1, false);
         } else if (settingVibrator && !answerRight) {
