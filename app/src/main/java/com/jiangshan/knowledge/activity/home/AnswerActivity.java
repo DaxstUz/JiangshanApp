@@ -211,10 +211,21 @@ public class AnswerActivity extends BaseActivity {
                             questionDatas.get(i).setRank(i + 1);
                             questionDatas.get(i).setBillId(billId);
                             questionDatas.get(i).setTotal(result.getData().getTotal());
+
+                            if (1 == questionDatas.get(i).getQuestionType()) {
+                                questionDatas1.add(questionDatas.get(i));
+                            } else {
+                                questionDatas2.add(questionDatas.get(i));
+                            }
                         }
                         answer.notifyDataSetChanged();
                         chapterMainAdapter.setSelectIndex(0);
                         chapterMainAdapter.notifyDataSetChanged();
+                        if(questionDatas2.size()>0){
+                            tv_more_question.setVisibility(View.VISIBLE);
+                            chapterMainAdapter2.setSingleTotal(questionDatas1.size());
+                            chapterMainAdapter2.notifyDataSetChanged();
+                        }
                         llAnswerCount.setVisibility(View.VISIBLE);
 
                         if (questionDatas.size() > 0) {
@@ -480,6 +491,8 @@ public class AnswerActivity extends BaseActivity {
                                 ToastUtils.show("取消收藏成功！");
                                 question.setCollectFlag(0);
                                 updateCount(question);
+                                chapterMainAdapter.notifyDataSetChanged();
+                                chapterMainAdapter2.notifyDataSetChanged();
                             }
                         }
                     });
@@ -494,6 +507,8 @@ public class AnswerActivity extends BaseActivity {
                                 ToastUtils.show("收藏成功！");
                                 question.setCollectFlag(1);
                                 updateCount(question);
+                                chapterMainAdapter.notifyDataSetChanged();
+                                chapterMainAdapter2.notifyDataSetChanged();
                             }
                         }
                     });

@@ -190,6 +190,8 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvDetailQuestion.setTextSize(fontSizeValue);
         tvAnswer.setTextSize(fontSizeValue);
 
+        tvDetailQuestion.setBackgroundColor(Color.parseColor(bgColorValue));
+
         if ("#1d1d1f".equals(bgColorValue)) {
             setTextColor("#78787a");
         } else if ("#fdf2dc".equals(bgColorValue)) {
