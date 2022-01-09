@@ -29,6 +29,8 @@ public class LocalDataUtils {
     public static final String keyHand = "settingHand";
     public static final String modelLight = "modelLight";
 
+    public static final String anwserQuestion = "anwserQuestion";
+
     public static final String lightValue = "lightValue";
 
     public static final String fontSizeValue = "fontSizeValue";

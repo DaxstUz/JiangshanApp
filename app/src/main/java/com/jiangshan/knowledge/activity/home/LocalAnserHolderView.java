@@ -168,7 +168,6 @@ public class LocalAnserHolderView extends Holder<Question> {
         String questionContent = data.getContent();
         questionContent = questionContent.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-//        EasyLog.print("content==>" + questionContent);
         RichText.from(questionContent)
                 .into(tvQuestionContent);
 //        tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));

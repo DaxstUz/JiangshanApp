@@ -27,6 +27,7 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
@@ -221,7 +222,7 @@ public class AnswerActivity extends BaseActivity {
                         answer.notifyDataSetChanged();
                         chapterMainAdapter.setSelectIndex(0);
                         chapterMainAdapter.notifyDataSetChanged();
-                        if(questionDatas2.size()>0){
+                        if (questionDatas2.size() > 0) {
                             tv_more_question.setVisibility(View.VISIBLE);
                             chapterMainAdapter2.setSingleTotal(questionDatas1.size());
                             chapterMainAdapter2.notifyDataSetChanged();
@@ -266,7 +267,7 @@ public class AnswerActivity extends BaseActivity {
                     answer.notifyDataSetChanged();
                     chapterMainAdapter.setSelectIndex(0);
                     chapterMainAdapter.notifyDataSetChanged();
-                    if(questionDatas2.size()>0){
+                    if (questionDatas2.size() > 0) {
                         tv_more_question.setVisibility(View.VISIBLE);
                         chapterMainAdapter2.setSingleTotal(questionDatas1.size());
                         chapterMainAdapter2.notifyDataSetChanged();
@@ -277,6 +278,8 @@ public class AnswerActivity extends BaseActivity {
                     if (!showAnalysis) {
                         setSeeView();
                     }
+
+                    setLastIndex();
                 }
             }
         });
@@ -391,7 +394,7 @@ public class AnswerActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 ll_chapter.setVisibility(View.GONE);
-                answer.setCurrentItem(position+questionDatas1.size(), false);
+                answer.setCurrentItem(position + questionDatas1.size(), false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter2.notifyDataSetChanged();
             }
@@ -515,9 +518,11 @@ public class AnswerActivity extends BaseActivity {
         }
     }
 
+    private String examCode;
+
     private void examStart() {
         int examType = getIntent().getIntExtra("examType", 1);
-        String examCode = getIntent().getStringExtra("examCode");
+        examCode = getIntent().getStringExtra("examCode");
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
         EasyHttp.post(this)
@@ -527,7 +532,7 @@ public class AnswerActivity extends BaseActivity {
                     public void onSucceed(HttpData<QuestionInfo> result) {
                         if (result.isSuccess()) {
                             getQuestion(result.getData().getBillId());
-                        }else{
+                        } else {
                             ToastUtils.show(result.getMsg());
                             finish();
                         }
@@ -599,6 +604,7 @@ public class AnswerActivity extends BaseActivity {
         } else if (settingVibrator && !answerRight) {
             vibrator();
         }
+
     }
 
     public void answerClick(View view) {
@@ -710,5 +716,28 @@ public class AnswerActivity extends BaseActivity {
         super.onDestroy();
         RichText.recycle();
         FloatingWindowUtils.getInstance().unInit();
+
+        //记录正在答题的题目信息
+        if (null != examCode && examCode.length() > 0) {
+            Question question = questionDatas.get(answer.getCurrentItem());
+            LocalDataUtils.saveLocalData(this, LocalDataUtils.anwserQuestion, examCode, new Gson().toJson(question));
+        }
+    }
+
+    private void setLastIndex() {
+        if (null != examCode && examCode.length() > 0) {
+            Question question = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.anwserQuestion, examCode), Question.class);
+            if (null != question) {
+                for (int i = 0; i < questionDatas.size(); i++) {
+                    questionDatas.get(i).setHasAnswer(true);
+                    if (question.getId() == questionDatas.get(i).getId()) {
+                        answer.setCurrentItem(i, false);
+                        setCollectCount();
+                        ToastUtils.show("已恢复至上一次答题，第" + (i + 1) + "题");
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
