@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -101,7 +102,7 @@ public class AnswerActivity extends BaseActivity {
 
 //    private LinearLayout operate;
     private LinearLayout llAnswerCount;
-    private LinearLayout ll_chapter;
+    private NestedScrollView ll_chapter;
     private LinearLayout llSettingLine;
     private boolean showDiaglog = true;
 
