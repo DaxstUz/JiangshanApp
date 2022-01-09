@@ -100,7 +100,7 @@ public class AnswerActivity extends BaseActivity {
 
     private LinearLayout operate;
     private LinearLayout llAnswerCount;
-    private LinearLayout ll_answer_main;
+    private LinearLayout ll_chapter;
     private LinearLayout llSettingLine;
     private boolean showDiaglog = true;
 
@@ -108,6 +108,8 @@ public class AnswerActivity extends BaseActivity {
     private TextView tvCollectCount;
     private TextView tvAnswerRight;
     private TextView tvAnswerError;
+
+    private TextView tv_more_question;
 
     private TextView tvFontSize;
     private TextView tvModel;
@@ -121,6 +123,11 @@ public class AnswerActivity extends BaseActivity {
 
     private RecyclerView rvChapterMain;
     private ChapterMainAdapter chapterMainAdapter;
+    private List<Question> questionDatas1 = new ArrayList();
+
+    private RecyclerView rvChapterMain2;
+    private ChapterMainAdapter chapterMainAdapter2;
+    private List<Question> questionDatas2 = new ArrayList();
 
     private SeekBar sbLight;
 
@@ -238,10 +245,21 @@ public class AnswerActivity extends BaseActivity {
                         questionDatas.get(i).setRank(i + 1);
                         questionDatas.get(i).setBillId(billId);
                         questionDatas.get(i).setTotal(result.getData().getTotal());
+
+                        if (1 == questionDatas.get(i).getQuestionType()) {
+                            questionDatas1.add(questionDatas.get(i));
+                        } else {
+                            questionDatas2.add(questionDatas.get(i));
+                        }
                     }
                     answer.notifyDataSetChanged();
                     chapterMainAdapter.setSelectIndex(0);
                     chapterMainAdapter.notifyDataSetChanged();
+                    if(questionDatas2.size()>0){
+                        tv_more_question.setVisibility(View.VISIBLE);
+                        chapterMainAdapter2.setSingleTotal(questionDatas1.size());
+                        chapterMainAdapter2.notifyDataSetChanged();
+                    }
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
                     showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
@@ -260,7 +278,9 @@ public class AnswerActivity extends BaseActivity {
         llSettingLine = findView(R.id.ll_setting_line);
         tvFontSize = findView(R.id.tv_font_size);
         sbLight = findView(R.id.sb_light);
-        ll_answer_main = findView(R.id.ll_answer_main);
+        ll_chapter = findView(R.id.ll_chapter);
+
+        tv_more_question = findView(R.id.tv_more_question);
 
         ivModelRead = findView(R.id.iv_model_read);
         tvModelRead = findView(R.id.tv_model_read);
@@ -284,9 +304,14 @@ public class AnswerActivity extends BaseActivity {
         rv_bg_color.setAdapter(bgColorAdapter);
 
         rvChapterMain = findView(R.id.rv_chapter_main);
-        chapterMainAdapter = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas);
+        chapterMainAdapter = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas1);
         rvChapterMain.setAdapter(chapterMainAdapter);
         rvChapterMain.setLayoutManager(new GridLayoutManager(this, 6));
+
+        rvChapterMain2 = findView(R.id.rv_chapter_main2);
+        chapterMainAdapter2 = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas2);
+        rvChapterMain2.setAdapter(chapterMainAdapter2);
+        rvChapterMain2.setLayoutManager(new GridLayoutManager(this, 6));
 
         llAnswerCount = findView(R.id.ll_answer_count);
 
@@ -344,10 +369,20 @@ public class AnswerActivity extends BaseActivity {
         chapterMainAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                rvChapterMain.setVisibility(View.GONE);
+                ll_chapter.setVisibility(View.GONE);
                 answer.setCurrentItem(position, false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter.notifyDataSetChanged();
+            }
+        });
+
+        chapterMainAdapter2.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                ll_chapter.setVisibility(View.GONE);
+                answer.setCurrentItem(position+questionDatas1.size(), false);
+                chapterMainAdapter.setSelectIndex(position);
+                chapterMainAdapter2.notifyDataSetChanged();
             }
         });
 
@@ -477,6 +512,9 @@ public class AnswerActivity extends BaseActivity {
                     public void onSucceed(HttpData<QuestionInfo> result) {
                         if (result.isSuccess()) {
                             getQuestion(result.getData().getBillId());
+                        }else{
+                            ToastUtils.show(result.getMsg());
+                            finish();
                         }
                     }
                 });
@@ -492,7 +530,7 @@ public class AnswerActivity extends BaseActivity {
                 collectCount++;
             }
 
-            if (question.isHasAnswer()&&null != question.getUserAnswerList()) {
+            if (question.isHasAnswer() && null != question.getUserAnswerList()) {
                 if (question.getChoiceAnswerList().containsAll(question.getUserAnswerList()) && question.getChoiceAnswerList().size() == question.getUserAnswerList().size()) {
                     rightCount++;
                 } else {
@@ -536,9 +574,9 @@ public class AnswerActivity extends BaseActivity {
     }
 
     public void nextQuestion(Boolean answerRight) {
-        rvChapterMain.setVisibility(View.GONE);
+        ll_chapter.setVisibility(View.GONE);
         setCollectCount();
-        if(null==answerRight){
+        if (null == answerRight) {
             return;
         }
         if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
@@ -594,7 +632,7 @@ public class AnswerActivity extends BaseActivity {
                 llSettingLine.setVisibility(View.GONE);
                 break;
             case R.id.ll_answer_count:
-                rvChapterMain.setVisibility(View.VISIBLE);
+                ll_chapter.setVisibility(View.VISIBLE);
                 break;
             case R.id.ll_setting_more:
                 llSettingLine.setVisibility(View.VISIBLE);

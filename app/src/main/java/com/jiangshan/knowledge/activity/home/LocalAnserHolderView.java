@@ -171,12 +171,12 @@ public class LocalAnserHolderView extends Holder<Question> {
 //        EasyLog.print("content==>" + questionContent);
         RichText.from(questionContent)
                 .into(tvQuestionContent);
-        tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
-//        String answerAnalysis = data.getAnswerAnalysis();
-//        answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
-//        answerAnalysis = answerAnalysis.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-//        RichText.from(answerAnalysis)
-//                .into(tvAnswerAnalysis);
+//        tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
+        String answerAnalysis = data.getAnswerAnalysis();
+        answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
+        answerAnalysis = answerAnalysis.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        RichText.from(answerAnalysis)
+                .into(tvAnswerAnalysis);
 
         tvRank.setTextSize(fontSizeValue);
         tvChoiceAnswer.setTextSize(fontSizeValue);

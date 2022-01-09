@@ -20,6 +20,12 @@ public class ChapterMainAdapter extends BaseQuickAdapter<Question, BaseViewHolde
 
     private int selectIndex;
 
+    private int singleTotal=-1;
+
+    public void setSingleTotal(int singleTotal) {
+        this.singleTotal = singleTotal;
+    }
+
     public void setSelectIndex(int selectIndex) {
         this.selectIndex = selectIndex;
     }
@@ -47,15 +53,19 @@ public class ChapterMainAdapter extends BaseQuickAdapter<Question, BaseViewHolde
                 }
             }
         }
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        holder.setText(R.id.tv_chapter_no, (position+1)+"");
-
-        if(selectIndex==position){
-            holder.setBackgroundResource(R.id.tv_chapter_no,R.drawable.chapter_main_select_bg);
+        if(singleTotal>0){
+            holder.setText(R.id.tv_chapter_no, (position+1+singleTotal)+"");
+        }else{
+            holder.setText(R.id.tv_chapter_no, (position+1)+"");
         }
+//        if(selectIndex==position){
+//            holder.setBackgroundResource(R.id.tv_chapter_no,R.drawable.chapter_main_select_bg);
+//        }
     }
 }
