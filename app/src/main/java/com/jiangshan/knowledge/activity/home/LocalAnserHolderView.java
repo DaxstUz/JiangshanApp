@@ -28,6 +28,7 @@ import com.jiangshan.knowledge.http.entity.Answer;
 import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.http.entity.QuestionOption;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.zzhoujay.richtext.RichText;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -79,6 +80,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvRank = itemView.findViewById(R.id.tv_rank);
         tvQuestionType = itemView.findViewById(R.id.tv_question_type);
         tvQuestionContent = itemView.findViewById(R.id.tv_question_content);
+
         tvAnswerAnalysis = itemView.findViewById(R.id.tv_answer_analysis);
         tvChoiceAnswer = itemView.findViewById(R.id.tv_choice_answer);
 
@@ -118,9 +120,18 @@ public class LocalAnserHolderView extends Holder<Question> {
         answerItemAdapter = new AnswerItemAdapter(R.layout.item_question_option, questionOptionList);
         answerItemAdapter.setChoiceAnswerList(data.getChoiceAnswerList());
         answerItemAdapter.setUserAnswerList(userAnswerList);
+        answerItemAdapter.setHasAnswer(data.isHasAnswer());
         rvAnswerItem.setAdapter(answerItemAdapter);
 
         Set<String> finalUserAnswerList = userAnswerList;
+
+        tvQuestionContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answerActivity.nextQuestion(null);
+            }
+        });
+
         answerItemAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
@@ -131,6 +142,7 @@ public class LocalAnserHolderView extends Holder<Question> {
                     finalUserAnswerList.remove(questionOptionList.get(position).getOptionNo());
                 } else {
                     finalUserAnswerList.add(questionOptionList.get(position).getOptionNo());
+                    answerItemAdapter.setHasAnswer(true);
                 }
                 answerItemAdapter.notifyDataSetChanged();
                 onOptionClick();
@@ -153,8 +165,18 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvQuestionType.setText(data.getQuestionTypeDesc());
 
         tvChoiceAnswer.setText(data.getChoiceAnswer());
-        tvQuestionContent.setText("             " + Html.fromHtml(data.getContent(), Html.FROM_HTML_MODE_COMPACT));
+        String questionContent = data.getContent();
+        questionContent = questionContent.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
+        questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+//        EasyLog.print("content==>" + questionContent);
+        RichText.from(questionContent)
+                .into(tvQuestionContent);
         tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
+//        String answerAnalysis = data.getAnswerAnalysis();
+//        answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
+//        answerAnalysis = answerAnalysis.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+//        RichText.from(answerAnalysis)
+//                .into(tvAnswerAnalysis);
 
         tvRank.setTextSize(fontSizeValue);
         tvChoiceAnswer.setTextSize(fontSizeValue);
@@ -251,6 +273,9 @@ public class LocalAnserHolderView extends Holder<Question> {
                 }
             }
         }
+
+        data.setHasAnswer(true);
+
         if (showAnalysis || (answerShow && answerRight)) {
             answerRight = false;
             llAnswerAnalysis.setVisibility(View.VISIBLE);

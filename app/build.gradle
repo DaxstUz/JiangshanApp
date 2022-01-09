@@ -134,4 +134,7 @@ dependencies {
     //网络请求的实现一
     implementation 'com.zhy:okhttputils:2.6.2'
 
+    implementation 'com.zzhoujay.richtext:richtext:3.0.8'
+    implementation 'com.zzhoujay:html:1.0.1'
+
 }

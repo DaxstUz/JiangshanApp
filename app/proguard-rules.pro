@@ -140,6 +140,7 @@
 -keep class com.jiangshan.knowledge.** { *; }
 -keep class com.hjq.http.** { *; }
 -keep class com.bigkoo.convenientbanner.** { *; }
+-keep class com.zzhoujay.richtext.** { *; }
 
 -keep class com.xuexiang.xupdate.entity.** { *; }
 

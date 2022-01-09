@@ -28,6 +28,8 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 
     private Set<String> userAnswerList;
 
+    private boolean hasAnswer;
+
     public AnswerItemAdapter(int layoutResId, @Nullable List<QuestionOption> data) {
         super(layoutResId, data);
     }
@@ -69,7 +71,7 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
         tv_answer_content.setTextColor(Color.parseColor(bgColorValue));
 
         String optionNo = data.getOptionNo();
-        if (null != userAnswerList && null != choiceAnswerList) {
+        if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
             if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
                 baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
                 baseViewHolder.setText(R.id.tv_answer_option, "");
@@ -106,5 +108,9 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 
     public void setUserAnswerList(Set<String> userAnswerList) {
         this.userAnswerList = userAnswerList;
+    }
+
+    public void setHasAnswer(boolean hasAnswer) {
+        this.hasAnswer = hasAnswer;
     }
 }

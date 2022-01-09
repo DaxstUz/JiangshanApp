@@ -53,6 +53,7 @@ import com.jiangshan.knowledge.uitl.AlertButtonClick;
 import com.jiangshan.knowledge.uitl.DialogUtil;
 import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.zzhoujay.richtext.RichText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,8 @@ public class AnswerActivity extends BaseActivity {
 
     private int fontSizeValue;
 
+    private boolean showAnalysis;
+
     public void showAnswer() {
         int currentIndex = answer.getCurrentItem();
         Question question = questionDatas.get(currentIndex);
@@ -153,6 +156,9 @@ public class AnswerActivity extends BaseActivity {
             examStart();
         }
         getPermisson();
+
+        //第一次设置缓存位置
+        RichText.initCacheDir(this);
     }
 
     private void setSeeView() {
@@ -238,7 +244,7 @@ public class AnswerActivity extends BaseActivity {
                     chapterMainAdapter.notifyDataSetChanged();
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
-                    boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+                    showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
                     if (!showAnalysis) {
                         setSeeView();
                     }
@@ -416,7 +422,7 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void updateCount(Question question) {
-        if (0 == question.getCollectFlag()) {
+        if (1 == question.getCollectFlag()) {
             ivCollect.setImageResource(R.mipmap.answer_collect);
         } else {
             ivCollect.setImageResource(R.mipmap.answer_uncollect);
@@ -428,7 +434,7 @@ public class AnswerActivity extends BaseActivity {
         Question question = questionDatas.get(answer.getCurrentItem());
 
         String apiPath;
-        if (0 == question.getCollectFlag()) {
+        if (1 == question.getCollectFlag()) {
             apiPath = new UnCollectApi().setQuestionId(question.getId()).getApi();
             EasyHttp.delete(this)
                     .api(apiPath)
@@ -437,7 +443,7 @@ public class AnswerActivity extends BaseActivity {
                         public void onSucceed(HttpData<QuestionInfo> result) {
                             if (result.isSuccess()) {
                                 ToastUtils.show("取消收藏成功！");
-                                question.setCollectFlag(1);
+                                question.setCollectFlag(0);
                                 updateCount(question);
                             }
                         }
@@ -451,7 +457,7 @@ public class AnswerActivity extends BaseActivity {
                         public void onSucceed(HttpData<QuestionInfo> result) {
                             if (result.isSuccess()) {
                                 ToastUtils.show("收藏成功！");
-                                question.setCollectFlag(0);
+                                question.setCollectFlag(1);
                                 updateCount(question);
                             }
                         }
@@ -485,16 +491,21 @@ public class AnswerActivity extends BaseActivity {
             if (null != question.getCollectFlag() && 1 == question.getCollectFlag()) {
                 collectCount++;
             }
-            if (null != question.getWrongFlag() && 1 == question.getWrongFlag()) {
-                errorCount++;
-            }
-            if (null != question.getWrongFlag() && 0 == question.getWrongFlag()) {
-                rightCount++;
+
+            if (question.isHasAnswer()&&null != question.getUserAnswerList()) {
+                if (question.getChoiceAnswerList().containsAll(question.getUserAnswerList()) && question.getChoiceAnswerList().size() == question.getUserAnswerList().size()) {
+                    rightCount++;
+                } else {
+                    errorCount++;
+                }
             }
         }
         tvCollectCount.setText(collectCount + "");
-        tvAnswerRight.setText(rightCount + "");
-        tvAnswerError.setText(errorCount + "");
+
+        if (!showAnalysis) {
+            tvAnswerRight.setText(rightCount + "");
+            tvAnswerError.setText(errorCount + "");
+        }
     }
 
 
@@ -524,8 +535,12 @@ public class AnswerActivity extends BaseActivity {
         hideDialog();
     }
 
-    public void nextQuestion(boolean answerRight) {
+    public void nextQuestion(Boolean answerRight) {
         rvChapterMain.setVisibility(View.GONE);
+        setCollectCount();
+        if(null==answerRight){
+            return;
+        }
         if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
             answer.setCurrentItem(answer.getCurrentItem() + 1, false);
         } else if (settingVibrator && !answerRight) {
@@ -640,6 +655,7 @@ public class AnswerActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        RichText.recycle();
         FloatingWindowUtils.getInstance().unInit();
     }
 }

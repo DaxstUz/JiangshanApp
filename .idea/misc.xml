@@ -12,6 +12,8 @@
         <entry key="app/src/main/res/drawable/answer_type_bg.xml" value="0.10555555555555556" />
         <entry key="app/src/main/res/drawable/change_font_size_bg.xml" value="0.1648148148148148" />
         <entry key="app/src/main/res/drawable/chapter_main_bg.xml" value="0.2324074074074074" />
+        <entry key="app/src/main/res/drawable/chapter_main_error_bg.xml" value="0.2203125" />
+        <entry key="app/src/main/res/drawable/chapter_main_right_bg.xml" value="0.2203125" />
         <entry key="app/src/main/res/drawable/chapter_main_select_bg.xml" value="0.18611111111111112" />
         <entry key="app/src/main/res/drawable/charge_bg_money.xml" value="0.22592592592592592" />
         <entry key="app/src/main/res/drawable/charge_bg_money_select.xml" value="0.22592592592592592" />
