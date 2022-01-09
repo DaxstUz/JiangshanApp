@@ -17,7 +17,7 @@ import com.jiangshan.knowledge.uitl.LocalDataUtils;
  */
 public class SettingActivity extends BaseActivity {
 
-    private RelativeLayout rl_clear;
+    private RelativeLayout rlClear;
 
     private Switch switchErrorAnswer;
     private Switch switchAnswerNext;
@@ -32,8 +32,8 @@ public class SettingActivity extends BaseActivity {
         setTitle("设置");
         setBackViewVisiable();
 
-        rl_clear = findViewById(R.id.rl_clear);
-        rl_clear.setOnClickListener(new View.OnClickListener() {
+        rlClear = findViewById(R.id.rl_clear);
+        rlClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LocalDataUtils.saveLocalData(SettingActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, "");

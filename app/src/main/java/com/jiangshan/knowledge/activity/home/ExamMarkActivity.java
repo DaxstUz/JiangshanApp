@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,14 +43,16 @@ public class ExamMarkActivity extends BaseActivity {
     private ExamMarkAdapter examAdapter;
     private List<Exam> datas = new ArrayList<>();
 
-    private TextView tv_show_all;
+    private TextView tvShowAll;
 
-    private RadioGroup rg_answer_mark;
+    private RadioGroup rgAnswerMark;
 
     private int examType = 1;
     private int markType = 1;
 
     private int countALl = 0;
+
+    private Switch switchShowAnylysis;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +67,10 @@ public class ExamMarkActivity extends BaseActivity {
     }
 
     private void initView() {
+        switchShowAnylysis = findViewById(R.id.switch_show_anylysis);
+
         rvAnswerAll = findViewById(R.id.rv_answer_all);
+
         tv_mark_title = findViewById(R.id.tv_mark_title);
         if ("error".equals(getIntent().getStringExtra("type"))) {
             tv_mark_title.setText("我的错题总数");
@@ -74,8 +80,8 @@ public class ExamMarkActivity extends BaseActivity {
             markType=1;
         }
 
-        rg_answer_mark = findViewById(R.id.rg_answer_mark);
-        rg_answer_mark.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        rgAnswerMark = findViewById(R.id.rg_answer_mark);
+        rgAnswerMark.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
@@ -92,16 +98,16 @@ public class ExamMarkActivity extends BaseActivity {
             }
         });
 
-        tv_show_all = findViewById(R.id.tv_show_all);
-        tv_show_all.setText("查看全部" + getIntent().getStringExtra("title"));
-        tv_show_all.setOnClickListener(new View.OnClickListener() {
+        tvShowAll = findViewById(R.id.tv_show_all);
+        tvShowAll.setText("查看全部" + getIntent().getStringExtra("title"));
+        tvShowAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ExamMarkActivity.this, AnswerActivity.class);
                 intent.putExtra("type", getIntent().getStringExtra("type"));
                 intent.putExtra("ismark", true);
                 intent.putExtra("examName", getIntent().getStringExtra("title"));
-                intent.putExtra("showAnalysis", true);
+                intent.putExtra("showAnalysis", switchShowAnylysis.isChecked());
                 startActivityForResult(intent, RESULT_OK);
             }
         });
@@ -116,7 +122,7 @@ public class ExamMarkActivity extends BaseActivity {
                 Intent intent = new Intent(ExamMarkActivity.this, AnswerActivity.class);
                 intent.putExtra("examCode", datas.get(position).getExamCode());
                 intent.putExtra("examName", datas.get(position).getExamName());
-                intent.putExtra("showAnalysis", true);
+                intent.putExtra("showAnalysis", switchShowAnylysis.isChecked());
                 startActivityForResult(intent, RESULT_OK);
             }
         });
