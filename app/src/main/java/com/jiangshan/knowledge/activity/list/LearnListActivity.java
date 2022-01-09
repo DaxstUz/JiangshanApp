@@ -44,7 +44,7 @@ public class LearnListActivity extends BaseActivity {
 
     private SwipeRefreshLayout swipeLayout;
 
-    String rankType = "day";
+    private String rankType = "day";
     private int pageNum = 1;
 
     private TextView tvRankName;

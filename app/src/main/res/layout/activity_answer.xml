@@ -35,6 +35,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:paddingTop="@dimen/border_padding_10"
+            android:paddingBottom="@dimen/border_padding_5"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -75,6 +77,21 @@
                     android:padding="@dimen/border_padding_5"
                     android:text="0"
                     android:textColor="@color/colorRed" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_answer_commit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:onClick="answerClick">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/answer_commit" />
             </LinearLayout>
 
             <LinearLayout

@@ -99,7 +99,7 @@ public class AnswerActivity extends BaseActivity {
     private ConvenientBanner answer;
     private List<Question> questionDatas = new ArrayList();
 
-    private LinearLayout operate;
+//    private LinearLayout operate;
     private LinearLayout llAnswerCount;
     private LinearLayout ll_chapter;
     private LinearLayout llSettingLine;
@@ -329,8 +329,8 @@ public class AnswerActivity extends BaseActivity {
 
         llAnswerCount = findView(R.id.ll_answer_count);
 
-        operate = findView(R.id.ll_operate);
-        operate.setVisibility(View.VISIBLE);
+//        operate = findView(R.id.ll_operate);
+//        operate.setVisibility(View.VISIBLE);
 
         answer = findView(R.id.answer);
 
@@ -431,29 +431,13 @@ public class AnswerActivity extends BaseActivity {
             }
         });
 
-        operate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogUtil.DialogAttrs attrs = new DialogUtil.DialogAttrs();
-                attrs.msg = "确定提交吗？";
-                attrs.textGravity = Gravity.CENTER;
-                attrs.btnVal = new String[]{"取消", "确定"};
-                attrs.isCancelable = Boolean.FALSE;
-                DialogUtil.alertDialog(AnswerActivity.this, attrs, new AlertButtonClick() {
-                    @Override
-                    public void leftBtnClick(AlertDialog dlg) {
-                        dlg.dismiss();
-                    }
-
-                    @Override
-                    public void rightBtnClick(AlertDialog dlg) {
-                        dlg.dismiss();
-                        examEnd();
-                    }
-                });
-
-            }
-        });
+//        operate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//            }
+//        });
 
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -500,7 +484,7 @@ public class AnswerActivity extends BaseActivity {
                         }
                     });
         } else {
-            apiPath = new QuestionMarkApi().setExamCode(question.getExamCode()).setQuestionId(question.getId()).getApi();
+            apiPath = new QuestionMarkApi().setExamCode(question.getExamCode()).setQuestionId(question.getId()).setMarkType("1").getApi();
             EasyHttp.post(this)
                     .api(apiPath)
                     .request(new HttpCallback<HttpData<QuestionInfo>>(this) {
@@ -629,6 +613,26 @@ public class AnswerActivity extends BaseActivity {
                 } else {
                     ToastUtils.show("最大字号为33！");
                 }
+                break;
+            case R.id.ll_answer_commit:
+                DialogUtil.DialogAttrs attrs = new DialogUtil.DialogAttrs();
+                attrs.title="交卷";
+                attrs.msg = "确定现在交卷吗？";
+                attrs.textGravity = Gravity.CENTER;
+                attrs.btnVal = new String[]{"取消", "确定"};
+                attrs.isCancelable = Boolean.FALSE;
+                DialogUtil.alertDialog(AnswerActivity.this, attrs, new AlertButtonClick() {
+                    @Override
+                    public void leftBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                    }
+
+                    @Override
+                    public void rightBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                        examEnd();
+                    }
+                });
                 break;
             case R.id.ll_collect:
                 postCollect();

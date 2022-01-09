@@ -12,12 +12,19 @@ public class QuestionMarkApi implements IRequestApi {
 
     @Override
     public String getApi() {
-        return api + examCode+"?questionId="+questionId ;
+        return api + examCode+"?questionId="+questionId+"&markType="+markType ;
     }
 
     private int questionId;
     public QuestionMarkApi setQuestionId(int questionId) {
         this.questionId = questionId;
+        return this;
+    }
+
+    private String markType;
+
+    public QuestionMarkApi setMarkType(String markType) {
+        this.markType = markType;
         return this;
     }
 

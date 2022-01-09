@@ -7,8 +7,8 @@
     <TextView
         android:background="@drawable/chapter_main_bg"
         android:id="@+id/tv_chapter_no"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:textColor="@drawable/tab_txt_color"
         android:layout_centerInParent="true"
         android:gravity="center"
