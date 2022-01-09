@@ -116,7 +116,11 @@ public class LocalAnserHolderView extends Holder<Question> {
 
         rvAnswerItem.setLayoutManager(new LinearLayoutManager((AnswerActivity) itemView.getContext()));
         questionOptionList.clear();
-        questionOptionList.addAll(data.getQuestionOptionList());
+
+        if(null!=data.getQuestionOptionList()){
+            questionOptionList.addAll(data.getQuestionOptionList());
+        }
+
         answerItemAdapter = new AnswerItemAdapter(R.layout.item_question_option, questionOptionList);
         answerItemAdapter.setChoiceAnswerList(data.getChoiceAnswerList());
         answerItemAdapter.setUserAnswerList(userAnswerList);
@@ -167,7 +171,13 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvChoiceAnswer.setText(data.getChoiceAnswer());
         String questionContent = data.getContent();
         questionContent = questionContent.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
-        questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        if(4==data.getQuestionType()){
+            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        }else if(5==data.getQuestionType()){
+            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        } else{
+            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        }
         RichText.from(questionContent)
                 .into(tvQuestionContent);
 //        tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));

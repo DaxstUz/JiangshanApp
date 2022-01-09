@@ -27,14 +27,16 @@ public class ExamAdapter extends BaseQuickAdapter<Exam, BaseViewHolder> {
 
 
         ProgressBar progressBar=baseViewHolder.findView(R.id.pb_answer);
-        int process=(int)(data.getAnswerQuestionQty()*100/data.getQuestionQty());
-        progressBar.setProgress(process);
+
+        if(data.getQuestionQty()>0){
+            int process=(int)(data.getAnswerQuestionQty()*100/data.getQuestionQty());
+            progressBar.setProgress(process);
+        }
         baseViewHolder.setText(R.id.tv_anser_info, data.getAnswerQuestionQty()+"/"+data.getQuestionQty()+"道题");
 
         if (0 < data.getMemberType()) {
             baseViewHolder.setImageResource(R.id.iv_edit_icon, R.mipmap.vip);
         }
-
     }
 
 }
