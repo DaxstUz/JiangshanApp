@@ -34,13 +34,10 @@ import java.util.List;
 public class ExamListActivity extends BaseActivity {
 
     private RecyclerView rvExam;
-
     private ExamAdapter examAdapter;
-
     private List<Exam> datas = new ArrayList<>();
 
     private MemberInfo memberInfo;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +74,7 @@ public class ExamListActivity extends BaseActivity {
     }
 
     private boolean canEdit(Exam exam) {
+//        EasyLog.print("会员信息："+new Gson().toJson(memberInfo));
         if (0 < exam.getMemberType() && (null == memberInfo || (null != memberInfo && 0 == memberInfo.getMemberType()))) {
             return false;
         }

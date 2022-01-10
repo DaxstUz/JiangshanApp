@@ -30,6 +30,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
+import com.hjq.http.EasyLog;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -51,6 +52,7 @@ import com.jiangshan.knowledge.http.entity.QuestionInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
+import com.jiangshan.knowledge.http.model.HttpListDataAll;
 import com.jiangshan.knowledge.uitl.AlertButtonClick;
 import com.jiangshan.knowledge.uitl.DialogUtil;
 import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
@@ -100,7 +102,6 @@ public class AnswerActivity extends BaseActivity {
     private ConvenientBanner answer;
     private List<Question> questionDatas = new ArrayList();
 
-//    private LinearLayout operate;
     private LinearLayout llAnswerCount;
     private NestedScrollView ll_chapter;
     private LinearLayout llSettingLine;
@@ -139,7 +140,6 @@ public class AnswerActivity extends BaseActivity {
     private int billId;
 
     private int fontSizeValue;
-
     private boolean showAnalysis;
 
     public void showAnswer() {
@@ -158,11 +158,17 @@ public class AnswerActivity extends BaseActivity {
         setBackViewVisiable();
         initView();
 
+        showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
         boolean ismark = getIntent().getBooleanExtra("ismark", false);
         if (ismark) {
             getMarkData();
         } else {
-            examStart();
+            if (showAnalysis) {
+                getShowQuestion();
+            } else {
+                examStart();
+            }
+
         }
         getPermisson();
 
@@ -275,7 +281,51 @@ public class AnswerActivity extends BaseActivity {
                     }
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
-                    showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+                    if (!showAnalysis) {
+                        setSeeView();
+                    }
+
+                    setLastIndex();
+                }
+            }
+        });
+    }
+
+    private void getShowQuestion() {
+        EasyLog.print("getShowQuestion start");
+        Subject subject = LocalDataUtils.getSubject(this);
+        Course course = LocalDataUtils.getCourse(this);
+        EasyHttp.get(this).api(new IRequestApi() {
+            @Override
+            public String getApi() {
+                return "/exam/questionList/" + subject.getSubjectCode() + "/" + course.getCourseCode() + "?examCode=" + getIntent().getStringExtra("examCode") + "&examType=" + getIntent().getIntExtra("examType", 1);
+            }
+        }).request(new HttpCallback<HttpListDataAll<Question>>(this) {
+            @Override
+            public void onSucceed(HttpListDataAll<Question> result) {
+                if (result.isSuccess()) {
+                    questionDatas.addAll(result.getData());
+                    for (int i = 0; i < questionDatas.size(); i++) {
+                        questionDatas.get(i).setRank(i + 1);
+                        questionDatas.get(i).setBillId(billId);
+                        questionDatas.get(i).setTotal(result.getData().size());
+
+                        if (1 == questionDatas.get(i).getQuestionType()) {
+                            questionDatas1.add(questionDatas.get(i));
+                        } else {
+                            questionDatas2.add(questionDatas.get(i));
+                        }
+                    }
+                    answer.notifyDataSetChanged();
+                    chapterMainAdapter.setSelectIndex(0);
+                    chapterMainAdapter.notifyDataSetChanged();
+                    if (questionDatas2.size() > 0) {
+                        tv_more_question.setVisibility(View.VISIBLE);
+                        chapterMainAdapter2.setSingleTotal(questionDatas1.size());
+                        chapterMainAdapter2.notifyDataSetChanged();
+                    }
+                    llAnswerCount.setVisibility(View.VISIBLE);
+                    updateCount(questionDatas.get(0));
                     if (!showAnalysis) {
                         setSeeView();
                     }
@@ -329,9 +379,6 @@ public class AnswerActivity extends BaseActivity {
         rvChapterMain2.setLayoutManager(new GridLayoutManager(this, 6));
 
         llAnswerCount = findView(R.id.ll_answer_count);
-
-//        operate = findView(R.id.ll_operate);
-//        operate.setVisibility(View.VISIBLE);
 
         answer = findView(R.id.answer);
 
@@ -431,14 +478,6 @@ public class AnswerActivity extends BaseActivity {
                 updateCount(question);
             }
         });
-
-//        operate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
 
         answer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -617,7 +656,7 @@ public class AnswerActivity extends BaseActivity {
                 break;
             case R.id.ll_answer_commit:
                 DialogUtil.DialogAttrs attrs = new DialogUtil.DialogAttrs();
-                attrs.title="交卷";
+                attrs.title = "交卷";
                 attrs.msg = "确定现在交卷吗？";
                 attrs.textGravity = Gravity.CENTER;
                 attrs.btnVal = new String[]{"取消", "确定"};
@@ -676,7 +715,7 @@ public class AnswerActivity extends BaseActivity {
                 llSettingLine.setVisibility(View.GONE);
                 break;
             case R.id.ll_switch_model:
-                boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+                showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
                 getIntent().putExtra("showAnalysis", !showAnalysis);
                 setModel();
                 answer.notifyDataSetChanged();
@@ -697,7 +736,7 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void setModel() {
-        boolean showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+        showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
         if (showAnalysis) {
             tvModel.setText("答题模式");
             ivModel.setImageResource(R.mipmap.model_answer);
@@ -723,7 +762,7 @@ public class AnswerActivity extends BaseActivity {
         FloatingWindowUtils.getInstance().unInit();
 
         //记录正在答题的题目信息
-        if (null != examCode && examCode.length() > 0) {
+        if (null != examCode && examCode.length() > 0 && questionDatas.size() > 0) {
             Question question = questionDatas.get(answer.getCurrentItem());
             LocalDataUtils.saveLocalData(this, LocalDataUtils.anwserQuestion, examCode, new Gson().toJson(question));
         }
