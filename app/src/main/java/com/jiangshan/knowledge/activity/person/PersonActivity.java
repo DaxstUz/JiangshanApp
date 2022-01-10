@@ -283,6 +283,9 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                     public void onSucceed(HttpData<MemberInfo> result) {
                         if (result.isSuccess()) {
                             MemberInfo memberInfo=result.getData();
+                            Gson gson = new Gson();
+                            String member = gson.toJson(result.getData());
+                            LocalDataUtils.saveLocalData(PersonActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
                             if(null!=memberInfo && memberInfo.getEndDate()>0 ){
                                 tvVipTips.setText("VIP会员 "+ DateUtil.paseFromStr(memberInfo.getEndDate())+" 到期");
                             }

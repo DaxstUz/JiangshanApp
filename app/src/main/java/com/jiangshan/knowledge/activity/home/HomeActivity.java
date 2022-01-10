@@ -25,12 +25,15 @@ import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.ExamHistoryListAdapter;
 import com.jiangshan.knowledge.activity.home.adapter.MenuAdapter;
 import com.jiangshan.knowledge.activity.news.ArticleDetailActivity;
+import com.jiangshan.knowledge.activity.person.PersonActivity;
 import com.jiangshan.knowledge.http.api.BannerApi;
 import com.jiangshan.knowledge.http.api.GetExamHistoryListApi;
+import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
 import com.jiangshan.knowledge.http.api.GetPassportApi;
 import com.jiangshan.knowledge.http.entity.Article;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.ExamHistory;
+import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Menu;
 import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
@@ -90,6 +93,7 @@ public class HomeActivity extends BaseActivity {
 
         getInitData();
         getData();
+        getMemberData();
     }
 
     private void initView() {
@@ -329,5 +333,24 @@ public class HomeActivity extends BaseActivity {
         examAdapter.getLoadMoreModule().setAutoLoadMore(true);
         //当自动加载开启，同时数据不满一屏时，是否继续执行自动加载更多(默认为true)
         examAdapter.getLoadMoreModule().setEnableLoadMoreIfNotFullPage(false);
+    }
+
+    private void getMemberData() {
+        Subject subject=LocalDataUtils.getSubject(this);
+        if(null==subject){
+            return;
+        }
+        EasyHttp.get(this)
+                .api(new GetMemberInfoApi().setSubjectCode(subject.getSubjectCode()))
+                .request(new HttpCallback<HttpData<MemberInfo>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<MemberInfo> result) {
+                        if (result.isSuccess()) {
+                            Gson gson = new Gson();
+                            String member = gson.toJson(result.getData());
+                            LocalDataUtils.saveLocalData(HomeActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
+                        }
+                    }
+                });
     }
 }
