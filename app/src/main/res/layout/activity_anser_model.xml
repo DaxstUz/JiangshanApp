@@ -17,6 +17,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,6 +72,22 @@
                     android:textColor="@color/colorBlack" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_question_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/border_padding_10"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_question_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite" />
+
+            </LinearLayout>
+
             <RadioGroup
                 android:id="@+id/rg_model"
                 android:layout_width="match_parent"
@@ -82,57 +99,62 @@
                     android:id="@+id/rb_bg_analysis"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="1"
                     android:background="@drawable/anser_model_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:textColor="@drawable/tab_txt_color_model"
-                    android:text="背景解析" />
+                    android:text="背景解析"
+                    android:textColor="@drawable/tab_txt_color_model" />
 
                 <RadioButton
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="40dp"
                     android:id="@+id/rb_anser"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:background="@drawable/anser_model_bg"
                     android:button="@null"
-                    android:textColor="@drawable/tab_txt_color_model"
                     android:gravity="center"
-                    android:text="答题模式" />
+                    android:text="答题模式"
+                    android:textColor="@drawable/tab_txt_color_model" />
             </RadioGroup>
 
             <FrameLayout
-                android:layout_marginTop="@dimen/border_padding_20"
+                android:id="@+id/fl_history_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/border_padding_20">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <View
-                        android:background="@color/b3"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:layout_height="1dp"
+                        android:background="@color/b3" />
+
                     <TextView
-                        android:padding="@dimen/border_padding_10"
-                        android:text="您还没有做题交卷记录！"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/border_padding_10"
+                        android:text="您还没有做题交卷记录！" />
+
                     <View
-                        android:background="@color/b3"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"/>
+                        android:layout_height="1dp"
+                        android:background="@color/b3" />
                 </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_exam"
-                    android:background="@color/colorWhite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:background="@color/colorWhite" />
             </FrameLayout>
         </LinearLayout>
     </ScrollView>

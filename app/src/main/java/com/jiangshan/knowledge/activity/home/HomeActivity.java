@@ -130,6 +130,7 @@ public class HomeActivity extends BaseActivity {
                             case 0:
                                 intent = new Intent(HomeActivity.this, SelectAnserModelActivity.class);
                                 intent.putExtra("examType", 4);
+                                intent.putExtra("random", true);
                                 startActivityForResult(intent, RESULT_OK);
                                 break;
                             case 1:

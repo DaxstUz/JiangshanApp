@@ -3,6 +3,8 @@ package com.jiangshan.knowledge.activity.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -21,17 +23,21 @@ import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.ExamHistoryListAdapter;
+import com.jiangshan.knowledge.activity.home.adapter.QuetionCountAdapter;
 import com.jiangshan.knowledge.http.api.GetExamHistoryListApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.ExamHistory;
 import com.jiangshan.knowledge.http.entity.MemberInfo;
+import com.jiangshan.knowledge.http.entity.QuetionCount;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * auth s_yz  2021/10/18
@@ -43,6 +49,14 @@ public class SelectAnserModelActivity extends BaseActivity {
 
     private RadioButton rbAnser;
     private RadioButton rbAnalysis;
+
+    private FrameLayout fl_history_info;
+    private LinearLayout ll_question_count;
+
+    private RecyclerView rv_question_count;
+    private QuetionCountAdapter quetionCountAdapter;
+    private List<QuetionCount> quetionCounts = new ArrayList<>();
+
 
     private RecyclerView rvExam;
     private ExamHistoryListAdapter examAdapter;
@@ -68,6 +82,9 @@ public class SelectAnserModelActivity extends BaseActivity {
 
     private void initView() {
 
+
+        fl_history_info = findViewById(R.id.fl_history_info);
+        ll_question_count = findViewById(R.id.ll_question_count);
         rvExam = findViewById(R.id.rv_exam);
         examAdapter = new ExamHistoryListAdapter(R.layout.item_exam_history_list, datas);
         rvExam.setAdapter(examAdapter);
@@ -95,6 +112,8 @@ public class SelectAnserModelActivity extends BaseActivity {
                     intent.putExtra("examName", getIntent().getStringExtra("examName"));
                     intent.putExtra("examCode", getIntent().getStringExtra("examCode"));
                     intent.putExtra("examType", getIntent().getIntExtra("examType", 1));
+                    intent.putExtra("random", getIntent().getBooleanExtra("random", false));
+                    intent.putExtra("questionTypeQtySet", getquestionTypeQtySet());
                     intent.putExtra("showAnalysis", true);
                     startActivityForResult(intent, RESULT_OK);
                 } else {
@@ -112,12 +131,47 @@ public class SelectAnserModelActivity extends BaseActivity {
                     intent.putExtra("examName", getIntent().getStringExtra("examName"));
                     intent.putExtra("examCode", getIntent().getStringExtra("examCode"));
                     intent.putExtra("examType", getIntent().getIntExtra("examType", 1));
+                    intent.putExtra("random", getIntent().getBooleanExtra("random", false));
+                    intent.putExtra("questionTypeQtySet", getquestionTypeQtySet());
                     startActivityForResult(intent, RESULT_OK);
                 } else {
                     ToastUtils.show("这是会员专享，请去开通会员。");
                 }
             }
         });
+
+        excuteRandom();
+    }
+
+    /**
+     * 随机抽题数量设置
+     */
+    private void excuteRandom() {
+        boolean random = getIntent().getBooleanExtra("random", false);
+        if (random) {
+            fl_history_info.setVisibility(View.GONE);
+            ll_question_count.setVisibility(View.VISIBLE);
+
+            Course course = LocalDataUtils.getCourse(this);
+            if(null!=course.getQuestionTypeSet()){
+                String[] strs=course.getQuestionTypeSet().split(",");
+                for (int i = 0; i <strs.length ; i++) {
+                    quetionCounts.add(new QuetionCount(Integer.valueOf(strs[i]),10));
+                }
+            }
+            rv_question_count = findViewById(R.id.rv_question_count);
+            quetionCountAdapter = new QuetionCountAdapter(R.layout.item_radom_question, quetionCounts);
+            rv_question_count.setAdapter(quetionCountAdapter);
+            rv_question_count.setLayoutManager(new LinearLayoutManager(this));
+        }
+    }
+
+    private String getquestionTypeQtySet(){
+        Map<Integer, Integer> map=new HashMap<>();
+        for (int i = 0; i <quetionCounts.size() ; i++) {
+            map.put(quetionCounts.get(i).getId(),quetionCounts.get(i).getCount());
+        }
+        return new Gson().toJson(map);
     }
 
     private void updateUI() {

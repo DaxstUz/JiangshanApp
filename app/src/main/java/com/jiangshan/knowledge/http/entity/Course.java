@@ -14,6 +14,16 @@ public class Course implements Serializable {
     private int courseTypeId;
     private String courseType;
 
+    private String questionTypeSet;
+
+    public String getQuestionTypeSet() {
+        return questionTypeSet;
+    }
+
+    public void setQuestionTypeSet(String questionTypeSet) {
+        this.questionTypeSet = questionTypeSet;
+    }
+
     public int getCourseId() {
         return courseId;
     }

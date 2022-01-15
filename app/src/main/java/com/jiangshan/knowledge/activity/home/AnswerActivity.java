@@ -30,7 +30,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
-import com.hjq.http.EasyLog;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -40,6 +39,7 @@ import com.jiangshan.knowledge.activity.home.adapter.AnswerBgColorAdapter;
 import com.jiangshan.knowledge.activity.home.adapter.ChapterMainAdapter;
 import com.jiangshan.knowledge.activity.person.SettingActivity;
 import com.jiangshan.knowledge.http.api.ExamEndApi;
+import com.jiangshan.knowledge.http.api.ExamRandomStartApi;
 import com.jiangshan.knowledge.http.api.ExamStartApi;
 import com.jiangshan.knowledge.http.api.GetExamCollectListApi;
 import com.jiangshan.knowledge.http.api.GetExamErrorListApi;
@@ -59,6 +59,7 @@ import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.zzhoujay.richtext.RichText;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -292,13 +293,27 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void getShowQuestion() {
-        EasyLog.print("getShowQuestion start");
+//        EasyLog.print("getShowQuestion start");
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
+
+        boolean random = getIntent().getBooleanExtra("random", false);
+        String urlPath = null;
+        if (random) {
+            urlPath = "/exam/randQuestionList/" + subject.getSubjectCode() + "/" + course.getCourseCode() + "?examType=" + getIntent().getIntExtra("examType", 1)+"&questionTypeQtySet=" + URLEncoder.encode(getIntent().getStringExtra("questionTypeQtySet"));
+        } else {
+          urlPath = "/exam/questionList/" + subject.getSubjectCode() + "/" + course.getCourseCode() + "?examCode=" + getIntent().getStringExtra("examCode") + "&examType=" + getIntent().getIntExtra("examType", 1);
+        }
+
+        if (null == urlPath) {
+            finish();
+        }
+
+        String finalUrlPath = urlPath;
         EasyHttp.get(this).api(new IRequestApi() {
             @Override
             public String getApi() {
-                return "/exam/questionList/" + subject.getSubjectCode() + "/" + course.getCourseCode() + "?examCode=" + getIntent().getStringExtra("examCode") + "&examType=" + getIntent().getIntExtra("examType", 1);
+                return finalUrlPath;
             }
         }).request(new HttpCallback<HttpListDataAll<Question>>(this) {
             @Override
@@ -325,7 +340,9 @@ public class AnswerActivity extends BaseActivity {
                         chapterMainAdapter2.notifyDataSetChanged();
                     }
                     llAnswerCount.setVisibility(View.VISIBLE);
-                    updateCount(questionDatas.get(0));
+                    if(questionDatas.size()>0){
+                        updateCount(questionDatas.get(0));
+                    }
                     if (!showAnalysis) {
                         setSeeView();
                     }
@@ -549,8 +566,19 @@ public class AnswerActivity extends BaseActivity {
         examCode = getIntent().getStringExtra("examCode");
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
+
+        IRequestApi apiUrl = null;
+        boolean random = getIntent().getBooleanExtra("random", false);
+        if (random) {
+            apiUrl = new ExamRandomStartApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setQuestionTypeQtySet(URLEncoder.encode(getIntent().getStringExtra("questionTypeQtySet")));
+        } else {
+            apiUrl = new ExamStartApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setExamCode(examCode);
+        }
+        if (null == apiUrl) {
+            finish();
+        }
         EasyHttp.post(this)
-                .api(new ExamStartApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setExamCode(examCode))
+                .api(apiUrl)
                 .request(new HttpCallback<HttpData<QuestionInfo>>(this) {
                     @Override
                     public void onSucceed(HttpData<QuestionInfo> result) {

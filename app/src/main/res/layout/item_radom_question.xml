@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_question_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textColor="@color/colorBlack"
+            android:text="选择题:" />
+
+        <EditText
+            android:id="@+id/et_question_count"
+            android:layout_width="80dp"
+            android:maxLines="1"
+            android:inputType="number"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/border_padding_10"
+            android:layout_marginRight="@dimen/border_padding_10"
+            android:text="10" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:text="道题" />
+
+    </LinearLayout>
+
+</LinearLayout>
