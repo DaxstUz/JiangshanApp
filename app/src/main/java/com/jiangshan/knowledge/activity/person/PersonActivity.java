@@ -198,7 +198,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         }
 
         getMarkCountData();
-
         getMemberData();
     }
 
@@ -269,8 +268,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-
-
     private void getMemberData() {
         Subject subject=LocalDataUtils.getSubject(this);
         if(null==subject){
@@ -288,6 +285,8 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                             LocalDataUtils.saveLocalData(PersonActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
                             if(null!=memberInfo && memberInfo.getEndDate()>0 ){
                                 tvVipTips.setText("VIP会员 "+ DateUtil.paseFromStr(memberInfo.getEndDate())+" 到期");
+                            }else{
+                                tvVipTips.setText("成为会员，享多重权益");
                             }
                         }
                     }
