@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.http.entity.QuetionCount;
 
@@ -67,6 +68,8 @@ public class QuetionCountAdapter extends BaseQuickAdapter<QuetionCount, BaseView
                     data.setCount(Integer.valueOf(s.toString()));
                 }else{
                     data.setCount(1);
+                    questionCount.setText(1+"");
+                    ToastUtils.show("最小值为1");
                 }
             }
         });

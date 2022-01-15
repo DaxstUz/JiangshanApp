@@ -2,6 +2,9 @@ package com.jiangshan.knowledge.http.api;
 
 import com.hjq.http.annotation.HttpRename;
 import com.hjq.http.config.IRequestApi;
+import com.jiangshan.knowledge.http.entity.QuetionCount;
+
+import java.util.List;
 
 public final class ExamRandomStartApi implements IRequestApi {
 
@@ -9,12 +12,13 @@ public final class ExamRandomStartApi implements IRequestApi {
 
     @Override
     public String getApi() {
-        return api + "/" + subjectCode + "/" + courseCode+"?questionTypeQtySet="+questionTypeQtySet;
+        return api + "/" + subjectCode + "/" + courseCode;
     }
 
     private String subjectCode;
     private String courseCode;
 
+    @HttpRename("questionTypeQtySet")
     private Object questionTypeQtySet;
 
     public ExamRandomStartApi setQuestionTypeQtySet(Object questionTypeQtySet) {
@@ -33,14 +37,14 @@ public final class ExamRandomStartApi implements IRequestApi {
         return this;
     }
 
-//    @HttpRename("examType")
-//    private int examType;
-//
-//    public ExamRandomStartApi setExamType(int examType) {
-//        this.examType = examType;
-//        return this;
-//    }
-//
+    @HttpRename("examType")
+    private int examType;
+
+    public ExamRandomStartApi setExamType(int examType) {
+        this.examType = examType;
+        return this;
+    }
+
 //    @HttpRename("examCode")
 //    private String examCode;
 //    public ExamRandomStartApi setExamCode(String examCode) {

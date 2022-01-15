@@ -35,9 +35,7 @@ import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * auth s_yz  2021/10/18
@@ -50,10 +48,10 @@ public class SelectAnserModelActivity extends BaseActivity {
     private RadioButton rbAnser;
     private RadioButton rbAnalysis;
 
-    private FrameLayout fl_history_info;
-    private LinearLayout ll_question_count;
+    private FrameLayout flHistoryInfo;
+    private LinearLayout llQuestionCount;
 
-    private RecyclerView rv_question_count;
+    private RecyclerView rvQuestionCount;
     private QuetionCountAdapter quetionCountAdapter;
     private List<QuetionCount> quetionCounts = new ArrayList<>();
 
@@ -81,10 +79,8 @@ public class SelectAnserModelActivity extends BaseActivity {
     }
 
     private void initView() {
-
-
-        fl_history_info = findViewById(R.id.fl_history_info);
-        ll_question_count = findViewById(R.id.ll_question_count);
+        flHistoryInfo = findViewById(R.id.fl_history_info);
+        llQuestionCount = findViewById(R.id.ll_question_count);
         rvExam = findViewById(R.id.rv_exam);
         examAdapter = new ExamHistoryListAdapter(R.layout.item_exam_history_list, datas);
         rvExam.setAdapter(examAdapter);
@@ -149,29 +145,25 @@ public class SelectAnserModelActivity extends BaseActivity {
     private void excuteRandom() {
         boolean random = getIntent().getBooleanExtra("random", false);
         if (random) {
-            fl_history_info.setVisibility(View.GONE);
-            ll_question_count.setVisibility(View.VISIBLE);
+            flHistoryInfo.setVisibility(View.GONE);
+            llQuestionCount.setVisibility(View.VISIBLE);
 
             Course course = LocalDataUtils.getCourse(this);
-            if(null!=course.getQuestionTypeSet()){
-                String[] strs=course.getQuestionTypeSet().split(",");
-                for (int i = 0; i <strs.length ; i++) {
-                    quetionCounts.add(new QuetionCount(Integer.valueOf(strs[i]),10));
+            if (null != course.getQuestionTypeSet()) {
+                String[] strs = course.getQuestionTypeSet().split(",");
+                for (int i = 0; i < strs.length; i++) {
+                    quetionCounts.add(new QuetionCount(Integer.valueOf(strs[i]), 10));
                 }
             }
-            rv_question_count = findViewById(R.id.rv_question_count);
+            rvQuestionCount = findViewById(R.id.rv_question_count);
             quetionCountAdapter = new QuetionCountAdapter(R.layout.item_radom_question, quetionCounts);
-            rv_question_count.setAdapter(quetionCountAdapter);
-            rv_question_count.setLayoutManager(new LinearLayoutManager(this));
+            rvQuestionCount.setAdapter(quetionCountAdapter);
+            rvQuestionCount.setLayoutManager(new LinearLayoutManager(this));
         }
     }
 
-    private String getquestionTypeQtySet(){
-        Map<Integer, Integer> map=new HashMap<>();
-        for (int i = 0; i <quetionCounts.size() ; i++) {
-            map.put(quetionCounts.get(i).getId(),quetionCounts.get(i).getCount());
-        }
-        return new Gson().toJson(map);
+    private String getquestionTypeQtySet() {
+        return new Gson().toJson(quetionCounts);
     }
 
     private void updateUI() {

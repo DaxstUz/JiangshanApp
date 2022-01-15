@@ -29,6 +29,7 @@ import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
@@ -49,6 +50,7 @@ import com.jiangshan.knowledge.http.entity.AnswerBgColor;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.http.entity.QuestionInfo;
+import com.jiangshan.knowledge.http.entity.QuetionCount;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
@@ -59,9 +61,11 @@ import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.zzhoujay.richtext.RichText;
 
-import java.net.URLEncoder;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 
@@ -293,64 +297,119 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void getShowQuestion() {
-//        EasyLog.print("getShowQuestion start");
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
 
         boolean random = getIntent().getBooleanExtra("random", false);
         String urlPath = null;
         if (random) {
-            urlPath = "/exam/randQuestionList/" + subject.getSubjectCode() + "/" + course.getCourseCode() + "?examType=" + getIntent().getIntExtra("examType", 1)+"&questionTypeQtySet=" + URLEncoder.encode(getIntent().getStringExtra("questionTypeQtySet"));
+            getShowRandomQuestion();
         } else {
-          urlPath = "/exam/questionList/" + subject.getSubjectCode() + "/" + course.getCourseCode() + "?examCode=" + getIntent().getStringExtra("examCode") + "&examType=" + getIntent().getIntExtra("examType", 1);
-        }
+            urlPath = "/exam/questionList/" + subject.getSubjectCode() + "/" + course.getCourseCode() + "?examCode=" + getIntent().getStringExtra("examCode") + "&examType=" + getIntent().getIntExtra("examType", 1);
+            String finalUrlPath = urlPath;
+            EasyHttp.get(this).api(new IRequestApi() {
+                @Override
+                public String getApi() {
+                    return finalUrlPath;
+                }
+            }).request(new HttpCallback<HttpListDataAll<Question>>(this) {
+                @Override
+                public void onSucceed(HttpListDataAll<Question> result) {
+                    if (result.isSuccess()) {
+                        questionDatas.addAll(result.getData());
+                        for (int i = 0; i < questionDatas.size(); i++) {
+                            questionDatas.get(i).setRank(i + 1);
+                            questionDatas.get(i).setBillId(billId);
+                            questionDatas.get(i).setTotal(result.getData().size());
 
-        if (null == urlPath) {
-            finish();
+                            if (1 == questionDatas.get(i).getQuestionType()) {
+                                questionDatas1.add(questionDatas.get(i));
+                            } else {
+                                questionDatas2.add(questionDatas.get(i));
+                            }
+                        }
+                        answer.notifyDataSetChanged();
+                        chapterMainAdapter.setSelectIndex(0);
+                        chapterMainAdapter.notifyDataSetChanged();
+                        if (questionDatas2.size() > 0) {
+                            tv_more_question.setVisibility(View.VISIBLE);
+                            chapterMainAdapter2.setSingleTotal(questionDatas1.size());
+                            chapterMainAdapter2.notifyDataSetChanged();
+                        }
+                        llAnswerCount.setVisibility(View.VISIBLE);
+                        if (questionDatas.size() > 0) {
+                            updateCount(questionDatas.get(0));
+                        }
+                        if (!showAnalysis) {
+                            setSeeView();
+                        }
+                        setLastIndex();
+                    }
+                }
+            });
         }
+    }
 
-        String finalUrlPath = urlPath;
-        EasyHttp.get(this).api(new IRequestApi() {
+    private void getShowRandomQuestion() {
+        Subject subject = LocalDataUtils.getSubject(this);
+        Course course = LocalDataUtils.getCourse(this);
+
+
+        Type userListType = new TypeToken<ArrayList<QuetionCount>>() {
+        }.getType();
+        ArrayList<QuetionCount> quetionCounts = new Gson().fromJson(getIntent().getStringExtra("questionTypeQtySet"), userListType);
+        Map<String, Object> paramAll = new HashMap<>();
+        Map<String, Object> param = new HashMap<>();
+        for (int i = 0; i < quetionCounts.size(); i++) {
+            param.put(quetionCounts.get(i).getId() + "", quetionCounts.get(i).getCount());
+        }
+        paramAll.put("courseCode", course.getCourseCode());
+        paramAll.put("questionTypeQtySet", param);
+        paramAll.put("examType", getIntent().getIntExtra("examType", 1));
+
+        String finalUrlPath = "/exam/randQuestionList/" + subject.getSubjectCode() + "/" + course.getCourseCode();
+        EasyHttp.post(this).api(new IRequestApi() {
             @Override
             public String getApi() {
                 return finalUrlPath;
             }
-        }).request(new HttpCallback<HttpListDataAll<Question>>(this) {
-            @Override
-            public void onSucceed(HttpListDataAll<Question> result) {
-                if (result.isSuccess()) {
-                    questionDatas.addAll(result.getData());
-                    for (int i = 0; i < questionDatas.size(); i++) {
-                        questionDatas.get(i).setRank(i + 1);
-                        questionDatas.get(i).setBillId(billId);
-                        questionDatas.get(i).setTotal(result.getData().size());
+        }).json(new Gson().toJson(paramAll))
+                .request(new HttpCallback<HttpListDataAll<Question>>(this) {
+                    @Override
+                    public void onSucceed(HttpListDataAll<Question> result) {
+                        if (result.isSuccess()) {
+                            questionDatas.addAll(result.getData());
+                            for (int i = 0; i < questionDatas.size(); i++) {
+                                questionDatas.get(i).setRank(i + 1);
+                                questionDatas.get(i).setBillId(billId);
+                                questionDatas.get(i).setTotal(result.getData().size());
 
-                        if (1 == questionDatas.get(i).getQuestionType()) {
-                            questionDatas1.add(questionDatas.get(i));
-                        } else {
-                            questionDatas2.add(questionDatas.get(i));
+                                if (1 == questionDatas.get(i).getQuestionType()) {
+                                    questionDatas1.add(questionDatas.get(i));
+                                } else {
+                                    questionDatas2.add(questionDatas.get(i));
+                                }
+                            }
+                            answer.notifyDataSetChanged();
+                            chapterMainAdapter.setSelectIndex(0);
+                            chapterMainAdapter.notifyDataSetChanged();
+                            if (questionDatas2.size() > 0) {
+                                tv_more_question.setVisibility(View.VISIBLE);
+                                chapterMainAdapter2.setSingleTotal(questionDatas1.size());
+                                chapterMainAdapter2.notifyDataSetChanged();
+                            }
+                            llAnswerCount.setVisibility(View.VISIBLE);
+                            if (questionDatas.size() > 0) {
+                                updateCount(questionDatas.get(0));
+                            }
+                            if (!showAnalysis) {
+                                setSeeView();
+                            }
+
+                            setLastIndex();
                         }
                     }
-                    answer.notifyDataSetChanged();
-                    chapterMainAdapter.setSelectIndex(0);
-                    chapterMainAdapter.notifyDataSetChanged();
-                    if (questionDatas2.size() > 0) {
-                        tv_more_question.setVisibility(View.VISIBLE);
-                        chapterMainAdapter2.setSingleTotal(questionDatas1.size());
-                        chapterMainAdapter2.notifyDataSetChanged();
-                    }
-                    llAnswerCount.setVisibility(View.VISIBLE);
-                    if(questionDatas.size()>0){
-                        updateCount(questionDatas.get(0));
-                    }
-                    if (!showAnalysis) {
-                        setSeeView();
-                    }
-
-                    setLastIndex();
-                }
-            }
-        });
+                });
     }
 
     private void initView() {
@@ -570,7 +629,14 @@ public class AnswerActivity extends BaseActivity {
         IRequestApi apiUrl = null;
         boolean random = getIntent().getBooleanExtra("random", false);
         if (random) {
-            apiUrl = new ExamRandomStartApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setQuestionTypeQtySet(URLEncoder.encode(getIntent().getStringExtra("questionTypeQtySet")));
+            Type userListType = new TypeToken<ArrayList<QuetionCount>>() {
+            }.getType();
+            ArrayList<QuetionCount> quetionCounts = new Gson().fromJson(getIntent().getStringExtra("questionTypeQtySet"), userListType);
+            Map<String, Integer> param = new HashMap<>();
+            for (int i = 0; i < quetionCounts.size(); i++) {
+                param.put(quetionCounts.get(i).getId() + "", quetionCounts.get(i).getCount());
+            }
+            apiUrl = new ExamRandomStartApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setQuestionTypeQtySet(param);
         } else {
             apiUrl = new ExamStartApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setExamCode(examCode);
         }
