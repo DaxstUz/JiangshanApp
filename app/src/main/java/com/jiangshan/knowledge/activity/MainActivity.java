@@ -1,17 +1,18 @@
 package com.jiangshan.knowledge.activity;
 
 import android.app.TabActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.hjq.http.EasyLog;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.home.HomeActivity;
 import com.jiangshan.knowledge.activity.list.LearnListActivity;
@@ -26,19 +27,18 @@ public class MainActivity extends TabActivity implements RadioGroup.OnCheckedCha
 
     private TabHost tabhost;
 
-    private ImageView iv_welcome;
+//    private ImageView iv_welcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Utils.clickUtil = this;
         initView();
 
-        iv_welcome = (ImageView) findViewById(R.id.iv_welcome);
+//        iv_welcome = (ImageView) findViewById(R.id.iv_welcome);
 //        iv_welcome.animate()
 //                .alpha(0f)
-//                .setDuration(5000)
+//                .setDuration(1000)
 //                .setListener(new AnimatorListenerAdapter() {
 //                    @Override
 //                    public void onAnimationEnd(Animator animation) {
@@ -46,12 +46,13 @@ public class MainActivity extends TabActivity implements RadioGroup.OnCheckedCha
 //                    }
 //                });
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                iv_welcome.setVisibility(View.GONE);
-            }
-        }, 3000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                iv_welcome.setVisibility(View.GONE);
+//            }
+//        }, 100);
+
     }
 
     private void initView() {
