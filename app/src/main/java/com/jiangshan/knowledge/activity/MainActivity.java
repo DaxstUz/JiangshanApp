@@ -6,18 +6,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.hjq.http.EasyHttp;
 import com.hjq.http.EasyLog;
+import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.home.HomeActivity;
 import com.jiangshan.knowledge.activity.list.LearnListActivity;
 import com.jiangshan.knowledge.activity.news.NewsActivity;
 import com.jiangshan.knowledge.activity.person.PersonActivity;
+import com.jiangshan.knowledge.http.api.GetPassportApi;
+import com.jiangshan.knowledge.http.entity.Passport;
+import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.ClickUtil;
 import com.jiangshan.knowledge.uitl.SysUtil;
 

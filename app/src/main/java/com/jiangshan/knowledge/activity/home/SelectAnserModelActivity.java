@@ -155,6 +155,10 @@ public class SelectAnserModelActivity extends BaseActivity {
                     quetionCounts.add(new QuetionCount(Integer.valueOf(strs[i]), 10));
                 }
             }
+            if(quetionCounts.size()==0){
+               ToastUtils.show("没有可用题库！");
+               finish();
+            }
             rvQuestionCount = findViewById(R.id.rv_question_count);
             quetionCountAdapter = new QuetionCountAdapter(R.layout.item_radom_question, quetionCounts);
             rvQuestionCount.setAdapter(quetionCountAdapter);
