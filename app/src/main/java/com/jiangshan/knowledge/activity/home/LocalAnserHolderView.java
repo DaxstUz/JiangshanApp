@@ -199,8 +199,6 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvQuestionType.setTextSize(fontSizeValue);
 //        tvAnswerAnalysis.setTextSize(fontSizeValue);
         tvAnswerAnalysis.getSettings().setDefaultFontSize(fontSizeValue);
-        tvAnswerAnalysis.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-        tvAnswerAnalysis.getSettings().setLoadWithOverviewMode(true);
         tvQuestionContent.setTextSize(fontSizeValue);
         tvAly.setTextSize(fontSizeValue);
         tvRightAnswer.setTextSize(fontSizeValue);
