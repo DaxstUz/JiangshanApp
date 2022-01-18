@@ -143,10 +143,9 @@
                 android:padding="10dp">
 
                 <ImageView
-                    android:src="@mipmap/weixin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                     />
+                    android:src="@mipmap/weixin" />
             </LinearLayout>
 
             <TextView
@@ -154,9 +153,34 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="30dp"
                 android:text="江山老师恭祝您考试顺利通过！"
                 android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/cb_private_policy"
+                    android:layout_width="30dp"
+                    android:checked="true"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="登录并同意"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_private_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:text="《江山老师隐私政策》"
+                    android:textColor="@color/bg_title"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>

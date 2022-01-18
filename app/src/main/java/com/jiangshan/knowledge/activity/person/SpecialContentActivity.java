@@ -89,6 +89,11 @@ public class SpecialContentActivity extends BaseActivity {
     }
 
     private void getArticleDetail(int articleId) {
+        if(-1==articleId){
+            setTitle("隐私政策");
+            newsWebview.loadUrl("https://img.51kpm.com/files/app/private_policy.html");
+            return;
+        }
         EasyHttp.get(this)
                 .api(new GetSpecialContentApi().setSpecialTypeId(articleId).getApi())
                 .request(new HttpCallback<HttpData<Article>>(this) {

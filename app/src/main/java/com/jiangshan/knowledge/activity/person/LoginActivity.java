@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -58,6 +60,9 @@ public class LoginActivity extends BaseActivity {
 
     private ImageView ivCaptcha;
 
+    private TextView tv_private_policy;
+    private CheckBox cb_private_policy;
+
     private String ticket;
     private int errorCount = 0;
 
@@ -83,6 +88,11 @@ public class LoginActivity extends BaseActivity {
                     return;
                 }
             }
+            if(!cb_private_policy.isChecked()){
+                ToastUtils.show("请同意隐私政策！");
+                return;
+            }
+
             EasyHttp.post(this)
                     .api(loginApi.setTicket(ticket).setMobileNumber(etAccount.getText().toString()).setUserPassword(etPsd.getText().toString()))
                     .request(new HttpCallback<HttpData<User>>(this) {
@@ -157,6 +167,18 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        cb_private_policy = findViewById(R.id.cb_private_policy);
+
+        tv_private_policy = findViewById(R.id.tv_private_policy);
+        tv_private_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SpecialContentActivity.class);
+                intent.putExtra("specialTypeId", -1);
+                startActivity(intent);
+            }
+        });
+
         llCaptcha = findViewById(R.id.ll_captcha);
         etCaptcha = findViewById(R.id.et_captcha);
         ivCaptcha = findViewById(R.id.iv_captcha);
@@ -192,6 +214,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void platformLogin(SHARE_MEDIA shareMedia) {
+
+        if(!cb_private_policy.isChecked()){
+            ToastUtils.show("请同意隐私政策！");
+            return;
+        }
+
         UMShareAPI.get(this).getPlatformInfo(this, shareMedia, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
