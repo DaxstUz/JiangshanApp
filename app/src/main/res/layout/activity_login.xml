@@ -177,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"
-                    android:text="《江山老师隐私政策》"
+                    android:text="《江山老师题库APP隐私政策》"
                     android:textColor="@color/bg_title"
                     android:textSize="12sp" />
             </LinearLayout>
