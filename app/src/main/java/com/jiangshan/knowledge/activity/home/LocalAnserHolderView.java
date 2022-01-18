@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.http.entity.QuestionOption;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.RichType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,7 +48,8 @@ public class LocalAnserHolderView extends Holder<Question> {
     private TextView tvRank;
     private TextView tvQuestionType;
     private TextView tvQuestionContent;
-    private TextView tvAnswerAnalysis;
+//    private TextView tvAnswerAnalysis;
+    private WebView tvAnswerAnalysis;
     private TextView tvChoiceAnswer;
 
     private TextView tvAly;
@@ -178,21 +182,25 @@ public class LocalAnserHolderView extends Holder<Question> {
         } else{
             questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         }
-        RichText.from(questionContent)
+        RichText.from(questionContent, RichType.html)
                 .into(tvQuestionContent);
 //        tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
         String answerAnalysis = data.getAnswerAnalysis();
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
-        answerAnalysis = answerAnalysis.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-        RichText.from(answerAnalysis)
-                .into(tvAnswerAnalysis);
+        answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
+        tvAnswerAnalysis.loadData(answerAnalysis,"text/html; charset=UTF-8", null);
+//        RichText.from(answerAnalysis, RichType.html)
+//                .into(tvAnswerAnalysis);
 
         tvRank.setTextSize(fontSizeValue);
         tvChoiceAnswer.setTextSize(fontSizeValue);
         chapterName.setTextSize(fontSizeValue);
         chapterCount.setTextSize(fontSizeValue);
         tvQuestionType.setTextSize(fontSizeValue);
-        tvAnswerAnalysis.setTextSize(fontSizeValue);
+//        tvAnswerAnalysis.setTextSize(fontSizeValue);
+        tvAnswerAnalysis.getSettings().setDefaultFontSize(fontSizeValue);
+        tvAnswerAnalysis.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        tvAnswerAnalysis.getSettings().setLoadWithOverviewMode(true);
         tvQuestionContent.setTextSize(fontSizeValue);
         tvAly.setTextSize(fontSizeValue);
         tvRightAnswer.setTextSize(fontSizeValue);
@@ -229,7 +237,7 @@ public class LocalAnserHolderView extends Holder<Question> {
     private void setTextColor(String txtColor) {
         tvChoiceAnswer.setTextColor(Color.parseColor(txtColor));
         chapterCount.setTextColor(Color.parseColor(txtColor));
-        tvAnswerAnalysis.setTextColor(Color.parseColor(txtColor));
+//        tvAnswerAnalysis.setTextColor(Color.parseColor(txtColor));
         tvQuestionContent.setTextColor(Color.parseColor(txtColor));
         tvAly.setTextColor(Color.parseColor(txtColor));
         tvRightAnswer.setTextColor(Color.parseColor(txtColor));

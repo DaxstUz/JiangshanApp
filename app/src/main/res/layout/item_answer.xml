@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbars="none">
@@ -47,7 +48,7 @@
 
             <TextView
                 android:id="@+id/tv_question_content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
                 />
@@ -66,7 +67,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/border_padding_10"
+            android:layout_marginTop="-50dp"
+            android:padding="10dp"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -149,11 +151,13 @@
                 android:text="解析"
                  />
 
-            <TextView
+            <WebView
                 android:id="@+id/tv_answer_analysis"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="content" />
+                android:text="content"
+                android:layout_marginBottom="30dp"
+                tools:ignore="WebViewLayout" />
         </LinearLayout>
 
     </LinearLayout>

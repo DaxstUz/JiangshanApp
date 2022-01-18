@@ -859,6 +859,7 @@ public class AnswerActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        RichText.clear(this);
         RichText.recycle();
         FloatingWindowUtils.getInstance().unInit();
         //记录正在答题的题目信息
