@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbars="none">
@@ -47,6 +46,13 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_question_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="19sp"
+                />
+
+            <TextView
                 android:id="@+id/tv_question_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,12 +61,6 @@
                 android:padding="2dp"
                 android:textColor="@color/colorGreen" />
 
-            <TextView
-                android:id="@+id/tv_question_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="19sp"
-                />
         </FrameLayout>
 
         <LinearLayout
@@ -117,7 +117,7 @@
                 android:id="@+id/tv_answer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/answer_type_bg"
+                android:background="@drawable/answer_type_bg2"
                 android:padding="2dp"
                 android:text="答案"
                 />
@@ -144,7 +144,7 @@
                 android:id="@+id/tv_aly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/answer_type_bg"
+                android:background="@drawable/answer_type_bg2"
                 android:padding="2dp"
                 android:text="解析"
                  />

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_answer_a"
     android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/border_padding_10"
     android:layout_height="wrap_content">
 
     <TextView

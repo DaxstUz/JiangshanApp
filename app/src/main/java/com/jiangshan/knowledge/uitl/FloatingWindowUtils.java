@@ -64,9 +64,7 @@ public class FloatingWindowUtils {
      *
      * @param layoutId 悬浮窗布局文件id
      */
-
     @SuppressLint("RtlHardcoded")
-
     public void showFloatingWindow(@LayoutRes int layoutId) {
         // 新建悬浮窗控件
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -113,13 +111,14 @@ public class FloatingWindowUtils {
             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         }
 
-        layoutParams.gravity = Gravity.RIGHT;
+//        layoutParams.gravity = Gravity.RIGHT;
+
         //设置flags 不然悬浮窗出来后整个屏幕都无法获取焦点，
         layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         layoutParams.format = PixelFormat.RGBA_8888;
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        layoutParams.x = 0;
+        layoutParams.x = 250;
         layoutParams.y = 100;
 
         // 将悬浮窗控件添加到WindowManager
@@ -176,6 +175,7 @@ public class FloatingWindowUtils {
                     layoutParams.x = layoutParams.x + movedX;
                     layoutParams.y = layoutParams.y + movedY;
 
+
                     // 更新悬浮窗控件布局
                     windowManager.updateViewLayout(view, layoutParams);
                     isScroll = true;
@@ -200,12 +200,12 @@ public class FloatingWindowUtils {
             int[] location = new int[2];
             view.getLocationOnScreen(location);
             if (location[0] > 0) {
-                layoutParams.x = 0;
+//                layoutParams.x = 0;
             } else {
                 DisplayMetrics dm = new DisplayMetrics();
                 windowManager.getDefaultDisplay().getMetrics(dm);
                 screenWidth = dm.widthPixels;
-                layoutParams.x = screenWidth - view.getWidth();
+//                layoutParams.x = screenWidth - view.getWidth();
 //            layoutParams.x = DensityUtils.getScreenSize(false).x - view.getWidth();
             }
             windowManager.updateViewLayout(view, layoutParams);

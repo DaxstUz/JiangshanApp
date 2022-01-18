@@ -35,8 +35,8 @@ public class ChapterAdapter extends BaseQuickAdapter<Chapter, BaseViewHolder> {
     protected void convert(@NonNull BaseViewHolder baseViewHolder, Chapter chapter) {
         baseViewHolder.setText(R.id.tv_chapter_name, chapter.getChapterName());
 //        EasyLog.print("chapterCode==> "+new Gson().toJson(chapter));
-        String chapterNo = chapter.getChapterCode();
-        baseViewHolder.setText(R.id.tv_chapter_no, "【" + chapterNo + "】");
+//        String chapterNo = chapter.getChapterCode();
+//        baseViewHolder.setText(R.id.tv_chapter_no, "【" + chapterNo + "】");
 
         RecyclerView rvChapter = baseViewHolder.findView(R.id.rv_chapter);
         if (chapter.isOpen()) {

@@ -90,7 +90,8 @@ public class HomeActivity extends BaseActivity {
         } else {
             setTitle(course.getCourseName());
         }
-
+        pageNum = 1;
+        datas.clear();
         getInitData();
         getData();
         getMemberData();

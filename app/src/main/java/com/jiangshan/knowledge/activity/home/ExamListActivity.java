@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -24,6 +25,7 @@ import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
+import com.jiangshan.knowledge.view.CustomLoadMoreView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +49,9 @@ public class ExamListActivity extends BaseActivity {
         setBackViewVisiable();
         initView();
 
-        getExamData();
         memberInfo = LocalDataUtils.getMemberInfo(this);
+        initLoadMore();
+        getExamData();
     }
 
     private void initView() {
@@ -86,16 +89,42 @@ public class ExamListActivity extends BaseActivity {
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
         EasyHttp.get(this)
-                .api(new GetExamApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType))
+                .api(new GetExamApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamType(examType).setPageNum(pageNum))
                 .request(new HttpCallback<HttpListData<Exam>>(this) {
                     @Override
                     public void onSucceed(HttpListData<Exam> result) {
                         if (result.isSuccess()) {
+                            if (result.getData().getList().size() < result.getData().getPageSize()) {
+                                //如果不够一页,显示没有更多数据布局
+                                examAdapter.getLoadMoreModule().loadMoreEnd();
+                            } else {
+                                examAdapter.getLoadMoreModule().loadMoreComplete();
+                            }
                             datas.addAll(result.getData().getList());
                             examAdapter.notifyDataSetChanged();
                         }
                     }
                 });
     }
+
+    private int pageNum = 1;
+
+    /**
+     * 初始化加载更多
+     */
+    private void initLoadMore() {
+        examAdapter.getLoadMoreModule().setLoadMoreView(new CustomLoadMoreView());
+        examAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                pageNum++;
+                getExamData();
+            }
+        });
+        examAdapter.getLoadMoreModule().setAutoLoadMore(true);
+        //当自动加载开启，同时数据不满一屏时，是否继续执行自动加载更多(默认为true)
+        examAdapter.getLoadMoreModule().setEnableLoadMoreIfNotFullPage(false);
+    }
+
 }
 

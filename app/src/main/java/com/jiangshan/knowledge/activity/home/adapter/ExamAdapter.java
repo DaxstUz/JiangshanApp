@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.http.entity.Exam;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * auth s_yz  2021/10/17
  */
-public class ExamAdapter extends BaseQuickAdapter<Exam, BaseViewHolder> {
+public class ExamAdapter extends BaseQuickAdapter<Exam, BaseViewHolder> implements LoadMoreModule {
 
     public ExamAdapter(int layoutResId, @Nullable List<Exam> data) {
         super(layoutResId, data);

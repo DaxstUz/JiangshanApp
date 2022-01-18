@@ -104,7 +104,7 @@ import okhttp3.Call;
  */
 public class AnswerActivity extends BaseActivity {
 
-    private ConvenientBanner answer;
+    private ConvenientBanner answerPager;
     private List<Question> questionDatas = new ArrayList();
 
     private LinearLayout llAnswerCount;
@@ -148,11 +148,11 @@ public class AnswerActivity extends BaseActivity {
     private boolean showAnalysis;
 
     public void showAnswer() {
-        int currentIndex = answer.getCurrentItem();
+        int currentIndex = answerPager.getCurrentItem();
         Question question = questionDatas.get(currentIndex);
         question.setShowAnswer(!question.isShowAnswer());
-        answer.notifyDataSetChanged();
-        answer.setCurrentItem(currentIndex, false);
+        answerPager.notifyDataSetChanged();
+        answerPager.setCurrentItem(currentIndex, false);
     }
 
     @Override
@@ -179,11 +179,19 @@ public class AnswerActivity extends BaseActivity {
 
         //第一次设置缓存位置
         RichText.initCacheDir(this);
+        FloatingWindowUtils.getInstance().init(this);
     }
 
     private void setSeeView() {
-        FloatingWindowUtils.getInstance().init(this);
-        FloatingWindowUtils.getInstance().showFloatingWindow(R.layout.floating_view);
+        if (!showAnalysis) {
+            FloatingWindowUtils.getInstance().showFloatingWindow(R.layout.floating_view);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setSeeView();
     }
 
     private void getPermisson() {
@@ -231,7 +239,7 @@ public class AnswerActivity extends BaseActivity {
                                 questionDatas2.add(questionDatas.get(i));
                             }
                         }
-                        answer.notifyDataSetChanged();
+                        answerPager.notifyDataSetChanged();
                         chapterMainAdapter.setSelectIndex(0);
                         chapterMainAdapter.notifyDataSetChanged();
                         if (questionDatas2.size() > 0) {
@@ -276,7 +284,7 @@ public class AnswerActivity extends BaseActivity {
                             questionDatas2.add(questionDatas.get(i));
                         }
                     }
-                    answer.notifyDataSetChanged();
+                    answerPager.notifyDataSetChanged();
                     chapterMainAdapter.setSelectIndex(0);
                     chapterMainAdapter.notifyDataSetChanged();
                     if (questionDatas2.size() > 0) {
@@ -286,9 +294,6 @@ public class AnswerActivity extends BaseActivity {
                     }
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
-                    if (!showAnalysis) {
-                        setSeeView();
-                    }
 
                     setLastIndex();
                 }
@@ -328,7 +333,7 @@ public class AnswerActivity extends BaseActivity {
                                 questionDatas2.add(questionDatas.get(i));
                             }
                         }
-                        answer.notifyDataSetChanged();
+                        answerPager.notifyDataSetChanged();
                         chapterMainAdapter.setSelectIndex(0);
                         chapterMainAdapter.notifyDataSetChanged();
                         if (questionDatas2.size() > 0) {
@@ -340,9 +345,7 @@ public class AnswerActivity extends BaseActivity {
                         if (questionDatas.size() > 0) {
                             updateCount(questionDatas.get(0));
                         }
-                        if (!showAnalysis) {
-                            setSeeView();
-                        }
+
                         setLastIndex();
                     }
                 }
@@ -390,7 +393,7 @@ public class AnswerActivity extends BaseActivity {
                                     questionDatas2.add(questionDatas.get(i));
                                 }
                             }
-                            answer.notifyDataSetChanged();
+                            answerPager.notifyDataSetChanged();
                             chapterMainAdapter.setSelectIndex(0);
                             chapterMainAdapter.notifyDataSetChanged();
                             if (questionDatas2.size() > 0) {
@@ -401,9 +404,6 @@ public class AnswerActivity extends BaseActivity {
                             llAnswerCount.setVisibility(View.VISIBLE);
                             if (questionDatas.size() > 0) {
                                 updateCount(questionDatas.get(0));
-                            }
-                            if (!showAnalysis) {
-                                setSeeView();
                             }
 
                             setLastIndex();
@@ -456,13 +456,13 @@ public class AnswerActivity extends BaseActivity {
 
         llAnswerCount = findView(R.id.ll_answer_count);
 
-        answer = findView(R.id.answer);
+        answerPager = findView(R.id.answer);
 
         String bgColorValue = LocalDataUtils.getLocalData(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
         if (null == bgColorValue || bgColorValue.length() == 0) {
             bgColorValue = "#ffffff";
         }
-        answer.setBackgroundColor(Color.parseColor(bgColorValue));
+        answerPager.setBackgroundColor(Color.parseColor(bgColorValue));
         rvChapterMain.setBackgroundColor(Color.parseColor(bgColorValue));
         llAnswerCount.setBackgroundColor(Color.parseColor(bgColorValue));
         setModel();
@@ -474,8 +474,8 @@ public class AnswerActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue, colorDatas.get(position).getCorlorStr());
-                answer.notifyDataSetChanged();
-                answer.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
+                answerPager.notifyDataSetChanged();
+                answerPager.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
                 rvChapterMain.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
                 llAnswerCount.setBackgroundColor(Color.parseColor(colorDatas.get(position).getCorlorStr()));
                 llSettingLine.setVisibility(View.GONE);
@@ -508,7 +508,7 @@ public class AnswerActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 ll_chapter.setVisibility(View.GONE);
-                answer.setCurrentItem(position, false);
+                answerPager.setCurrentItem(position, false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter.notifyDataSetChanged();
             }
@@ -518,13 +518,13 @@ public class AnswerActivity extends BaseActivity {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 ll_chapter.setVisibility(View.GONE);
-                answer.setCurrentItem(position + questionDatas1.size(), false);
+                answerPager.setCurrentItem(position + questionDatas1.size(), false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter2.notifyDataSetChanged();
             }
         });
 
-        answer.setPages(
+        answerPager.setPages(
                 new CBViewHolderCreator() {
                     @Override
                     public LocalAnserHolderView createHolder(View itemView) {
@@ -537,7 +537,7 @@ public class AnswerActivity extends BaseActivity {
                     }
                 }, questionDatas);
 
-        answer.setOnPageChangeListener(new OnPageChangeListener() {
+        answerPager.setOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
@@ -555,7 +555,7 @@ public class AnswerActivity extends BaseActivity {
             }
         });
 
-        answer.setOnClickListener(new View.OnClickListener() {
+        answerPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 llSettingLine.setVisibility(View.GONE);
@@ -580,7 +580,7 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void postCollect() {
-        Question question = questionDatas.get(answer.getCurrentItem());
+        Question question = questionDatas.get(answerPager.getCurrentItem());
 
         String apiPath;
         if (1 == question.getCollectFlag()) {
@@ -717,8 +717,8 @@ public class AnswerActivity extends BaseActivity {
         if (null == answerRight) {
             return;
         }
-        if (answerRight && answerNext && questionDatas.size() - 1 != answer.getCurrentItem()) {
-            answer.setCurrentItem(answer.getCurrentItem() + 1, false);
+        if (answerRight && answerNext && questionDatas.size() - 1 != answerPager.getCurrentItem()) {
+            answerPager.setCurrentItem(answerPager.getCurrentItem() + 1, false);
         } else if (settingVibrator && !answerRight) {
             vibrator();
         }
@@ -733,7 +733,7 @@ public class AnswerActivity extends BaseActivity {
                     fontSizeValue--;
                     LocalDataUtils.saveLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue, fontSizeValue);
                     tvFontSize.setText(fontSizeValue + "");
-                    answer.notifyDataSetChanged();
+                    answerPager.notifyDataSetChanged();
                 } else {
                     ToastUtils.show("最小字号为18！");
                 }
@@ -743,7 +743,7 @@ public class AnswerActivity extends BaseActivity {
                     fontSizeValue++;
                     LocalDataUtils.saveLocalDataInteger(this, LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue, fontSizeValue);
                     tvFontSize.setText(fontSizeValue + "");
-                    answer.notifyDataSetChanged();
+                    answerPager.notifyDataSetChanged();
                 } else {
                     ToastUtils.show("最大字号为33！");
                 }
@@ -780,14 +780,14 @@ public class AnswerActivity extends BaseActivity {
 
                 if (modelLight) {
                     LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue, "#B3000000");
-                    answer.setBackgroundColor(Color.parseColor("#B3000000"));
+                    answerPager.setBackgroundColor(Color.parseColor("#B3000000"));
                 } else {
                     LocalDataUtils.saveLocalData(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue, "#ffffff");
-                    answer.setBackgroundColor(Color.parseColor("#ffffff"));
+                    answerPager.setBackgroundColor(Color.parseColor("#ffffff"));
                 }
 
                 setModel();
-                answer.notifyDataSetChanged();
+                answerPager.notifyDataSetChanged();
                 llSettingLine.setVisibility(View.GONE);
                 break;
             case R.id.ll_answer_count:
@@ -803,7 +803,7 @@ public class AnswerActivity extends BaseActivity {
                 break;
             case R.id.ll_question_feedback:
                 intent = new Intent(AnswerActivity.this, QuestionFeedbackActivity.class);
-                intent.putExtra("question", questionDatas.get(answer.getCurrentItem()));
+                intent.putExtra("question", questionDatas.get(answerPager.getCurrentItem()));
                 intent.putExtra("examCode", getIntent().getStringExtra("examCode"));
                 startActivityForResult(intent, 0);
                 llSettingLine.setVisibility(View.GONE);
@@ -812,7 +812,7 @@ public class AnswerActivity extends BaseActivity {
                 showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
                 getIntent().putExtra("showAnalysis", !showAnalysis);
                 setModel();
-                answer.notifyDataSetChanged();
+                answerPager.notifyDataSetChanged();
                 llSettingLine.setVisibility(View.GONE);
                 break;
         }
@@ -849,15 +849,21 @@ public class AnswerActivity extends BaseActivity {
         }
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FloatingWindowUtils.getInstance().hideFloatWindow();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         RichText.recycle();
         FloatingWindowUtils.getInstance().unInit();
-
         //记录正在答题的题目信息
         if (null != examCode && examCode.length() > 0 && questionDatas.size() > 0) {
-            Question question = questionDatas.get(answer.getCurrentItem());
+            Question question = questionDatas.get(answerPager.getCurrentItem());
             LocalDataUtils.saveLocalData(this, LocalDataUtils.anwserQuestion, examCode, new Gson().toJson(question));
         }
     }
@@ -869,7 +875,7 @@ public class AnswerActivity extends BaseActivity {
                 for (int i = 0; i < questionDatas.size(); i++) {
                     questionDatas.get(i).setHasAnswer(true);
                     if (question.getId() == questionDatas.get(i).getId()) {
-                        answer.setCurrentItem(i, false);
+                        answerPager.setCurrentItem(i, false);
                         setCollectCount();
                         ToastUtils.show("已恢复至上一次答题，第" + (i + 1) + "题");
                         break;

@@ -18,9 +18,12 @@ import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.person.adapter.SubjectAdapter;
 import com.jiangshan.knowledge.activity.person.adapter.SubjectCategoryAdapter;
+import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
 import com.jiangshan.knowledge.http.api.SubjectCategoryApi;
+import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.SubjectCategory;
+import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListDataAll;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
@@ -89,6 +92,7 @@ public class SelectSubjectActivity extends BaseActivity {
                 SelectedSubjectItem.setSlectedNavItem(position);
                 subjectAdapter.notifyDataSetChanged();
 
+                getMemberData();
                 setResult(RESULT_OK);
                 finish();
             }
@@ -108,6 +112,25 @@ public class SelectSubjectActivity extends BaseActivity {
                         }
                         subjectCategoryAdapter.notifyDataSetChanged();
                         subjectAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    private void getMemberData() {
+        Subject subject = LocalDataUtils.getSubject(this);
+        if (null == subject) {
+            return;
+        }
+        EasyHttp.get(this)
+                .api(new GetMemberInfoApi().setSubjectCode(subject.getSubjectCode()))
+                .request(new HttpCallback<HttpData<MemberInfo>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<MemberInfo> result) {
+                        if (result.isSuccess()) {
+                            Gson gson = new Gson();
+                            String member = gson.toJson(result.getData());
+                            LocalDataUtils.saveLocalData(SelectSubjectActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
+                        }
                     }
                 });
     }
