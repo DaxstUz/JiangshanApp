@@ -67,7 +67,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-50dp"
+            android:layout_marginTop="-55dp"
             android:padding="10dp"
             android:orientation="vertical">
 
@@ -121,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/answer_type_bg2"
                 android:padding="2dp"
+                android:textColor="@color/bg_title"
                 android:text="答案"
                 />
 
@@ -148,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/answer_type_bg2"
                 android:padding="2dp"
+                android:textColor="@color/bg_title"
                 android:text="解析"
                  />
 

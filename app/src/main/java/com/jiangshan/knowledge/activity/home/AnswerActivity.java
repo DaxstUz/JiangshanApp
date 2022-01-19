@@ -435,12 +435,12 @@ public class AnswerActivity extends BaseActivity {
 
         rv_bg_color = findView(R.id.rv_bg_color);
         rv_bg_color.setLayoutManager(new GridLayoutManager(this, 6));
-        colorDatas.add(new AnswerBgColor("#1d1d1f"));
-        colorDatas.add(new AnswerBgColor("#fdf2dc"));
-        colorDatas.add(new AnswerBgColor("#e6cdae"));
-        colorDatas.add(new AnswerBgColor("#d2ecd3"));
-        colorDatas.add(new AnswerBgColor("#f0e1e6"));
-        colorDatas.add(new AnswerBgColor("#f3f7f9"));
+        colorDatas.add(new AnswerBgColor("#faf3dd"));
+        colorDatas.add(new AnswerBgColor("#e1ceb0"));
+        colorDatas.add(new AnswerBgColor("#d6ebd4"));
+        colorDatas.add(new AnswerBgColor("#eee1e4"));
+        colorDatas.add(new AnswerBgColor("#f3f6f8"));
+        colorDatas.add(new AnswerBgColor("#ffffff"));
         bgColorAdapter = new AnswerBgColorAdapter(R.layout.item_answer_bg, colorDatas);
         rv_bg_color.setAdapter(bgColorAdapter);
 

@@ -51,23 +51,27 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
         if (null == bgColorValue || bgColorValue.length() == 0) {
             bgColorValue = "#ffffff";
         }
-        if ("#1d1d1f".equals(bgColorValue)) {
-            bgColorValue = "#78787a";
-        } else if ("#fdf2dc".equals(bgColorValue)) {
-            bgColorValue = "#483a2f";
-        } else if ("#e6cdae".equals(bgColorValue)) {
-            bgColorValue = "#362f27";
-        } else if ("#d2ecd3".equals(bgColorValue)) {
-            bgColorValue = "#1f3721";
-        } else if ("#f0e1e6".equals(bgColorValue)) {
-            bgColorValue = "#752935";
-        } else if ("#f3f7f9".equals(bgColorValue)) {
+//        if ("#1d1d1f".equals(bgColorValue)) {
+//            bgColorValue = "#78787a";
+//        } else if ("#fdf2dc".equals(bgColorValue)) {
+//            bgColorValue = "#483a2f";
+//        } else if ("#e6cdae".equals(bgColorValue)) {
+//            bgColorValue = "#362f27";
+//        } else if ("#d2ecd3".equals(bgColorValue)) {
+//            bgColorValue = "#1f3721";
+//        } else if ("#f0e1e6".equals(bgColorValue)) {
+//            bgColorValue = "#752935";
+//        } else if ("#f3f7f9".equals(bgColorValue)) {
+//            bgColorValue = "#333333";
+//        } else
+        if ("#ffffff".equals(bgColorValue)) {
             bgColorValue = "#333333";
-        } else if ("#ffffff".equals(bgColorValue)) {
-            bgColorValue = "#333333";
-        } else if ("#B3000000".equals(bgColorValue)) {
-            bgColorValue = "#cdcdcd";
+        }else{
+            bgColorValue = "#000000";
         }
+//        else if ("#B3000000".equals(bgColorValue)) {
+//            bgColorValue = "#cdcdcd";
+//        }
         tv_answer_content.setTextColor(Color.parseColor(bgColorValue));
 
         String optionNo = data.getOptionNo();

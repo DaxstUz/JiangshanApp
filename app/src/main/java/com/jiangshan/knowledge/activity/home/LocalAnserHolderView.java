@@ -188,9 +188,12 @@ public class LocalAnserHolderView extends Holder<Question> {
         String answerAnalysis = data.getAnswerAnalysis();
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
-        tvAnswerAnalysis.loadData(answerAnalysis,"text/html; charset=UTF-8", null);
+        answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
+//        tvAnswerAnalysis.loadData(answerAnalysis,"text/html; charset=UTF-8", null);
+        tvAnswerAnalysis.loadDataWithBaseURL(null,answerAnalysis,"text/html","UTF-8", null);
 //        RichText.from(answerAnalysis, RichType.html)
 //                .into(tvAnswerAnalysis);
+        tvAnswerAnalysis.setBackgroundColor(Color.parseColor(bgColorValue)); // 设置背景色
 
         tvRank.setTextSize(fontSizeValue);
         tvChoiceAnswer.setTextSize(fontSizeValue);
@@ -223,6 +226,8 @@ public class LocalAnserHolderView extends Holder<Question> {
             setTextColor("#333333");
         } else if ("#B3000000".equals(bgColorValue)) {
             setTextColor("#cdcdcd");
+        }else{
+            setTextColor("#000000");
         }
 
         if (showAnalysis || data.isShowAnswer()) {
@@ -237,10 +242,10 @@ public class LocalAnserHolderView extends Holder<Question> {
         chapterCount.setTextColor(Color.parseColor(txtColor));
 //        tvAnswerAnalysis.setTextColor(Color.parseColor(txtColor));
         tvQuestionContent.setTextColor(Color.parseColor(txtColor));
-        tvAly.setTextColor(Color.parseColor(txtColor));
+//        tvAly.setTextColor(Color.parseColor(txtColor));
         tvRightAnswer.setTextColor(Color.parseColor(txtColor));
         tvDetailQuestion.setTextColor(Color.parseColor(txtColor));
-        tvAnswer.setTextColor(Color.parseColor(txtColor));
+//        tvAnswer.setTextColor(Color.parseColor(txtColor));
     }
 
     private void examCommit() {
