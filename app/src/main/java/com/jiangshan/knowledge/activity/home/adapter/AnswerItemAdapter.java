@@ -66,12 +66,11 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 //        } else
         if ("#ffffff".equals(bgColorValue)) {
             bgColorValue = "#333333";
+        }else if ("#B3000000".equals(bgColorValue)) {
+            bgColorValue = "#cdcdcd";
         }else{
             bgColorValue = "#000000";
         }
-//        else if ("#B3000000".equals(bgColorValue)) {
-//            bgColorValue = "#cdcdcd";
-//        }
         tv_answer_content.setTextColor(Color.parseColor(bgColorValue));
 
         String optionNo = data.getOptionNo();

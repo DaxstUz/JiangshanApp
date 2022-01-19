@@ -2,9 +2,7 @@ package com.jiangshan.knowledge.activity.home;
 
 import android.graphics.Color;
 import android.os.Build;
-import android.text.Html;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,7 +46,7 @@ public class LocalAnserHolderView extends Holder<Question> {
     private TextView tvRank;
     private TextView tvQuestionType;
     private TextView tvQuestionContent;
-//    private TextView tvAnswerAnalysis;
+    //    private TextView tvAnswerAnalysis;
     private WebView tvAnswerAnalysis;
     private TextView tvChoiceAnswer;
 
@@ -121,7 +119,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         rvAnswerItem.setLayoutManager(new LinearLayoutManager((AnswerActivity) itemView.getContext()));
         questionOptionList.clear();
 
-        if(null!=data.getQuestionOptionList()){
+        if (null != data.getQuestionOptionList()) {
             questionOptionList.addAll(data.getQuestionOptionList());
         }
 
@@ -175,11 +173,11 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvChoiceAnswer.setText(data.getChoiceAnswer());
         String questionContent = data.getContent();
         questionContent = questionContent.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
-        if(4==data.getQuestionType()){
+        if (4 == data.getQuestionType()) {
             questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-        }else if(5==data.getQuestionType()){
+        } else if (5 == data.getQuestionType()) {
             questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-        } else{
+        } else {
             questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         }
         RichText.from(questionContent, RichType.html)
@@ -189,11 +187,18 @@ public class LocalAnserHolderView extends Holder<Question> {
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
         answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
+        if(bgColorValue.length()>7){
+            answerAnalysis = answerAnalysis.replace("<p>", "<p style=\"color: #cdcdcd \">");
+        }
 //        tvAnswerAnalysis.loadData(answerAnalysis,"text/html; charset=UTF-8", null);
-        tvAnswerAnalysis.loadDataWithBaseURL(null,answerAnalysis,"text/html","UTF-8", null);
+        tvAnswerAnalysis.loadDataWithBaseURL(null, answerAnalysis, "text/html", "UTF-8", null);
 //        RichText.from(answerAnalysis, RichType.html)
 //                .into(tvAnswerAnalysis);
-        tvAnswerAnalysis.setBackgroundColor(Color.parseColor(bgColorValue)); // 设置背景色
+
+        // 设置背景色
+        tvAnswerAnalysis.setBackgroundColor(0);
+        // 设置填充透明度
+        tvAnswerAnalysis.getBackground().setAlpha(0);
 
         tvRank.setTextSize(fontSizeValue);
         tvChoiceAnswer.setTextSize(fontSizeValue);
@@ -226,7 +231,7 @@ public class LocalAnserHolderView extends Holder<Question> {
             setTextColor("#333333");
         } else if ("#B3000000".equals(bgColorValue)) {
             setTextColor("#cdcdcd");
-        }else{
+        } else {
             setTextColor("#000000");
         }
 
