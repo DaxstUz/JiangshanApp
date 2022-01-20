@@ -270,7 +270,7 @@ public class HomeActivity extends BaseActivity {
         Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
         if (null != passport) {
             Subject subject = LocalDataUtils.getSubject(this);
-            if (null == subject) {
+            if (null == subject || null==passport.getSubjectInfoList()) {
                 return;
             }
             SubjectInfo subjectInfo = null;

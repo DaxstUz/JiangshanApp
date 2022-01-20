@@ -174,12 +174,13 @@ public class LocalAnserHolderView extends Holder<Question> {
         String questionContent = data.getContent();
         questionContent = questionContent.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         if (4 == data.getQuestionType()) {
-            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         } else if (5 == data.getQuestionType()) {
-            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         } else {
-            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         }
+        questionContent = questionContent.replace("</p><p>", "</br>");
         RichText.from(questionContent, RichType.html)
                 .into(tvQuestionContent);
 //        tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
@@ -204,7 +205,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         tvChoiceAnswer.setTextSize(fontSizeValue);
         chapterName.setTextSize(fontSizeValue);
         chapterCount.setTextSize(fontSizeValue);
-        tvQuestionType.setTextSize(fontSizeValue);
+        tvQuestionType.setTextSize(fontSizeValue-2);
 //        tvAnswerAnalysis.setTextSize(fontSizeValue);
         tvAnswerAnalysis.getSettings().setDefaultFontSize(fontSizeValue);
         tvQuestionContent.setTextSize(fontSizeValue);

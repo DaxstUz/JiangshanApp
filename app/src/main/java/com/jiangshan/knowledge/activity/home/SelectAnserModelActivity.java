@@ -152,7 +152,7 @@ public class SelectAnserModelActivity extends BaseActivity {
             if (null != course.getQuestionTypeSet()) {
                 String[] strs = course.getQuestionTypeSet().split(",");
                 for (int i = 0; i < strs.length; i++) {
-                    quetionCounts.add(new QuetionCount(Integer.valueOf(strs[i]), 180));
+                    quetionCounts.add(new QuetionCount(Integer.valueOf(strs[i]), 10));
                 }
             }
             if(quetionCounts.size()==0){
