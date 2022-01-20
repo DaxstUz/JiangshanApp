@@ -2,6 +2,7 @@ package com.jiangshan.knowledge.activity.list;
 
 import static com.umeng.socialize.utils.ContextUtil.getContext;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.activity.list.adapter.RankAdapter;
 import com.jiangshan.knowledge.http.api.GetMyRankApi;
 import com.jiangshan.knowledge.http.api.GetRankApi;
@@ -79,6 +81,7 @@ public class LearnListActivity extends BaseActivity {
         initView();
 
         initLoadMore();
+
         getRankData();
     }
 
@@ -168,7 +171,8 @@ public class LearnListActivity extends BaseActivity {
 
     private void getRankData() {
         Subject subject = LocalDataUtils.getSubject(this);
-        if(null==subject){
+        if (null == subject) {
+            startActivityForResult(new Intent(this, SubjectDetailActivity.class), 0);
             return;
         }
         EasyHttp.get(this)
@@ -228,7 +232,7 @@ public class LearnListActivity extends BaseActivity {
     }
 
     private void updateSelfRank(Rank rank) {
-        if(null==rank){
+        if (null == rank) {
             return;
         }
 
@@ -257,7 +261,7 @@ public class LearnListActivity extends BaseActivity {
 
     private void updateRankUi() {
 
-        if (datas.size() >= 3&& 1==pageNum ) {
+        if (datas.size() >= 3 && 1 == pageNum) {
             Rank rankOne = datas.get(0);
             tv_rank_name_one.setText(rankOne.getNickname());
             tv_rate_one.setText("正确率:" + rankOne.getRightRate() + "%");
@@ -283,7 +287,13 @@ public class LearnListActivity extends BaseActivity {
         } else {
             rankAdapter.notifyDataSetChanged();
         }
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (1 == pageNum) {
+            getRankData();
+        }
     }
 }

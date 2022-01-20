@@ -38,6 +38,7 @@ import com.jiangshan.knowledge.http.entity.Menu;
 import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.SubjectInfo;
+import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.http.model.HttpListData;
 import com.jiangshan.knowledge.uitl.DateUtil;
@@ -86,7 +87,7 @@ public class HomeActivity extends BaseActivity {
         Course course = LocalDataUtils.getCourse(this);
         if (null == course || course.getCourseName().length() == 0) {
             setTitle("请选择科目");
-            startActivity(new Intent(getApplicationContext(), SubjectDetailActivity.class));
+//            startActivity(new Intent(getApplicationContext(), SubjectDetailActivity.class));
         } else {
             setTitle(course.getCourseName());
         }
@@ -340,6 +341,10 @@ public class HomeActivity extends BaseActivity {
     private void getMemberData() {
         Subject subject=LocalDataUtils.getSubject(this);
         if(null==subject){
+            return;
+        }
+        User user=LocalDataUtils.getUser(this);
+        if(null==user){
             return;
         }
         EasyHttp.get(this)
