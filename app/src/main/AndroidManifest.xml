@@ -15,7 +15,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!--弹窗授权-->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-permission
         android:name="android.permission.CHANGE_CONFIGURATION"
@@ -121,8 +124,8 @@
             android:name=".activity.person.SelectSubjectActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:launchMode="singleTask"
             android:name=".activity.person.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.person.PayActivity"

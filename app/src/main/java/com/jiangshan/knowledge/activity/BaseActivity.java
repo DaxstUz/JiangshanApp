@@ -1,11 +1,15 @@
 package com.jiangshan.knowledge.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -323,4 +327,6 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
             }
         }, new PromptEntity()).show();
     }
+
+
 }

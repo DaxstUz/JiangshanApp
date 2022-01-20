@@ -59,7 +59,7 @@ import com.jiangshan.knowledge.uitl.AlertButtonClick;
 import com.jiangshan.knowledge.uitl.DialogUtil;
 import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
-import com.zzhoujay.richtext.RichText;
+//import com.zzhoujay.richtext.RichText;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -178,7 +178,7 @@ public class AnswerActivity extends BaseActivity {
         getPermisson();
 
         //第一次设置缓存位置
-        RichText.initCacheDir(this);
+//        RichText.initCacheDir(this);
         FloatingWindowUtils.getInstance().init(this);
     }
 
@@ -859,8 +859,8 @@ public class AnswerActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RichText.clear(this);
-        RichText.recycle();
+//        RichText.clear(this);
+//        RichText.recycle();
         FloatingWindowUtils.getInstance().unInit();
         //记录正在答题的题目信息
         if (null != examCode && examCode.length() > 0 && questionDatas.size() > 0) {
