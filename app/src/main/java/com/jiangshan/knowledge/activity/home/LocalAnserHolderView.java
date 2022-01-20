@@ -194,6 +194,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         String answerAnalysis = data.getAnswerAnalysis();
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
+        answerAnalysis = answerAnalysis.replace("&nbsp;", "");
         answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
         if(bgColorValue.length()>7){
             questionContent = answerAnalysis.replace("<p>", "<p style=\"color: #cdcdcd \">");
