@@ -175,6 +175,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         if (4 == data.getQuestionType()) {
             //案例分析
             questionContent = questionContent.replace("&nbsp;", "");
+            questionContent = questionContent.replace("<br/></p><p>", "<br/>");
             questionContent = questionContent.replace("</p><p><br/>", "");
 //            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         } else if (5 == data.getQuestionType()) {
