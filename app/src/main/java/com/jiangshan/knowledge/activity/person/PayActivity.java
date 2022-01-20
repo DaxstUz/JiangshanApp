@@ -18,6 +18,7 @@ import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
 import com.jiangshan.knowledge.http.api.MemberBuyApi;
 import com.jiangshan.knowledge.http.entity.MemberInfo;
@@ -191,6 +192,10 @@ public class PayActivity extends BaseActivity implements PayUtil {
 
     private void getMemberData() {
         Subject subject=LocalDataUtils.getSubject(this);
+        if(null==subject){
+            startActivityForResult(new Intent(this, SubjectDetailActivity.class), 0);
+            return;
+        }
         EasyHttp.get(this)
                 .api(new GetMemberInfoApi().setSubjectCode(subject.getSubjectCode()))
                 .request(new HttpCallback<HttpData<MemberInfo>>(this) {
@@ -226,4 +231,9 @@ public class PayActivity extends BaseActivity implements PayUtil {
                 });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getMemberData();
+    }
 }

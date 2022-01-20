@@ -105,9 +105,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         answerAnalysis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PersonActivity.this, HistoryAnswerActivity.class);
-                intent.putExtra("examType", 2);
-                startActivityForResult(intent, RESULT_OK);
+                if (judgeLogin()) {
+                    Intent intent = new Intent(PersonActivity.this, HistoryAnswerActivity.class);
+                    intent.putExtra("examType", 2);
+                    startActivityForResult(intent, RESULT_OK);
+                }
             }
         });
 
@@ -216,7 +218,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 String appId = "wxfa7d7f1550fb111f"; // 填移动应用(App)的 AppId
                 IWXAPI api = WXAPIFactory.createWXAPI(PersonActivity.this, appId);
 
-// 判断当前版本是否支持拉起客服会话
+                // 判断当前版本是否支持拉起客服会话
                 if (api.getWXAppSupportAPI() >= Build.SUPPORT_OPEN_CUSTOMER_SERVICE_CHAT) {
                     WXOpenCustomerServiceChat.Req req = new WXOpenCustomerServiceChat.Req();
                     req.corpId = "wwba19f094dd191e2a";                                  // 企业ID
@@ -225,11 +227,13 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.rl_charge:
-                startActivity(new Intent(PersonActivity.this, PayActivity.class));
+                if (judgeLogin()) {
+                    startActivity(new Intent(PersonActivity.this, PayActivity.class));
+                }
                 break;
             case R.id.item_conf_share:
                 Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
-                if (null==passport) {
+                if (null == passport) {
                     return;
                 }
                 share(0, "江山老师题库app！", "江山老师题库APP提供一/二级建造师、造价工程师、信息系统项目管理师、系统集成项目管理工程师等考试题库练习及考点总结记忆！", passport.getAppPath());
@@ -238,16 +242,20 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 startActivity(new Intent(getApplicationContext(), SettingActivity.class));
                 break;
             case R.id.ll_error:
-                intent = new Intent(PersonActivity.this, ExamMarkActivity.class);
-                intent.putExtra("title", "错题集");
-                intent.putExtra("type", "error");
-                startActivityForResult(intent, RESULT_OK);
+                if (judgeLogin()) {
+                    intent = new Intent(PersonActivity.this, ExamMarkActivity.class);
+                    intent.putExtra("title", "错题集");
+                    intent.putExtra("type", "error");
+                    startActivityForResult(intent, RESULT_OK);
+                }
                 break;
             case R.id.ll_collect:
-                intent = new Intent(PersonActivity.this, ExamMarkActivity.class);
-                intent.putExtra("title", "收藏");
-                intent.putExtra("type", "collect");
-                startActivityForResult(intent, RESULT_OK);
+                if (judgeLogin()) {
+                    intent = new Intent(PersonActivity.this, ExamMarkActivity.class);
+                    intent.putExtra("title", "收藏");
+                    intent.putExtra("type", "collect");
+                    startActivityForResult(intent, RESULT_OK);
+                }
                 break;
             case R.id.item_conf_question:
                 intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
@@ -264,13 +272,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 intent.putExtra("specialTypeId", 2);
                 startActivity(intent);
                 break;
-
         }
     }
 
     private void getMemberData() {
-        Subject subject=LocalDataUtils.getSubject(this);
-        if(null==subject){
+        Subject subject = LocalDataUtils.getSubject(this);
+        if (null == subject) {
             return;
         }
         EasyHttp.get(this)
@@ -279,13 +286,13 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void onSucceed(HttpData<MemberInfo> result) {
                         if (result.isSuccess()) {
-                            MemberInfo memberInfo=result.getData();
+                            MemberInfo memberInfo = result.getData();
                             Gson gson = new Gson();
                             String member = gson.toJson(result.getData());
                             LocalDataUtils.saveLocalData(PersonActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyMember, member);
-                            if(null!=memberInfo && memberInfo.getEndDate()>0 ){
-                                tvVipTips.setText("VIP会员 "+ DateUtil.paseFromStr(memberInfo.getEndDate())+" 到期");
-                            }else{
+                            if (null != memberInfo && memberInfo.getEndDate() > 0) {
+                                tvVipTips.setText("VIP会员 " + DateUtil.paseFromStr(memberInfo.getEndDate()) + " 到期");
+                            } else {
                                 tvVipTips.setText("成为会员，享多重权益");
                             }
                         }

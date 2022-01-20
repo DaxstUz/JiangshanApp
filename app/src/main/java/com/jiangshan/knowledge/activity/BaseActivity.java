@@ -30,6 +30,7 @@ import com.jiangshan.knowledge.application.OKHttpUpdateHttpService;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Passport;
 import com.jiangshan.knowledge.http.entity.Subject;
+import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 import com.jiangshan.knowledge.view.MyUpdateDialog;
@@ -270,7 +271,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
     }
 
     protected boolean judgeLogin() {
-        String userStr = LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.keyUser);
+        User userStr = LocalDataUtils.getUser(this);
         if (null != userStr) {
             return true;
         } else {

@@ -85,6 +85,7 @@ public class HistoryAnswerActivity extends BaseActivity {
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
         if (null == subject || null == course) {
+            startActivityForResult(new Intent(this, SubjectDetailActivity.class), 0);
             return;
         }
 
