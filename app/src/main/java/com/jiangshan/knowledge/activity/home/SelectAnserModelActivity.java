@@ -61,7 +61,6 @@ public class SelectAnserModelActivity extends BaseActivity {
     private List<ExamHistory> datas = new ArrayList<>();
 
     private int pageNum = 1;
-
     private int memberType;
 
     @Override

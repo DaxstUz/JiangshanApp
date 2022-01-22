@@ -47,7 +47,19 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+
+    //在android{}中添加
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = "jianshang_v${defaultConfig.versionName}.apk"
+                outputFileName = fileName
+            }
+        }
+    }
 }
+
 
 dependencies {
 
@@ -105,13 +117,13 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     //umeng
-    implementation  'com.umeng.umsdk:common:9.4.2'//必选
-    implementation  'com.umeng.umsdk:asms:1.4.1'//必选
+    implementation 'com.umeng.umsdk:common:9.4.2'//必选
+    implementation 'com.umeng.umsdk:asms:1.4.1'//必选
 
     implementation 'com.umeng.umsdk:link:1.1.0'//集成U-Link，可选，如要统计分享回流次数和分享新增用户指标则必选
 
-    implementation  'com.umeng.umsdk:share-core:7.1.6'//分享核心库，必选
-    implementation  'com.umeng.umsdk:share-board:7.1.6'//分享面板功能，可选
+    implementation 'com.umeng.umsdk:share-core:7.1.6'//分享核心库，必选
+    implementation 'com.umeng.umsdk:share-board:7.1.6'//分享面板功能，可选
 
     implementation 'com.umeng.umsdk:share-wx:7.1.6' //微信完整版
 //    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.9'//微信官方依赖库，必选

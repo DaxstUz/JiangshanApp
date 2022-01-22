@@ -286,13 +286,15 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
         }
         String versionName = UpdateUtils.getVersionName(this);
         int verson = UpdateUtils.compareVersionName(passport.getAppVersion(), versionName);
-        EasyLog.print("本地版本："+versionName+"  远程版本:"+passport.getAppVersion());
+//        EasyLog.print("本地版本："+versionName+"  远程版本:"+passport.getAppVersion());
         if (verson <= 0) {
             return;
         }
         boolean forcedFlag=false;
         if(0==passport.getAppUpgradeFlag()){
             forcedFlag=true;
+        }else if(1==passport.getAppUpgradeFlag()){
+            forcedFlag=false;
         }
         UpdateEntity updateEntity = new UpdateEntity()
                 .setHasUpdate(true)
@@ -314,7 +316,6 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
             public void startDownload(@NonNull UpdateEntity updateEntity, @Nullable OnFileDownloadListener downloadListener) {
                 new DefaultUpdateDownloader().startDownload(updateEntity, downloadListener);
             }
-
             @Override
             public void backgroundDownload() {
                 EasyLog.print("backgroundDownload");
