@@ -44,7 +44,6 @@ public class LocalAnserHolderView extends Holder<Question> {
     private TextView tvRank;
     private TextView tvQuestionType;
     private WebView tvQuestionContent;
-    //    private TextView tvAnswerAnalysis;
     private WebView tvAnswerAnalysis;
     private TextView tvChoiceAnswer;
 
@@ -177,34 +176,22 @@ public class LocalAnserHolderView extends Holder<Question> {
             questionContent = questionContent.replace("&nbsp;", "");
             questionContent = questionContent.replace("<br/></p><p>", "<br/>");
             questionContent = questionContent.replace("</p><p><br/>", "");
-//            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
         } else if (5 == data.getQuestionType()) {
             //论文
             questionContent = questionContent.replace("</p><p><br/>", "");
-//            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-        } else {
-            //单选题
-//            questionContent = questionContent.replaceFirst("<p>", "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-//            questionContent = questionContent.replace("</p><p>", "<br/>");
         }
-       questionContent = questionContent.replace("</p><p>", "<br/>");
-//        RichText.from(questionContent, RichType.html)
-//                .into(tvQuestionContent);
-//        tvAnswerAnalysis.setText(Html.fromHtml(data.getAnswerAnalysis(), Html.FROM_HTML_MODE_COMPACT));
+        questionContent = questionContent.replace("</p><p>", "<br/>");
         String answerAnalysis = data.getAnswerAnalysis();
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
-        answerAnalysis = answerAnalysis.replace("&nbsp;", "");
+//        answerAnalysis = answerAnalysis.replace("&nbsp;", "");
         answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
-        if(bgColorValue.length()>7){
-            questionContent = answerAnalysis.replace("<p>", "<p style=\"color: #cdcdcd \">");
+        if (bgColorValue.length() > 7) {
+            questionContent = questionContent.replace("<p>", "<p style=\"color: #cdcdcd \">");
             answerAnalysis = answerAnalysis.replace("<p>", "<p style=\"color: #cdcdcd \">");
         }
-//        tvAnswerAnalysis.loadData(answerAnalysis,"text/html; charset=UTF-8", null);
         tvQuestionContent.loadDataWithBaseURL(null, questionContent, "text/html", "UTF-8", null);
         tvAnswerAnalysis.loadDataWithBaseURL(null, answerAnalysis, "text/html", "UTF-8", null);
-//        RichText.from(answerAnalysis, RichType.html)
-//                .into(tvAnswerAnalysis);
 
         // 设置背景色
         tvAnswerAnalysis.setBackgroundColor(0);

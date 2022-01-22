@@ -195,7 +195,7 @@ public class SelectAnserModelActivity extends BaseActivity {
         }
 
         EasyHttp.get(this)
-                .api(new GetExamHistoryListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).setExamType(getIntent().getIntExtra("examType", 1)).setExamCode(getIntent().getStringExtra("examCode")))
+                .api(new GetExamHistoryListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).setExamType(getIntent().getIntExtra("examType", 1)).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum))
                 .request(new HttpCallback<HttpListData<ExamHistory>>(this) {
                     @Override
                     public void onSucceed(HttpListData<ExamHistory> result) {
@@ -208,6 +208,9 @@ public class SelectAnserModelActivity extends BaseActivity {
                                 examAdapter.getLoadMoreModule().loadMoreComplete();
                             }
 
+                            if(1==pageNum){
+                                datas.clear();
+                            }
                             datas.addAll(result.getData().getList());
                             examAdapter.notifyDataSetChanged();
                         }
@@ -236,6 +239,8 @@ public class SelectAnserModelActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        pageNum = 1;
+        examAdapter.getLoadMoreModule().setEnableLoadMore(true);
         updateUI();
     }
 

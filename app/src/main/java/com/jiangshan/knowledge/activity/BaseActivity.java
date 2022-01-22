@@ -257,7 +257,6 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 
     @Override
     public void onEnd(Call call) {
-//        hideDialog();
     }
 
     protected boolean judgeSuject() {
@@ -287,13 +286,17 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
         }
         String versionName = UpdateUtils.getVersionName(this);
         int verson = UpdateUtils.compareVersionName(passport.getAppVersion(), versionName);
-//        EasyLog.print("本地版本："+versionName+"  远程版本:"+passport.getAppVersion());
+        EasyLog.print("本地版本："+versionName+"  远程版本:"+passport.getAppVersion());
         if (verson <= 0) {
             return;
         }
+        boolean forcedFlag=false;
+        if(0==passport.getAppUpgradeFlag()){
+            forcedFlag=true;
+        }
         UpdateEntity updateEntity = new UpdateEntity()
                 .setHasUpdate(true)
-                .setIsIgnorable(false)
+                .setIsIgnorable(forcedFlag)
                 .setVersionCode(10)
                 .setVersionName(passport.getAppVersion())
                 .setApkCacheDir(FileUtils.getAppExtPath(this))
@@ -328,6 +331,4 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
             }
         }, new PromptEntity()).show();
     }
-
-
 }
