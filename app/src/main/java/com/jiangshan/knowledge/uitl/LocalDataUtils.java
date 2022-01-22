@@ -21,7 +21,6 @@ public class LocalDataUtils {
 
     public static final String passport = "passport";
 
-
     public static final String settingDataName = "setting";
     public static final String keyVibrator = "settingVibrator";
     public static final String keyAnsewerNext = "settingAnsewerNext";

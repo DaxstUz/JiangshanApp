@@ -163,6 +163,7 @@ public class AnswerActivity extends BaseActivity {
         setBackViewVisiable();
         initView();
 
+//        answerShowAnalysis=LocalDataUtils.getLocalDataBoolean(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
         showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
         boolean ismark = getIntent().getBooleanExtra("ismark", false);
         if (ismark) {
@@ -177,13 +178,12 @@ public class AnswerActivity extends BaseActivity {
         }
         getPermisson();
 
-        //第一次设置缓存位置
-//        RichText.initCacheDir(this);
         FloatingWindowUtils.getInstance().init(this);
     }
 
     private void setSeeView() {
-        if (!showAnalysis) {
+        boolean keyHand= LocalDataUtils.getLocalDataBoolean(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyHand);
+        if (!showAnalysis&&keyHand) {
             FloatingWindowUtils.getInstance().showFloatingWindow(R.layout.floating_view);
         }
     }

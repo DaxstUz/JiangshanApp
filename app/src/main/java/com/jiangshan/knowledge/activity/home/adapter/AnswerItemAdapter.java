@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.hjq.http.EasyLog;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.http.entity.QuestionOption;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
@@ -74,6 +75,9 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
         tv_answer_content.setTextColor(Color.parseColor(bgColorValue));
 
         String optionNo = data.getOptionNo();
+
+        EasyLog.print("hasAnswer "+hasAnswer+" userAnswerList :"+userAnswerList.size()+" choiceAnswerList: "+choiceAnswerList.size());
+
         if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
             if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
                 baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
@@ -95,6 +99,7 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
             baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
             baseViewHolder.setText(R.id.tv_answer_option, "");
         }
+
     }
 
     public Set<String> getChoiceAnswerList() {

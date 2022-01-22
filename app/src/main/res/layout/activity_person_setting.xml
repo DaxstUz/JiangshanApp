@@ -103,9 +103,11 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_clear_hisory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
+        android:onClick="onClick"
         android:background="@color/b1"
         android:padding="@dimen/border_padding_10">
 
@@ -117,9 +119,11 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_clear_wrong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
+        android:onClick="onClick"
         android:background="@color/b1"
         android:padding="@dimen/border_padding_10">
 

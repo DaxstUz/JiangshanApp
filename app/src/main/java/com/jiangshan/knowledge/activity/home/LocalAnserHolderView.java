@@ -1,5 +1,6 @@
 package com.jiangshan.knowledge.activity.home;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
@@ -100,6 +101,13 @@ public class LocalAnserHolderView extends Holder<Question> {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void updateUI(Question data) {
+        answerShow = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
+
+        boolean showUserAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showUserAnalysis", false);
+        if(showUserAnalysis){
+            data.setHasAnswer(true);
+        }
+
         int fontSizeValue = LocalDataUtils.getLocalDataInteger((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
 
         String bgColorValue = LocalDataUtils.getLocalData((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.bgColorValue);
@@ -154,7 +162,6 @@ public class LocalAnserHolderView extends Holder<Question> {
 
         this.data = data;
         showAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showAnalysis", false);
-        answerShow = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
 
         answer.setQuestionId(data.getId());
         answer.setBillId(data.getBillId());
@@ -208,7 +215,6 @@ public class LocalAnserHolderView extends Holder<Question> {
         chapterName.setTextSize(fontSizeValue);
         chapterCount.setTextSize(fontSizeValue);
         tvQuestionType.setTextSize(fontSizeValue);
-//        tvAnswerAnalysis.setTextSize(fontSizeValue);
         tvAnswerAnalysis.getSettings().setDefaultFontSize(fontSizeValue);
         tvQuestionContent.getSettings().setDefaultFontSize(fontSizeValue);
         tvAly.setTextSize(fontSizeValue);
@@ -248,12 +254,8 @@ public class LocalAnserHolderView extends Holder<Question> {
     private void setTextColor(String txtColor) {
         tvChoiceAnswer.setTextColor(Color.parseColor(txtColor));
         chapterCount.setTextColor(Color.parseColor(txtColor));
-//        tvAnswerAnalysis.setTextColor(Color.parseColor(txtColor));
-//        tvQuestionContent.setTextColor(Color.parseColor(txtColor));
-//        tvAly.setTextColor(Color.parseColor(txtColor));
         tvRightAnswer.setTextColor(Color.parseColor(txtColor));
         tvDetailQuestion.setTextColor(Color.parseColor(txtColor));
-//        tvAnswer.setTextColor(Color.parseColor(txtColor));
     }
 
     private void examCommit() {
@@ -306,8 +308,7 @@ public class LocalAnserHolderView extends Holder<Question> {
 
         data.setHasAnswer(true);
 
-        if (showAnalysis || (answerShow && answerRight)) {
-            answerRight = false;
+        if (showAnalysis || (answerShow)) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);
         } else {
             llAnswerAnalysis.setVisibility(View.GONE);

@@ -1,15 +1,28 @@
 package com.jiangshan.knowledge.activity.person;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
 import androidx.annotation.Nullable;
 
+import com.hjq.http.EasyHttp;
+import com.hjq.http.listener.HttpCallback;
+import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
+import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
+import com.jiangshan.knowledge.http.api.ClearExamHistoryApi;
+import com.jiangshan.knowledge.http.api.ClearWrongQuestionApi;
+import com.jiangshan.knowledge.http.entity.Course;
+import com.jiangshan.knowledge.http.entity.Subject;
+import com.jiangshan.knowledge.http.model.HttpData;
+import com.jiangshan.knowledge.uitl.AlertButtonClick;
+import com.jiangshan.knowledge.uitl.DialogUtil;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
 
 /**
@@ -62,9 +75,50 @@ public class SettingActivity extends BaseActivity {
 
 
     public void onClick(View view) {
+        DialogUtil.DialogAttrs attrs = new DialogUtil.DialogAttrs();
         switch (view.getId()) {
+            case R.id.rl_clear_hisory:
+                attrs.title = "清空答题记录";
+                attrs.msg = "确定清空所有答题历史记录吗？";
+                attrs.textGravity = Gravity.CENTER;
+                attrs.btnVal = new String[]{"取消", "确定"};
+                attrs.isCancelable = Boolean.FALSE;
+                DialogUtil.alertDialog(SettingActivity.this, attrs, new AlertButtonClick() {
+                    @Override
+                    public void leftBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                    }
+
+                    @Override
+                    public void rightBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                        clearHistory();
+                    }
+                });
+                break;
+
+            case R.id.rl_clear_wrong:
+
+                attrs.title = "清空错题集";
+                attrs.msg = "确定清空所有错题集吗？";
+                attrs.textGravity = Gravity.CENTER;
+                attrs.btnVal = new String[]{"取消", "确定"};
+                attrs.isCancelable = Boolean.FALSE;
+                DialogUtil.alertDialog(SettingActivity.this, attrs, new AlertButtonClick() {
+                    @Override
+                    public void leftBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                    }
+
+                    @Override
+                    public void rightBtnClick(AlertDialog dlg) {
+                        dlg.dismiss();
+                        clearWrong();
+                    }
+                });
+                break;
             case R.id.rl_change_psd:
-                startActivity(new Intent(SettingActivity.this,ChangePsdActivity.class));
+                startActivity(new Intent(SettingActivity.this, ChangePsdActivity.class));
                 break;
             case R.id.switch_answer_show:
                 LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow, switchAnswerShow.isChecked());
@@ -83,4 +137,44 @@ public class SettingActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void clearHistory() {
+        Subject subject = LocalDataUtils.getSubject(this);
+        Course course = LocalDataUtils.getCourse(this);
+        if (null == subject || null == course) {
+            startActivityForResult(new Intent(this, SubjectDetailActivity.class), 0);
+            return;
+        }
+        EasyHttp.delete(this)
+                .api(new ClearExamHistoryApi().setSubjectCode(subject.getSubjectCode()).setSubjectCode(course.getCourseCode()))
+                .request(new HttpCallback<HttpData<String>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<String> result) {
+                        if (result.isSuccess()) {
+                            ToastUtils.show("已清空答题历史记录！");
+                        }
+                    }
+                });
+    }
+
+
+    private void clearWrong() {
+        Subject subject = LocalDataUtils.getSubject(this);
+        Course course = LocalDataUtils.getCourse(this);
+        if (null == subject || null == course) {
+            startActivityForResult(new Intent(this, SubjectDetailActivity.class), 0);
+            return;
+        }
+        EasyHttp.delete(this)
+                .api(new ClearWrongQuestionApi().setSubjectCode(subject.getSubjectCode()).setSubjectCode(course.getCourseCode()))
+                .request(new HttpCallback<HttpData<String>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<String> result) {
+                        if (result.isSuccess()) {
+                            ToastUtils.show("已清空错题集！");
+                        }
+                    }
+                });
+    }
+
 }

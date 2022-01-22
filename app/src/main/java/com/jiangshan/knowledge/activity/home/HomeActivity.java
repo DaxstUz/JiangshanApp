@@ -227,6 +227,7 @@ public class HomeActivity extends BaseActivity {
                 intent.putExtra("examCode", datas.get(position).getExamCode());
                 intent.putExtra("examName", datas.get(position).getExamName());
                 intent.putExtra("showAnalysis", true);
+                intent.putExtra("showUserAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }
         });
