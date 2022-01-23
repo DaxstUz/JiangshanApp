@@ -67,6 +67,7 @@ public class ExamListActivity extends BaseActivity {
                     Intent intent = new Intent(ExamListActivity.this, SelectAnserModelActivity.class);
                     intent.putExtra("examCode", datas.get(position).getExamCode());
                     intent.putExtra("examName", datas.get(position).getExamName());
+                    intent.putExtra("examType", datas.get(position).getExamType());
                     startActivityForResult(intent, RESULT_OK);
                 } else {
                     ToastUtils.show("这是会员专享，请去开通会员。");

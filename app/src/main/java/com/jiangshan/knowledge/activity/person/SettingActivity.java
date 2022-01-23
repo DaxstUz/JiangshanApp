@@ -98,7 +98,6 @@ public class SettingActivity extends BaseActivity {
                 break;
 
             case R.id.rl_clear_wrong:
-
                 attrs.title = "清空错题集";
                 attrs.msg = "确定清空所有错题集吗？";
                 attrs.textGravity = Gravity.CENTER;
@@ -146,7 +145,7 @@ public class SettingActivity extends BaseActivity {
             return;
         }
         EasyHttp.delete(this)
-                .api(new ClearExamHistoryApi().setSubjectCode(subject.getSubjectCode()).setSubjectCode(course.getCourseCode()))
+                .api(new ClearExamHistoryApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()))
                 .request(new HttpCallback<HttpData<String>>(this) {
                     @Override
                     public void onSucceed(HttpData<String> result) {
@@ -166,7 +165,7 @@ public class SettingActivity extends BaseActivity {
             return;
         }
         EasyHttp.delete(this)
-                .api(new ClearWrongQuestionApi().setSubjectCode(subject.getSubjectCode()).setSubjectCode(course.getCourseCode()))
+                .api(new ClearWrongQuestionApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()))
                 .request(new HttpCallback<HttpData<String>>(this) {
                     @Override
                     public void onSucceed(HttpData<String> result) {

@@ -25,7 +25,6 @@ import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.adapter.ExamHistoryListAdapter;
 import com.jiangshan.knowledge.activity.home.adapter.MenuAdapter;
 import com.jiangshan.knowledge.activity.news.ArticleDetailActivity;
-import com.jiangshan.knowledge.activity.person.PersonActivity;
 import com.jiangshan.knowledge.http.api.BannerApi;
 import com.jiangshan.knowledge.http.api.GetExamHistoryListApi;
 import com.jiangshan.knowledge.http.api.GetMemberInfoApi;
@@ -36,6 +35,7 @@ import com.jiangshan.knowledge.http.entity.ExamHistory;
 import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Menu;
 import com.jiangshan.knowledge.http.entity.Passport;
+import com.jiangshan.knowledge.http.entity.QuetionCount;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.SubjectInfo;
 import com.jiangshan.knowledge.http.entity.User;
@@ -226,11 +226,27 @@ public class HomeActivity extends BaseActivity {
                 Intent intent = new Intent(HomeActivity.this, AnswerActivity.class);
                 intent.putExtra("examCode", datas.get(position).getExamCode());
                 intent.putExtra("examName", datas.get(position).getExamName());
+                intent.putExtra("examType", datas.get(position).getExamType());
+                if(4==datas.get(position).getExamType()){
+                    intent.putExtra("random", true);
+                    intent.putExtra("questionTypeQtySet", getquestionTypeQtySet(datas.get(position).getQuestionQty()));
+                }
                 intent.putExtra("showAnalysis", true);
                 intent.putExtra("showUserAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }
         });
+    }
+
+    private String getquestionTypeQtySet(int count) {
+        //题目类型:1.选择题;2.多选题;3.判断题;4.案例解析题;5.论文写作
+        List<QuetionCount> quetionCounts = new ArrayList<>();
+        quetionCounts.add(new QuetionCount(1,count));
+        quetionCounts.add(new QuetionCount(2,count));
+        quetionCounts.add(new QuetionCount(3,count));
+        quetionCounts.add(new QuetionCount(4,count));
+        quetionCounts.add(new QuetionCount(5,count));
+        return new Gson().toJson(quetionCounts);
     }
 
     private void getBannerData() {
@@ -272,7 +288,7 @@ public class HomeActivity extends BaseActivity {
         Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
         if (null != passport) {
             Subject subject = LocalDataUtils.getSubject(this);
-            if (null == subject || null==passport.getSubjectInfoList()) {
+            if (null == subject || null == passport.getSubjectInfoList()) {
                 return;
             }
             SubjectInfo subjectInfo = null;
@@ -315,6 +331,9 @@ public class HomeActivity extends BaseActivity {
                             } else {
                                 examAdapter.getLoadMoreModule().loadMoreComplete();
                             }
+                            if (1 == pageNum) {
+                                datas.clear();
+                            }
                             datas.addAll(result.getData().getList());
                             examAdapter.notifyDataSetChanged();
                         }
@@ -340,12 +359,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void getMemberData() {
-        Subject subject=LocalDataUtils.getSubject(this);
-        if(null==subject){
+        Subject subject = LocalDataUtils.getSubject(this);
+        if (null == subject) {
             return;
         }
-        User user=LocalDataUtils.getUser(this);
-        if(null==user){
+        User user = LocalDataUtils.getUser(this);
+        if (null == user) {
             return;
         }
         EasyHttp.get(this)

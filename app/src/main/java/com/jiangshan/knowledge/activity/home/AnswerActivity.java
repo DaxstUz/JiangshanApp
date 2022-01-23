@@ -165,7 +165,7 @@ public class AnswerActivity extends BaseActivity {
 
 //        answerShowAnalysis=LocalDataUtils.getLocalDataBoolean(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
         showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
-        boolean ismark = getIntent().getBooleanExtra("ismark", false);
+        boolean ismark = getIntent().getBooleanExtra("ismark", false);//标记
         if (ismark) {
             getMarkData();
         } else {
