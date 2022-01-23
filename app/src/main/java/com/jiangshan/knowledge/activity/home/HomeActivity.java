@@ -227,26 +227,15 @@ public class HomeActivity extends BaseActivity {
                 intent.putExtra("examCode", datas.get(position).getExamCode());
                 intent.putExtra("examName", datas.get(position).getExamName());
                 intent.putExtra("examType", datas.get(position).getExamType());
+                intent.putExtra("billId", datas.get(position).getId());
                 if(4==datas.get(position).getExamType()){
                     intent.putExtra("random", true);
-                    intent.putExtra("questionTypeQtySet", getquestionTypeQtySet(datas.get(position).getQuestionQty()));
                 }
                 intent.putExtra("showAnalysis", true);
                 intent.putExtra("showUserAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }
         });
-    }
-
-    private String getquestionTypeQtySet(int count) {
-        //题目类型:1.选择题;2.多选题;3.判断题;4.案例解析题;5.论文写作
-        List<QuetionCount> quetionCounts = new ArrayList<>();
-        quetionCounts.add(new QuetionCount(1,count));
-        quetionCounts.add(new QuetionCount(2,count));
-        quetionCounts.add(new QuetionCount(3,count));
-        quetionCounts.add(new QuetionCount(4,count));
-        quetionCounts.add(new QuetionCount(5,count));
-        return new Gson().toJson(quetionCounts);
     }
 
     private void getBannerData() {

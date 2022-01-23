@@ -59,7 +59,6 @@ import com.jiangshan.knowledge.uitl.AlertButtonClick;
 import com.jiangshan.knowledge.uitl.DialogUtil;
 import com.jiangshan.knowledge.uitl.FloatingWindowUtils;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
-//import com.zzhoujay.richtext.RichText;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -165,8 +164,11 @@ public class AnswerActivity extends BaseActivity {
 
 //        answerShowAnalysis=LocalDataUtils.getLocalDataBoolean(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
         showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
+        billId = getIntent().getIntExtra("billId", 0);
         boolean ismark = getIntent().getBooleanExtra("ismark", false);//标记
-        if (ismark) {
+        if (billId > 0) {
+            getQuestion(billId);
+        } else if (ismark) {
             getMarkData();
         } else {
             if (showAnalysis) {
@@ -182,8 +184,8 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private void setSeeView() {
-        boolean keyHand= LocalDataUtils.getLocalDataBoolean(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyHand);
-        if (!showAnalysis&&keyHand) {
+        boolean keyHand = LocalDataUtils.getLocalDataBoolean(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyHand);
+        if (!showAnalysis && keyHand) {
             FloatingWindowUtils.getInstance().showFloatingWindow(R.layout.floating_view);
         }
     }
@@ -357,11 +359,11 @@ public class AnswerActivity extends BaseActivity {
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
 
-
+        String urlPath = null;
+        Map<String, Object> paramAll = new HashMap<>();
         Type userListType = new TypeToken<ArrayList<QuetionCount>>() {
         }.getType();
         ArrayList<QuetionCount> quetionCounts = new Gson().fromJson(getIntent().getStringExtra("questionTypeQtySet"), userListType);
-        Map<String, Object> paramAll = new HashMap<>();
         Map<String, Object> param = new HashMap<>();
         for (int i = 0; i < quetionCounts.size(); i++) {
             param.put(quetionCounts.get(i).getId() + "", quetionCounts.get(i).getCount());
@@ -369,8 +371,8 @@ public class AnswerActivity extends BaseActivity {
         paramAll.put("courseCode", course.getCourseCode());
         paramAll.put("questionTypeQtySet", param);
         paramAll.put("examType", getIntent().getIntExtra("examType", 1));
-
-        String finalUrlPath = "/exam/randQuestionList/" + subject.getSubjectCode() + "/" + course.getCourseCode();
+        urlPath = "/exam/randQuestionList/" + subject.getSubjectCode() + "/" + course.getCourseCode();
+        String finalUrlPath = urlPath;
         EasyHttp.post(this).api(new IRequestApi() {
             @Override
             public String getApi() {
@@ -410,6 +412,8 @@ public class AnswerActivity extends BaseActivity {
                         }
                     }
                 });
+
+
     }
 
     private void initView() {
