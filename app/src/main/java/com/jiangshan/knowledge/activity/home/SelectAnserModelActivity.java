@@ -92,7 +92,7 @@ public class SelectAnserModelActivity extends BaseActivity {
                 intent.putExtra("examName", datas.get(position).getExamName());
                 intent.putExtra("examType", datas.get(position).getExamType());
                 intent.putExtra("billId", datas.get(position).getId());
-                intent.putExtra("showAnalysis", true);
+//                intent.putExtra("showAnalysis", true);
                 intent.putExtra("showUserAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }

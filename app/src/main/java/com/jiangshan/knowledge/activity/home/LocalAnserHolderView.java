@@ -146,17 +146,19 @@ public class LocalAnserHolderView extends Holder<Question> {
         answerItemAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                if (1 == data.getQuestionType()) {//单选
-                    finalUserAnswerList.clear();
+                if(!showUserAnalysis){
+                    if (1 == data.getQuestionType()) {//单选
+                        finalUserAnswerList.clear();
+                    }
+                    if (finalUserAnswerList.contains(questionOptionList.get(position).getOptionNo())) {
+                        finalUserAnswerList.remove(questionOptionList.get(position).getOptionNo());
+                    } else {
+                        finalUserAnswerList.add(questionOptionList.get(position).getOptionNo());
+                        answerItemAdapter.setHasAnswer(true);
+                    }
+                    answerItemAdapter.notifyDataSetChanged();
+                    onOptionClick();
                 }
-                if (finalUserAnswerList.contains(questionOptionList.get(position).getOptionNo())) {
-                    finalUserAnswerList.remove(questionOptionList.get(position).getOptionNo());
-                } else {
-                    finalUserAnswerList.add(questionOptionList.get(position).getOptionNo());
-                    answerItemAdapter.setHasAnswer(true);
-                }
-                answerItemAdapter.notifyDataSetChanged();
-                onOptionClick();
             }
         });
 

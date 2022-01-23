@@ -106,6 +106,7 @@ public class AnswerActivity extends BaseActivity {
     private ConvenientBanner answerPager;
     private List<Question> questionDatas = new ArrayList();
 
+    private LinearLayout ll_answer_commit;
     private LinearLayout llAnswerCount;
     private NestedScrollView ll_chapter;
     private LinearLayout llSettingLine;
@@ -167,6 +168,7 @@ public class AnswerActivity extends BaseActivity {
         billId = getIntent().getIntExtra("billId", 0);
         boolean ismark = getIntent().getBooleanExtra("ismark", false);//标记
         if (billId > 0) {
+            ll_answer_commit.setVisibility(View.GONE);
             getQuestion(billId);
         } else if (ismark) {
             getMarkData();
@@ -420,6 +422,7 @@ public class AnswerActivity extends BaseActivity {
         answerNext = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerNext);
         settingVibrator = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator);
 
+        ll_answer_commit = findView(R.id.ll_answer_commit);
         llSettingLine = findView(R.id.ll_setting_line);
         tvFontSize = findView(R.id.tv_font_size);
         sbLight = findView(R.id.sb_light);

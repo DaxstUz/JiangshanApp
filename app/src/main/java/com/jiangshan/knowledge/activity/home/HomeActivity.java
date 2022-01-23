@@ -231,7 +231,7 @@ public class HomeActivity extends BaseActivity {
                 if(4==datas.get(position).getExamType()){
                     intent.putExtra("random", true);
                 }
-                intent.putExtra("showAnalysis", true);
+//                intent.putExtra("showAnalysis", true);
                 intent.putExtra("showUserAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }
