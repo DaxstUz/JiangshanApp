@@ -9,11 +9,18 @@ public final class GetExamCollectListApi implements IRequestApi {
 
     @Override
     public String getApi() {
-        return api + subjectCode + "/" + courseCode + "?pageNum=" + pageNum + "&pageSize=" + pageSize;
+        return api + subjectCode + "/" + courseCode + "?examCode="+examCode+"&pageNum=" + pageNum + "&pageSize=" + pageSize;
     }
 
     private String subjectCode;
     private String courseCode;
+    private String examCode;
+
+
+    public GetExamCollectListApi setExamCode(String examCode) {
+        this.examCode = examCode;
+        return this;
+    }
 
     public GetExamCollectListApi setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;

@@ -143,10 +143,11 @@ public class LocalAnserHolderView extends Holder<Question> {
             }
         });
 
+        boolean ismark = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("ismark", false);//标记
         answerItemAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                if(!showUserAnalysis){
+                if(!showUserAnalysis || !ismark){
                     if (1 == data.getQuestionType()) {//单选
                         finalUserAnswerList.clear();
                     }

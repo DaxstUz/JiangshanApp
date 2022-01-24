@@ -109,6 +109,8 @@ public class ExamMarkActivity extends BaseActivity {
                 intent.putExtra("examName", getIntent().getStringExtra("title"));
                 intent.putExtra("showAnalysis", switchShowAnylysis.isChecked());
                 intent.putExtra("showUserAnalysis", true);
+                intent.putExtra("examCode", "");
+                intent.putExtra("pageSize", countALl);
                 startActivityForResult(intent, RESULT_OK);
             }
         });
@@ -125,7 +127,10 @@ public class ExamMarkActivity extends BaseActivity {
                 intent.putExtra("examName", datas.get(position).getExamName());
                 intent.putExtra("showAnalysis", switchShowAnylysis.isChecked());
                 intent.putExtra("examType", datas.get(position).getExamType());
+                intent.putExtra("pageSize", datas.get(position).getQuestionQty());
                 intent.putExtra("showUserAnalysis", true);
+                intent.putExtra("type", getIntent().getStringExtra("type"));
+                intent.putExtra("ismark", true);
                 startActivityForResult(intent, RESULT_OK);
             }
         });

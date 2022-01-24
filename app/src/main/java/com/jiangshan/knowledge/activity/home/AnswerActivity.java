@@ -31,6 +31,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hjq.http.EasyHttp;
+import com.hjq.http.EasyLog;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -106,9 +107,9 @@ public class AnswerActivity extends BaseActivity {
     private ConvenientBanner answerPager;
     private List<Question> questionDatas = new ArrayList();
 
-    private LinearLayout ll_answer_commit;
+    private LinearLayout llAnswerCommit;
     private LinearLayout llAnswerCount;
-    private NestedScrollView ll_chapter;
+    private NestedScrollView llChapter;
     private LinearLayout llSettingLine;
     private boolean showDiaglog = true;
 
@@ -163,14 +164,14 @@ public class AnswerActivity extends BaseActivity {
         setBackViewVisiable();
         initView();
 
-//        answerShowAnalysis=LocalDataUtils.getLocalDataBoolean(AnswerActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
         showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
         billId = getIntent().getIntExtra("billId", 0);
         boolean ismark = getIntent().getBooleanExtra("ismark", false);//标记
         if (billId > 0) {
-            ll_answer_commit.setVisibility(View.GONE);
+            llAnswerCommit.setVisibility(View.GONE);
             getQuestion(billId);
         } else if (ismark) {
+            llAnswerCommit.setVisibility(View.GONE);
             getMarkData();
         } else {
             if (showAnalysis) {
@@ -216,11 +217,13 @@ public class AnswerActivity extends BaseActivity {
 
         String api = null;
         if ("error".equals(type)) {
-            api = new GetExamErrorListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).getApi();
+            api = new GetExamErrorListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize",0)).getApi();
         }
         if ("collect".equals(type)) {
-            api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setPageNum(pageNum).getApi();
+            api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize",0)).getApi();
         }
+
+        EasyLog.print("getMarkData api:"+api);
         if (null == api) {
             return;
         }
@@ -422,11 +425,11 @@ public class AnswerActivity extends BaseActivity {
         answerNext = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerNext);
         settingVibrator = LocalDataUtils.getLocalDataBoolean(this, LocalDataUtils.settingDataName, LocalDataUtils.keyVibrator);
 
-        ll_answer_commit = findView(R.id.ll_answer_commit);
+        llAnswerCommit = findView(R.id.ll_answer_commit);
         llSettingLine = findView(R.id.ll_setting_line);
         tvFontSize = findView(R.id.tv_font_size);
         sbLight = findView(R.id.sb_light);
-        ll_chapter = findView(R.id.ll_chapter);
+        llChapter = findView(R.id.ll_chapter);
 
         tv_more_question = findView(R.id.tv_more_question);
 
@@ -514,7 +517,7 @@ public class AnswerActivity extends BaseActivity {
         chapterMainAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                ll_chapter.setVisibility(View.GONE);
+                llChapter.setVisibility(View.GONE);
                 answerPager.setCurrentItem(position, false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter.notifyDataSetChanged();
@@ -524,7 +527,7 @@ public class AnswerActivity extends BaseActivity {
         chapterMainAdapter2.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                ll_chapter.setVisibility(View.GONE);
+                llChapter.setVisibility(View.GONE);
                 answerPager.setCurrentItem(position + questionDatas1.size(), false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter2.notifyDataSetChanged();
@@ -719,7 +722,7 @@ public class AnswerActivity extends BaseActivity {
     }
 
     public void nextQuestion(Boolean answerRight) {
-        ll_chapter.setVisibility(View.GONE);
+        llChapter.setVisibility(View.GONE);
         setCollectCount();
         if (null == answerRight) {
             return;
@@ -798,7 +801,7 @@ public class AnswerActivity extends BaseActivity {
                 llSettingLine.setVisibility(View.GONE);
                 break;
             case R.id.ll_answer_count:
-                ll_chapter.setVisibility(View.VISIBLE);
+                llChapter.setVisibility(View.VISIBLE);
                 break;
             case R.id.ll_setting_more:
                 llSettingLine.setVisibility(View.VISIBLE);

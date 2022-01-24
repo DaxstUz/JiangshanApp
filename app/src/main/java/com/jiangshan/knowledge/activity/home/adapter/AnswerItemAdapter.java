@@ -76,7 +76,7 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 
         String optionNo = data.getOptionNo();
 
-        EasyLog.print("hasAnswer "+hasAnswer+" userAnswerList :"+userAnswerList.size()+" choiceAnswerList: "+choiceAnswerList.size());
+//        EasyLog.print("hasAnswer "+hasAnswer+" userAnswerList :"+userAnswerList.size()+" choiceAnswerList: "+choiceAnswerList.size());
 
         if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
             if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
