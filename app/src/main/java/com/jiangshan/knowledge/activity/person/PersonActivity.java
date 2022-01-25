@@ -265,6 +265,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             case R.id.item_conf_about:
                 intent = new Intent(PersonActivity.this, SpecialContentActivity.class);
                 intent.putExtra("specialTypeId", 1);
+                intent.putExtra("showVersion", true);
                 startActivity(intent);
                 break;
             case R.id.item_conf_define:

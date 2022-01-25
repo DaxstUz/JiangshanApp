@@ -5,6 +5,8 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.view.web.WebViewJavaScriptFunction;
 import com.jiangshan.knowledge.view.web.X5WebView;
 import com.tencent.smtt.sdk.WebSettings;
+import com.xuexiang.xupdate.utils.UpdateUtils;
 
 /**
  * 免责声明
@@ -32,6 +35,8 @@ import com.tencent.smtt.sdk.WebSettings;
  */
 public class SpecialContentActivity extends BaseActivity {
 
+    private TextView tv_version;
+    private LinearLayout ll_version;
     private X5WebView newsWebview;
 
     @Override
@@ -44,6 +49,15 @@ public class SpecialContentActivity extends BaseActivity {
     }
 
     private void initView() {
+        ll_version = findViewById(R.id.ll_version);
+        tv_version = findViewById(R.id.tv_version);
+        tv_version.setText(UpdateUtils.getVersionName(this));
+
+        boolean showVersion=getIntent().getBooleanExtra("showVersion",false);
+        if(showVersion){
+            ll_version.setVisibility(View.VISIBLE);
+        }
+
         newsWebview = findViewById(R.id.news_webview);
 
         getWindow().setFormat(PixelFormat.TRANSLUCENT);

@@ -6,6 +6,24 @@
 
     <include layout="@layout/comm_title" />
 
+    <LinearLayout
+        android:id="@+id/ll_version"
+        android:padding="@dimen/border_padding_10"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:text="当前版本号："
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
     <com.jiangshan.knowledge.view.web.X5WebView
         android:id="@+id/news_webview"
         android:scrollbars="none"
