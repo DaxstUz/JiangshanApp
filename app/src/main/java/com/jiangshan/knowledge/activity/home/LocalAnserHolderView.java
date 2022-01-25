@@ -183,9 +183,9 @@ public class LocalAnserHolderView extends Holder<Question> {
         questionContent = questionContent.replace("<img", "<img style=\"max-width:100%;height:auto\"");
         if (4 == data.getQuestionType()) {
             //案例分析
-            questionContent = questionContent.replace("&nbsp;", "");
-            questionContent = questionContent.replace("<br/></p><p>", "<br/>");
-            questionContent = questionContent.replace("</p><p><br/>", "");
+            questionContent = questionContent.replaceAll("&nbsp;", "");
+            questionContent = questionContent.replaceAll("<br/></p><p>", "<br/>");
+            questionContent = questionContent.replaceAll("</p><p><br/>", "");
         } else if (5 == data.getQuestionType()) {
             //论文
             questionContent = questionContent.replace("</p><p><br/>", "");
@@ -193,6 +193,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         questionContent = questionContent.replace("</p><p>", "<br/>");
         String answerAnalysis = data.getAnswerAnalysis();
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
+        answerAnalysis = answerAnalysis.replaceAll("</p><p><br/>", "<br/>");
         answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
 //        answerAnalysis = answerAnalysis.replace("&nbsp;", "");
         answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
