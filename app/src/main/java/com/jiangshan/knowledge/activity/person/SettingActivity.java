@@ -10,6 +10,7 @@ import android.widget.Switch;
 
 import androidx.annotation.Nullable;
 
+import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -18,6 +19,7 @@ import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.http.api.ClearExamHistoryApi;
 import com.jiangshan.knowledge.http.api.ClearWrongQuestionApi;
+import com.jiangshan.knowledge.http.api.LogoutApi;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.model.HttpData;
@@ -50,8 +52,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 LocalDataUtils.saveLocalData(SettingActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyUser, "");
-                startActivity(new Intent(SettingActivity.this, LoginActivity.class));
-                finish();
+                logout();
             }
         });
 
@@ -171,6 +172,22 @@ public class SettingActivity extends BaseActivity {
                     public void onSucceed(HttpData<String> result) {
                         if (result.isSuccess()) {
                             ToastUtils.show("已清空错题集！");
+                        }
+                    }
+                });
+    }
+
+    private void logout() {
+        EasyHttp.get(this)
+                .api(new LogoutApi())
+                .request(new HttpCallback<HttpData<String>>(this) {
+                    @Override
+                    public void onSucceed(HttpData<String> result) {
+                        if (result.isSuccess()) {
+                            startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+                            EasyConfig.getInstance().addParam("token", "");
+                            EasyConfig.getInstance().addHeader("Authorization", "");
+                            finish();
                         }
                     }
                 });

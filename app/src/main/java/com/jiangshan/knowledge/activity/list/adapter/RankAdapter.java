@@ -1,5 +1,8 @@
 package com.jiangshan.knowledge.activity.list.adapter;
 
+import android.view.View;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -28,8 +31,12 @@ public class RankAdapter extends BaseQuickAdapter<Rank, BaseViewHolder> implemen
         baseViewHolder.setText(R.id.tv_rate, rank.getRightRate() + "%");
         baseViewHolder.setText(R.id.tv_no, rank.getNo()+ "");
 
+        baseViewHolder.setText(R.id.tv_rise, "");
+        ImageView iv_rate=baseViewHolder.getView(R.id.iv_rate);
+        iv_rate.setVisibility(View.GONE);
 
         if (0 != rank.getRise()) {
+            iv_rate.setVisibility(View.VISIBLE);
             if (0 < rank.getRise()) {
                 baseViewHolder.setText(R.id.tv_rise, rank.getRise() + "");
                 baseViewHolder.setImageResource(R.id.iv_rate, R.mipmap.up);

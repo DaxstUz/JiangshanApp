@@ -71,10 +71,8 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTitle("登录");
-//        setBackViewVisiable();
         initView();
         getTicket();
-//        hideBottomUIMenu();
     }
 
     private void loginPhone() {//18900711210
@@ -228,7 +226,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                EasyLog.print(" platformLogin onComplete" + new Gson().toJson(map));
+//                EasyLog.print(" platformLogin onComplete" + new Gson().toJson(map));
                 UserWeixin userWeixin = new Gson().fromJson(new Gson().toJson(map), UserWeixin.class);
                 userWeixin.setOpenId(userWeixin.getOpenid());
                 EasyConfig.getInstance().addParam("token", userWeixin.getToken());
@@ -241,7 +239,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                 ToastUtils.show(throwable.getMessage().substring(throwable.getMessage().indexOf("错误信息：") + 5));
-                EasyLog.print(" platformLogin onError" + i + " error ===>" + throwable.getMessage());
+//                EasyLog.print(" platformLogin onError" + i + " error ===>" + throwable.getMessage());
             }
 
             @Override

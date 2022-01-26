@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.hjq.http.EasyConfig;
 import com.hjq.http.EasyHttp;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -84,6 +85,8 @@ public class ChangePsdActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<User> result) {
                         if (result.isSuccess()) {
+                            EasyConfig.getInstance().addParam("token", result.getData().getToken());
+                            EasyConfig.getInstance().addHeader("Authorization", result.getData().getToken());
                             setResult(RESULT_OK);
                             finish();
                         } else {
