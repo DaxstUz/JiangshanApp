@@ -223,7 +223,7 @@ public class AnswerActivity extends BaseActivity {
             api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize",0)).getApi();
         }
 
-        EasyLog.print("getMarkData api:"+api);
+//        EasyLog.print("getMarkData api:"+api);
         if (null == api) {
             return;
         }
@@ -278,7 +278,7 @@ public class AnswerActivity extends BaseActivity {
         }).request(new HttpCallback<HttpListData<Question>>(this) {
             @Override
             public void onSucceed(HttpListData<Question> result) {
-                if (result != null) {
+                if (result.isSuccess()) {
                     questionDatas.addAll(result.getData().getList());
                     for (int i = 0; i < questionDatas.size(); i++) {
                         questionDatas.get(i).setRank(i + 1);
@@ -303,6 +303,12 @@ public class AnswerActivity extends BaseActivity {
                     updateCount(questionDatas.get(0));
 
                     setLastIndex();
+                }else{
+                    if(0==result.getCode()){
+                        ToastUtils.show("哎呀，服务器出小差了……");
+                    }else {
+                        ToastUtils.show(result.getMsg());
+                    }
                 }
             }
         });
@@ -661,7 +667,11 @@ public class AnswerActivity extends BaseActivity {
                         if (result.isSuccess()) {
                             getQuestion(result.getData().getBillId());
                         } else {
-                            ToastUtils.show(result.getMsg());
+                            if(0==result.getCode()){
+                                ToastUtils.show("哎呀，服务器出小差了……");
+                            }else {
+                                ToastUtils.show(result.getMsg());
+                            }
                             finish();
                         }
                     }

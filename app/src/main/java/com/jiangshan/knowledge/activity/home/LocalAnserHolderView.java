@@ -42,6 +42,7 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     private TextView chapterCount;
     private TextView chapterName;
+    private TextView tv_question_chapter_name;
     private TextView tvRank;
     private TextView tvQuestionType;
     private WebView tvQuestionContent;
@@ -75,6 +76,7 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     @Override
     protected void initView(View itemView) {
+        tv_question_chapter_name = itemView.findViewById(R.id.tv_question_chapter_name);
         chapterCount = itemView.findViewById(R.id.tv_chapter_count);
         chapterName = itemView.findViewById(R.id.tv_chapter_name);
         tvRank = itemView.findViewById(R.id.tv_rank);
@@ -172,6 +174,8 @@ public class LocalAnserHolderView extends Holder<Question> {
         chapterCount.setText("/" + data.getTotal());
         String examName = ((AnswerActivity) itemView.getContext()).getIntent().getStringExtra("examName");
         chapterName.setText(examName);
+
+        tv_question_chapter_name.setText(data.getChapterName());
 
         tvRank.setText(data.getRank() + "");
 
