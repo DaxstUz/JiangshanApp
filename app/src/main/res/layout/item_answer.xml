@@ -71,7 +71,9 @@
             android:paddingLeft="10dp">
 
             <LinearLayout
+                android:id="@+id/ll_chapter_tips"
                 android:layout_width="wrap_content"
+                android:visibility="gone"
                 android:layout_height="wrap_content">
 
                 <ImageView

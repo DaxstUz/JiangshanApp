@@ -56,6 +56,7 @@ public class LocalAnserHolderView extends Holder<Question> {
     private TextView tvAnswer;
 
     private LinearLayout llAnswerAnalysis;
+    private LinearLayout ll_chapter_tips;
 
     private View itemView;
     private Answer answer = new Answer();
@@ -76,6 +77,7 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     @Override
     protected void initView(View itemView) {
+        ll_chapter_tips = itemView.findViewById(R.id.ll_chapter_tips);
         tv_question_chapter_name = itemView.findViewById(R.id.tv_question_chapter_name);
         chapterCount = itemView.findViewById(R.id.tv_chapter_count);
         chapterName = itemView.findViewById(R.id.tv_chapter_name);
@@ -175,7 +177,10 @@ public class LocalAnserHolderView extends Holder<Question> {
         String examName = ((AnswerActivity) itemView.getContext()).getIntent().getStringExtra("examName");
         chapterName.setText(examName);
 
-        tv_question_chapter_name.setText(data.getChapterName());
+        if(null!=data.getChapterName()&&data.getChapterName().length()>0){
+            tv_question_chapter_name.setText(data.getChapterName());
+            ll_chapter_tips.setVisibility(View.VISIBLE);
+        }
 
         tvRank.setText(data.getRank() + "");
 

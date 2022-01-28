@@ -103,6 +103,28 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@color/b1"
+        android:padding="@dimen/border_padding_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="答题立即显示对错"
+            android:textSize="18sp" />
+        <Switch
+            android:id="@+id/switch_show_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:onClick="onClick"
+            android:thumb="@drawable/switch_custom_thumb_selector"
+            android:track="@drawable/switch_custom_track_selector" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_clear_hisory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

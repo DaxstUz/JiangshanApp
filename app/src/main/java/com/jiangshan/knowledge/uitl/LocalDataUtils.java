@@ -25,6 +25,7 @@ public class LocalDataUtils {
     public static final String keyVibrator = "settingVibrator";
     public static final String keyAnsewerNext = "settingAnsewerNext";
     public static final String keyAnsewerShow = "settingAnsewerShow";
+    public static final String keyResultShow = "settingResultShow";
     public static final String keyHand = "settingHand";
     public static final String modelLight = "modelLight";
 

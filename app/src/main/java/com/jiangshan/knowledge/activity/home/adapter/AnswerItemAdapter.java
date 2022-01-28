@@ -78,17 +78,24 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 
 //        EasyLog.print("hasAnswer "+hasAnswer+" userAnswerList :"+userAnswerList.size()+" choiceAnswerList: "+choiceAnswerList.size());
 
+        boolean settingResultShow=LocalDataUtils.getLocalDataBoolean(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyResultShow);
+
         if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
+            baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
+            baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
+
+            if (userAnswerList.contains(optionNo)){
+                baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
+                baseViewHolder.setText(R.id.tv_answer_option, "");
+            }
             if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
                 baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
                 baseViewHolder.setText(R.id.tv_answer_option, "");
-            } else if (userAnswerList.contains(optionNo) && !choiceAnswerList.contains(optionNo)) {
+            } else if (userAnswerList.contains(optionNo) && !choiceAnswerList.contains(optionNo) && settingResultShow) {
                 baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_error);
                 baseViewHolder.setText(R.id.tv_answer_option, "");
-            } else {
-                baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
-                baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
             }
+
         } else {
             baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
             baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());

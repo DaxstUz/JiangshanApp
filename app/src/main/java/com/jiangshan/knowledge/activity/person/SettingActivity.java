@@ -38,6 +38,7 @@ public class SettingActivity extends BaseActivity {
     private Switch switchAnswerNext;
     private Switch switchAnswerShow;
     private Switch switchHand;
+    private Switch switchShowResult;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +72,9 @@ public class SettingActivity extends BaseActivity {
 
         switchHand = findViewById(R.id.switch_hand);
         switchHand.setChecked(LocalDataUtils.getLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyHand));
+
+        switchShowResult = findViewById(R.id.switch_show_result);
+        switchShowResult.setChecked(LocalDataUtils.getLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyResultShow));
 
     }
 
@@ -119,6 +123,9 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rl_change_psd:
                 startActivity(new Intent(SettingActivity.this, ChangePsdActivity.class));
+                break;
+            case R.id.switch_show_result:
+                LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyResultShow, switchShowResult.isChecked());
                 break;
             case R.id.switch_answer_show:
                 LocalDataUtils.saveLocalDataBoolean(SettingActivity.this, LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow, switchAnswerShow.isChecked());

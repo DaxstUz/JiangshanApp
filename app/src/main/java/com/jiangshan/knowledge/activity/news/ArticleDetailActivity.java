@@ -3,7 +3,6 @@ package com.jiangshan.knowledge.activity.news;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.widget.ImageView;
@@ -13,14 +12,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.hjq.http.EasyHttp;
-import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
 import com.jiangshan.knowledge.http.api.GetArticleApi;
-import com.jiangshan.knowledge.http.api.GetExamFouseApi;
 import com.jiangshan.knowledge.http.api.GetExamFouseDetailApi;
-import com.jiangshan.knowledge.http.api.SearchArticleApi;
 import com.jiangshan.knowledge.http.entity.Article;
 import com.jiangshan.knowledge.http.model.HttpData;
 import com.jiangshan.knowledge.view.web.WebViewJavaScriptFunction;
@@ -61,7 +57,7 @@ public class ArticleDetailActivity extends BaseActivity {
         ll_operate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                share(0,article.getTitle(),article.getIntro(),article.getUrl());
+                share(0, article.getTitle(), article.getIntro(), article.getUrl());
             }
         });
 
@@ -105,10 +101,10 @@ public class ArticleDetailActivity extends BaseActivity {
         }, "Android");
 
 
-       boolean examFouse= getIntent().getBooleanExtra("examFouse",false);
-       if(examFouse){
-           getExamFouseDetail(aiticle.getId());
-       }else{
+        boolean examFouse = getIntent().getBooleanExtra("examFouse", false);
+        if (examFouse) {
+            getExamFouseDetail(aiticle.getId());
+        } else {
             getArticleDetail(aiticle.getId());
         }
     }
@@ -120,10 +116,27 @@ public class ArticleDetailActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<Article> result) {
                         if (result.isSuccess()) {
-                            article=result.getData();
+                            article = result.getData();
                             ll_operate.setVisibility(View.VISIBLE);
                             if (result.getData().getUrl() == null) {
-                                newsWebview.loadData(result.getData().getContent(), "text/html; charset=UTF-8", null);//这种写法可以正确解码
+                                String contentData = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"  \n" +
+                                        " \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">  \n" +
+                                        " <html xmlns=\"http://www.w3.org/1999/xhtml\">  \n" +
+                                        " <html lang=\"zh-CN\">  \n" +
+                                        " <head>  \n" +
+                                        " <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">  \n" +
+                                        " <meta content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;\" name=\"viewport\">  \n" +
+                                        " <title>xxxxx</title>  \n" +
+                                        " </head>  \n" +
+                                        "   <body>" + result.getData().getContent() +
+                                        "</body> " +
+                                        " </html> ";
+                                contentData=contentData.replaceAll("</p><p><br/></p><p>","<br/>");
+                                contentData=contentData.replaceAll("</p><p>","<br/>");
+                                contentData=contentData.replaceAll("</p><p>","<br/>");
+                                contentData=contentData.replaceAll("<p>","");
+                                contentData=contentData.replaceAll("</p>","");
+                                newsWebview.loadData(contentData, "text/html; charset=UTF-8", null);//这种写法可以正确解码
                             } else {
                                 newsWebview.loadUrl(result.getData().getUrl());
                             }
@@ -139,10 +152,26 @@ public class ArticleDetailActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<Article> result) {
                         if (result.isSuccess()) {
-                            article=result.getData();
+                            article = result.getData();
                             ll_operate.setVisibility(View.VISIBLE);
                             if (result.getData().getUrl() == null) {
-                                newsWebview.loadData(result.getData().getContent(), "text/html; charset=UTF-8", null);//这种写法可以正确解码
+                                String contentData = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"  \n" +
+                                        " \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">  \n" +
+                                        " <html xmlns=\"http://www.w3.org/1999/xhtml\">  \n" +
+                                        " <html lang=\"zh-CN\">  \n" +
+                                        " <head>  \n" +
+                                        " <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">  \n" +
+                                        " <meta content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;\" name=\"viewport\">  \n" +
+                                        " <title>xxxxx</title>  \n" +
+                                        " </head>  \n" +
+                                        "   <body> \n" + result.getData().getContent() +
+                                        "</body>  \n" +
+                                        " </html> ";
+                                contentData=contentData.replaceAll("</p><p><br/></p><p>","<br/>");
+                                contentData=contentData.replaceAll("</p><p>","<br/>");
+                                contentData=contentData.replaceAll("<p>","");
+                                contentData=contentData.replaceAll("</p>","");
+                                newsWebview.loadData(contentData, "text/html; charset=UTF-8", null);//这种写法可以正确解码
                             } else {
                                 newsWebview.loadUrl(result.getData().getUrl());
                             }
