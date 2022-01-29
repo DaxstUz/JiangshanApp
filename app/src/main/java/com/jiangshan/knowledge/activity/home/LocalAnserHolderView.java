@@ -1,6 +1,5 @@
 package com.jiangshan.knowledge.activity.home;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
@@ -42,7 +41,7 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     private TextView chapterCount;
     private TextView chapterName;
-    private TextView tv_question_chapter_name;
+    //    private TextView tv_question_chapter_name;
     private TextView tvRank;
     private TextView tvQuestionType;
     private WebView tvQuestionContent;
@@ -56,7 +55,7 @@ public class LocalAnserHolderView extends Holder<Question> {
     private TextView tvAnswer;
 
     private LinearLayout llAnswerAnalysis;
-    private LinearLayout ll_chapter_tips;
+//    private LinearLayout ll_chapter_tips;
 
     private View itemView;
     private Answer answer = new Answer();
@@ -77,8 +76,8 @@ public class LocalAnserHolderView extends Holder<Question> {
 
     @Override
     protected void initView(View itemView) {
-        ll_chapter_tips = itemView.findViewById(R.id.ll_chapter_tips);
-        tv_question_chapter_name = itemView.findViewById(R.id.tv_question_chapter_name);
+//        ll_chapter_tips = itemView.findViewById(R.id.ll_chapter_tips);
+//        tv_question_chapter_name = itemView.findViewById(R.id.tv_question_chapter_name);
         chapterCount = itemView.findViewById(R.id.tv_chapter_count);
         chapterName = itemView.findViewById(R.id.tv_chapter_name);
         tvRank = itemView.findViewById(R.id.tv_rank);
@@ -108,7 +107,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         answerShow = LocalDataUtils.getLocalDataBoolean((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyAnsewerShow);
 
         boolean showUserAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showUserAnalysis", false);
-        if(showUserAnalysis){
+        if (showUserAnalysis) {
             data.setHasAnswer(true);
         }
 
@@ -151,7 +150,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         answerItemAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                if(!showUserAnalysis || !ismark){
+                if (!showUserAnalysis || !ismark) {
                     if (1 == data.getQuestionType()) {//单选
                         finalUserAnswerList.clear();
                     }
@@ -177,10 +176,10 @@ public class LocalAnserHolderView extends Holder<Question> {
         String examName = ((AnswerActivity) itemView.getContext()).getIntent().getStringExtra("examName");
         chapterName.setText(examName);
 
-        if(null!=data.getChapterName()&&data.getChapterName().length()>0){
-            tv_question_chapter_name.setText(data.getChapterName());
-            ll_chapter_tips.setVisibility(View.VISIBLE);
-        }
+//        if(null!=data.getChapterName()&&data.getChapterName().length()>0){
+//            tv_question_chapter_name.setText(data.getChapterName());
+//            ll_chapter_tips.setVisibility(View.VISIBLE);
+//        }
 
         tvRank.setText(data.getRank() + "");
 
@@ -190,6 +189,9 @@ public class LocalAnserHolderView extends Holder<Question> {
         String questionContent = data.getContent();
         questionContent = questionContent.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         questionContent = questionContent.replace("<img", "<img style=\"max-width:100%;height:auto\"");
+//        if(!questionContent.endsWith("</p>")){
+//            questionContent=questionContent+"<br/>";
+//        }
         if (4 == data.getQuestionType()) {
             //案例分析
             questionContent = questionContent.replaceAll("&nbsp;", "");
@@ -202,7 +204,8 @@ public class LocalAnserHolderView extends Holder<Question> {
         questionContent = questionContent.replace("</p><p>", "<br/>");
         String answerAnalysis = data.getAnswerAnalysis();
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
-        answerAnalysis = answerAnalysis.replaceAll("</p><p><br/>", "<br/>");
+        answerAnalysis = answerAnalysis.replaceAll("<br/></p><p>", "");
+        answerAnalysis = answerAnalysis.replaceAll("<p></p><p>", "");
         answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
 //        answerAnalysis = answerAnalysis.replace("&nbsp;", "");
         answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
@@ -210,6 +213,8 @@ public class LocalAnserHolderView extends Holder<Question> {
             questionContent = questionContent.replace("<p>", "<p style=\"color: #cdcdcd \">");
             answerAnalysis = answerAnalysis.replace("<p>", "<p style=\"color: #cdcdcd \">");
         }
+        questionContent = questionContent.replaceAll("<p>", "");
+        answerAnalysis = answerAnalysis.replaceAll("<p>", "");
         tvQuestionContent.loadDataWithBaseURL(null, questionContent, "text/html", "UTF-8", null);
         tvAnswerAnalysis.loadDataWithBaseURL(null, answerAnalysis, "text/html", "UTF-8", null);
 

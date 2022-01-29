@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.google.gson.Gson;
 import com.hjq.http.EasyHttp;
+import com.hjq.http.EasyLog;
 import com.hjq.http.listener.HttpCallback;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.activity.BaseActivity;
@@ -35,7 +36,7 @@ import com.jiangshan.knowledge.http.entity.ExamHistory;
 import com.jiangshan.knowledge.http.entity.MemberInfo;
 import com.jiangshan.knowledge.http.entity.Menu;
 import com.jiangshan.knowledge.http.entity.Passport;
-import com.jiangshan.knowledge.http.entity.QuetionCount;
+import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.SubjectInfo;
 import com.jiangshan.knowledge.http.entity.User;
@@ -81,6 +82,28 @@ public class HomeActivity extends BaseActivity {
         initLoadMore();
 
         updateUI();
+
+        switchLastActivity();
+    }
+
+    private void switchLastActivity() {
+        int billid = LocalDataUtils.getLocalDataInteger(this, LocalDataUtils.localUserName, LocalDataUtils.keyBillid);
+        String activityFlag = LocalDataUtils.getLocalData(this, LocalDataUtils.activityName, LocalDataUtils.activityName);
+        Question question = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyLastQuestion), Question.class);
+        EasyLog.print("activityFlag: " + activityFlag + "  question:" + new Gson().toJson(question));
+        if (billid > 0 && "AnswerActivity".equals(activityFlag) && null != question) {
+            int examType = LocalDataUtils.getLocalDataInteger(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyExamType);
+            String examName = LocalDataUtils.getLocalData(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyExamName);
+            Intent intent = new Intent(HomeActivity.this, AnswerActivity.class);
+            intent.putExtra("examCode", question.getExamCode());
+            intent.putExtra("examName", examName);
+            intent.putExtra("examType", examType);
+            intent.putExtra("billId", billid);
+            intent.putExtra("showUserAnalysis", true);
+            startActivity(intent);
+        } else {
+            LocalDataUtils.saveLocalData(this, LocalDataUtils.activityName, LocalDataUtils.activityName, "HomeActivity");
+        }
     }
 
     public void updateUI() {
@@ -96,7 +119,9 @@ public class HomeActivity extends BaseActivity {
         getInitData();
         getData();
         getMemberData();
+
     }
+
 
     private void initView() {
         tvTips = findView(R.id.tv_tips);
@@ -229,10 +254,10 @@ public class HomeActivity extends BaseActivity {
                 intent.putExtra("examName", datas.get(position).getExamName());
                 intent.putExtra("examType", datas.get(position).getExamType());
                 intent.putExtra("billId", datas.get(position).getId());
-                if(4==datas.get(position).getExamType()){
+                if (4 == datas.get(position).getExamType()) {
                     intent.putExtra("random", true);
                 }
-//                intent.putExtra("showAnalysis", true);
+                intent.putExtra("showAnalysis", true);
                 intent.putExtra("showUserAnalysis", true);
                 startActivityForResult(intent, RESULT_OK);
             }

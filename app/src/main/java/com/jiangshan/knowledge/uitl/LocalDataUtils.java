@@ -17,6 +17,7 @@ public class LocalDataUtils {
 
     public static final String localUserName = "user";
     public static final String keyUser = "user";
+    public static final String keyBillid = "billid";
     public static final String keyMember = "member";
 
     public static final String passport = "passport";
@@ -27,9 +28,13 @@ public class LocalDataUtils {
     public static final String keyAnsewerShow = "settingAnsewerShow";
     public static final String keyResultShow = "settingResultShow";
     public static final String keyHand = "settingHand";
+    public static final String keyLastQuestion = "keyLastQuestion";
+    public static final String keyExamType = "keyExamType";
+    public static final String keyExamName = "keyExamName";
     public static final String modelLight = "modelLight";
 
     public static final String anwserQuestion = "anwserQuestion";
+    public static final String activityName = "activityName";
 
     public static final String lightValue = "lightValue";
 
@@ -66,7 +71,12 @@ public class LocalDataUtils {
 
     public static boolean getLocalDataBoolean(Context context, String name, String key) {
         SharedPreferences sp = context.getSharedPreferences(name, 0);
-        boolean data = sp.getBoolean(key, false);
+        boolean data;
+        if (LocalDataUtils.keyResultShow.equals(key)) {
+            data = sp.getBoolean(key, true);
+        } else {
+            data = sp.getBoolean(key, false);
+        }
         return data;
     }
 

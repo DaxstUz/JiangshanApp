@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/border_padding_20"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:layerType="hardware"
+                android:layout_marginBottom="@dimen/border_padding_5"
                 tools:ignore="WebViewLayout" />
         </LinearLayout>
 
@@ -70,25 +72,25 @@
             android:orientation="vertical"
             android:paddingLeft="10dp">
 
-            <LinearLayout
-                android:id="@+id/ll_chapter_tips"
-                android:layout_width="wrap_content"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/ll_chapter_tips"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_height="wrap_content">-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/chapter_tips" />
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@mipmap/chapter_tips" />-->
 
-                <TextView
-                    android:layout_marginLeft="@dimen/border_padding_5"
-                    android:id="@+id/tv_question_chapter_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/border_padding_5"
-                    android:textColor="@color/b3" />
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:layout_marginLeft="@dimen/border_padding_5"-->
+<!--                    android:id="@+id/tv_question_chapter_name"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="@dimen/border_padding_5"-->
+<!--                    android:textColor="@color/b3" />-->
+<!--            </LinearLayout>-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_answer_item"

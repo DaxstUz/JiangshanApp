@@ -164,11 +164,14 @@ public class AnswerActivity extends BaseActivity {
         setBackViewVisiable();
         initView();
 
+        LocalDataUtils.saveLocalData(this, LocalDataUtils.activityName, LocalDataUtils.activityName, "AnswerActivity");
+
         showAnalysis = getIntent().getBooleanExtra("showAnalysis", false);
         billId = getIntent().getIntExtra("billId", 0);
         boolean ismark = getIntent().getBooleanExtra("ismark", false);//标记
         if (billId > 0) {
             llAnswerCommit.setVisibility(View.GONE);
+            LocalDataUtils.saveLocalDataInteger(AnswerActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyBillid, billId);
             getQuestion(billId);
         } else if (ismark) {
             llAnswerCommit.setVisibility(View.GONE);
@@ -217,10 +220,10 @@ public class AnswerActivity extends BaseActivity {
 
         String api = null;
         if ("error".equals(type)) {
-            api = new GetExamErrorListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize",0)).getApi();
+            api = new GetExamErrorListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize", 0)).getApi();
         }
         if ("collect".equals(type)) {
-            api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize",0)).getApi();
+            api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize", 0)).getApi();
         }
 
 //        EasyLog.print("getMarkData api:"+api);
@@ -303,10 +306,10 @@ public class AnswerActivity extends BaseActivity {
                     updateCount(questionDatas.get(0));
 
                     setLastIndex();
-                }else{
-                    if(0==result.getCode()){
+                } else {
+                    if (0 == result.getCode()) {
                         ToastUtils.show("哎呀，服务器出小差了……");
-                    }else {
+                    } else {
                         ToastUtils.show(result.getMsg());
                     }
                 }
@@ -358,7 +361,6 @@ public class AnswerActivity extends BaseActivity {
                         if (questionDatas.size() > 0) {
                             updateCount(questionDatas.get(0));
                         }
-
                         setLastIndex();
                     }
                 }
@@ -635,9 +637,10 @@ public class AnswerActivity extends BaseActivity {
     }
 
     private String examCode;
+    private int examType;
 
     private void examStart() {
-        int examType = getIntent().getIntExtra("examType", 1);
+        examType = getIntent().getIntExtra("examType", 1);
         examCode = getIntent().getStringExtra("examCode");
         Subject subject = LocalDataUtils.getSubject(this);
         Course course = LocalDataUtils.getCourse(this);
@@ -665,11 +668,12 @@ public class AnswerActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<QuestionInfo> result) {
                         if (result.isSuccess()) {
+                            LocalDataUtils.saveLocalDataInteger(AnswerActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyBillid, result.getData().getBillId());
                             getQuestion(result.getData().getBillId());
                         } else {
-                            if(0==result.getCode()){
+                            if (0 == result.getCode()) {
                                 ToastUtils.show("哎呀，服务器出小差了……");
-                            }else {
+                            } else {
                                 ToastUtils.show(result.getMsg());
                             }
                             finish();
@@ -688,7 +692,7 @@ public class AnswerActivity extends BaseActivity {
                 collectCount++;
             }
 
-            if (question.isHasAnswer() && null != question.getUserAnswerList()) {
+            if (question.isHasAnswer() && null != question.getUserAnswerList() && null != question.getChoiceAnswerList()) {
                 if (question.getChoiceAnswerList().containsAll(question.getUserAnswerList()) && question.getChoiceAnswerList().size() == question.getUserAnswerList().size()) {
                     rightCount++;
                 } else {
@@ -712,6 +716,7 @@ public class AnswerActivity extends BaseActivity {
                     @Override
                     public void onSucceed(HttpData<String> result) {
                         if (result.isSuccess()) {
+                            LocalDataUtils.saveLocalDataInteger(AnswerActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyBillid, 0);
                             finish();
                         }
                     }
@@ -741,6 +746,15 @@ public class AnswerActivity extends BaseActivity {
             answerPager.setCurrentItem(answerPager.getCurrentItem() + 1, false);
         } else if (settingVibrator && !answerRight) {
             vibrator();
+        }
+
+        //记录正在答题的题目信息
+        if (null != examCode && examCode.length() > 0 && questionDatas.size() > 0) {
+            Question question = questionDatas.get(answerPager.getCurrentItem());
+            LocalDataUtils.saveLocalData(this, LocalDataUtils.anwserQuestion, examCode, new Gson().toJson(question));
+            LocalDataUtils.saveLocalData(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyLastQuestion, new Gson().toJson(question));
+            LocalDataUtils.saveLocalDataInteger(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyExamType, examType);
+            LocalDataUtils.saveLocalData(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyExamName, getIntent().getStringExtra("examName"));
         }
 
     }
@@ -879,14 +893,7 @@ public class AnswerActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        RichText.clear(this);
-//        RichText.recycle();
         FloatingWindowUtils.getInstance().unInit();
-        //记录正在答题的题目信息
-        if (null != examCode && examCode.length() > 0 && questionDatas.size() > 0) {
-            Question question = questionDatas.get(answerPager.getCurrentItem());
-            LocalDataUtils.saveLocalData(this, LocalDataUtils.anwserQuestion, examCode, new Gson().toJson(question));
-        }
     }
 
     private void setLastIndex() {

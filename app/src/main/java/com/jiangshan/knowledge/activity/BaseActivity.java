@@ -1,15 +1,11 @@
 package com.jiangshan.knowledge.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,11 +20,13 @@ import com.hjq.http.EasyLog;
 import com.hjq.http.listener.OnHttpListener;
 import com.hjq.toast.ToastUtils;
 import com.jiangshan.knowledge.R;
+import com.jiangshan.knowledge.activity.home.AnswerActivity;
 import com.jiangshan.knowledge.activity.home.SubjectDetailActivity;
 import com.jiangshan.knowledge.activity.person.LoginActivity;
 import com.jiangshan.knowledge.application.OKHttpUpdateHttpService;
 import com.jiangshan.knowledge.http.entity.Course;
 import com.jiangshan.knowledge.http.entity.Passport;
+import com.jiangshan.knowledge.http.entity.Question;
 import com.jiangshan.knowledge.http.entity.Subject;
 import com.jiangshan.knowledge.http.entity.User;
 import com.jiangshan.knowledge.http.model.HttpData;
@@ -65,11 +63,12 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 
         // 获得系统的Vibrator实例
         myVibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
-
         //可以将一下代码加到你的MainActivity中，或者在任意一个需要调用分享功能的activity当中
 //        String[] mPermissionList = new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS};
 //        ActivityCompat.requestPermissions(this, mPermissionList, 100);
     }
+
+
 
     /**
      * 调用震动
@@ -281,7 +280,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
 
     protected void updateApk() {
         Passport passport = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.localUserName, LocalDataUtils.passport), Passport.class);
-        if (null==passport) {
+        if (null == passport) {
             return;
         }
         String versionName = UpdateUtils.getVersionName(this);
@@ -290,11 +289,11 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
         if (verson <= 0) {
             return;
         }
-        boolean forcedFlag=false;
-        if(0==passport.getAppUpgradeFlag()){
-            forcedFlag=true;
-        }else if(1==passport.getAppUpgradeFlag()){
-            forcedFlag=false;
+        boolean forcedFlag = false;
+        if (0 == passport.getAppUpgradeFlag()) {
+            forcedFlag = true;
+        } else if (1 == passport.getAppUpgradeFlag()) {
+            forcedFlag = false;
         }
         UpdateEntity updateEntity = new UpdateEntity()
                 .setHasUpdate(true)
@@ -316,6 +315,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
             public void startDownload(@NonNull UpdateEntity updateEntity, @Nullable OnFileDownloadListener downloadListener) {
                 new DefaultUpdateDownloader().startDownload(updateEntity, downloadListener);
             }
+
             @Override
             public void backgroundDownload() {
                 EasyLog.print("backgroundDownload");

@@ -52,19 +52,6 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
         if (null == bgColorValue || bgColorValue.length() == 0) {
             bgColorValue = "#ffffff";
         }
-//        if ("#1d1d1f".equals(bgColorValue)) {
-//            bgColorValue = "#78787a";
-//        } else if ("#fdf2dc".equals(bgColorValue)) {
-//            bgColorValue = "#483a2f";
-//        } else if ("#e6cdae".equals(bgColorValue)) {
-//            bgColorValue = "#362f27";
-//        } else if ("#d2ecd3".equals(bgColorValue)) {
-//            bgColorValue = "#1f3721";
-//        } else if ("#f0e1e6".equals(bgColorValue)) {
-//            bgColorValue = "#752935";
-//        } else if ("#f3f7f9".equals(bgColorValue)) {
-//            bgColorValue = "#333333";
-//        } else
         if ("#ffffff".equals(bgColorValue)) {
             bgColorValue = "#333333";
         }else if ("#B3000000".equals(bgColorValue)) {
@@ -79,29 +66,42 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 //        EasyLog.print("hasAnswer "+hasAnswer+" userAnswerList :"+userAnswerList.size()+" choiceAnswerList: "+choiceAnswerList.size());
 
         boolean settingResultShow=LocalDataUtils.getLocalDataBoolean(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyResultShow);
+        boolean showAnalysis = ((Activity) getContext()).getIntent().getBooleanExtra("showAnalysis", false);
 
-        if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
-            baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
-            baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
+        baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
+        baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
 
-            if (userAnswerList.contains(optionNo)){
-                baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
-                baseViewHolder.setText(R.id.tv_answer_option, "");
+        if(!showAnalysis){//不是背景模式且开启显示正确答案
+            if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
+                if (userAnswerList.contains(optionNo)){
+                    baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
+                    baseViewHolder.setText(R.id.tv_answer_option, "");
+                }
+                if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
+                    baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
+                    baseViewHolder.setText(R.id.tv_answer_option, "");
+                } else if (userAnswerList.contains(optionNo) && !choiceAnswerList.contains(optionNo) && settingResultShow) {
+                    baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_error);
+                    baseViewHolder.setText(R.id.tv_answer_option, "");
+                }
             }
-            if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
-                baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
-                baseViewHolder.setText(R.id.tv_answer_option, "");
-            } else if (userAnswerList.contains(optionNo) && !choiceAnswerList.contains(optionNo) && settingResultShow) {
-                baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_error);
-                baseViewHolder.setText(R.id.tv_answer_option, "");
+        }else{
+            if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
+                if (userAnswerList.contains(optionNo)){
+                    baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
+                    baseViewHolder.setText(R.id.tv_answer_option, "");
+                }
+                if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
+                    baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
+                    baseViewHolder.setText(R.id.tv_answer_option, "");
+                } else if (userAnswerList.contains(optionNo) && !choiceAnswerList.contains(optionNo) ) {
+                    baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_error);
+                    baseViewHolder.setText(R.id.tv_answer_option, "");
+                }
             }
-
-        } else {
-            baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
-            baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
         }
 
-        boolean showAnalysis = ((Activity) getContext()).getIntent().getBooleanExtra("showAnalysis", false);
+       //显示所有正确答案
         if (showAnalysis && choiceAnswerList.contains(optionNo)) {
             baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
             baseViewHolder.setText(R.id.tv_answer_option, "");
