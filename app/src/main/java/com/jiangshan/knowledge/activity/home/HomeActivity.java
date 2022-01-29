@@ -101,9 +101,8 @@ public class HomeActivity extends BaseActivity {
             intent.putExtra("billId", billid);
             intent.putExtra("showUserAnalysis", true);
             startActivity(intent);
-        } else {
-            LocalDataUtils.saveLocalData(this, LocalDataUtils.activityName, LocalDataUtils.activityName, "HomeActivity");
         }
+        LocalDataUtils.saveLocalData(this, LocalDataUtils.activityName, LocalDataUtils.activityName, "HomeActivity");
     }
 
     public void updateUI() {

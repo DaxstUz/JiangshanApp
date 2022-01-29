@@ -101,6 +101,7 @@ public class BaseActivity extends AppCompatActivity implements OnHttpListener<Ob
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LocalDataUtils.saveLocalDataInteger(BaseActivity.this, LocalDataUtils.localUserName, LocalDataUtils.keyBillid, 0);
                 setResult(RESULT_OK);
                 finish();
             }

@@ -14,7 +14,7 @@
             android:id="@+id/tv_news_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:maxLines="3"
             android:ellipsize="end"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -27,7 +27,7 @@
             android:layout_alignParentBottom="true"
             android:textColor="@color/b3"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="1"
             android:text="TextView" />
         <TextView
             android:layout_alignParentEnd="true"
