@@ -119,6 +119,7 @@ public class AnswerActivity extends BaseActivity {
     private TextView tvAnswerError;
 
     private TextView tv_more_question;
+    private TextView tv_anli_question;
 
     private TextView tvFontSize;
     private TextView tvModel;
@@ -137,6 +138,10 @@ public class AnswerActivity extends BaseActivity {
     private RecyclerView rvChapterMain2;
     private ChapterMainAdapter chapterMainAdapter2;
     private List<Question> questionDatas2 = new ArrayList();
+
+    private RecyclerView rvChapterMain3;
+    private ChapterMainAdapter chapterMainAdapter3;
+    private List<Question> questionDatas3 = new ArrayList();
 
     private SeekBar sbLight;
 
@@ -245,8 +250,10 @@ public class AnswerActivity extends BaseActivity {
 
                             if (1 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas1.add(questionDatas.get(i));
-                            } else {
+                            } else if(2 == questionDatas.get(i).getQuestionType()){
                                 questionDatas2.add(questionDatas.get(i));
+                            }else if(4 == questionDatas.get(i).getQuestionType()){
+                                questionDatas3.add(questionDatas.get(i));
                             }
                         }
                         answerPager.notifyDataSetChanged();
@@ -256,6 +263,11 @@ public class AnswerActivity extends BaseActivity {
                             tv_more_question.setVisibility(View.VISIBLE);
                             chapterMainAdapter2.setSingleTotal(questionDatas1.size());
                             chapterMainAdapter2.notifyDataSetChanged();
+                        }
+                        if (questionDatas3.size() > 0) {
+                            tv_anli_question.setVisibility(View.VISIBLE);
+                            chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                            chapterMainAdapter3.notifyDataSetChanged();
                         }
                         llAnswerCount.setVisibility(View.VISIBLE);
 
@@ -290,8 +302,10 @@ public class AnswerActivity extends BaseActivity {
 
                         if (1 == questionDatas.get(i).getQuestionType()) {
                             questionDatas1.add(questionDatas.get(i));
-                        } else {
+                        } else if(2 == questionDatas.get(i).getQuestionType()){
                             questionDatas2.add(questionDatas.get(i));
+                        }else if(4 == questionDatas.get(i).getQuestionType()){
+                            questionDatas3.add(questionDatas.get(i));
                         }
                     }
                     answerPager.notifyDataSetChanged();
@@ -301,6 +315,12 @@ public class AnswerActivity extends BaseActivity {
                         tv_more_question.setVisibility(View.VISIBLE);
                         chapterMainAdapter2.setSingleTotal(questionDatas1.size());
                         chapterMainAdapter2.notifyDataSetChanged();
+                    }
+
+                    if (questionDatas3.size() > 0) {
+                        tv_anli_question.setVisibility(View.VISIBLE);
+                        chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                        chapterMainAdapter3.notifyDataSetChanged();
                     }
                     llAnswerCount.setVisibility(View.VISIBLE);
                     updateCount(questionDatas.get(0));
@@ -345,8 +365,10 @@ public class AnswerActivity extends BaseActivity {
 
                             if (1 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas1.add(questionDatas.get(i));
-                            } else {
+                            } else if(2 == questionDatas.get(i).getQuestionType()){
                                 questionDatas2.add(questionDatas.get(i));
+                            }else if(4 == questionDatas.get(i).getQuestionType()){
+                                questionDatas3.add(questionDatas.get(i));
                             }
                         }
                         answerPager.notifyDataSetChanged();
@@ -356,6 +378,12 @@ public class AnswerActivity extends BaseActivity {
                             tv_more_question.setVisibility(View.VISIBLE);
                             chapterMainAdapter2.setSingleTotal(questionDatas1.size());
                             chapterMainAdapter2.notifyDataSetChanged();
+                        }
+
+                        if (questionDatas3.size() > 0) {
+                            tv_anli_question.setVisibility(View.VISIBLE);
+                            chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                            chapterMainAdapter3.notifyDataSetChanged();
                         }
                         llAnswerCount.setVisibility(View.VISIBLE);
                         if (questionDatas.size() > 0) {
@@ -404,8 +432,10 @@ public class AnswerActivity extends BaseActivity {
 
                                 if (1 == questionDatas.get(i).getQuestionType()) {
                                     questionDatas1.add(questionDatas.get(i));
-                                } else {
+                                } else if(2 == questionDatas.get(i).getQuestionType()){
                                     questionDatas2.add(questionDatas.get(i));
+                                }else if(4 == questionDatas.get(i).getQuestionType()){
+                                    questionDatas3.add(questionDatas.get(i));
                                 }
                             }
                             answerPager.notifyDataSetChanged();
@@ -415,6 +445,11 @@ public class AnswerActivity extends BaseActivity {
                                 tv_more_question.setVisibility(View.VISIBLE);
                                 chapterMainAdapter2.setSingleTotal(questionDatas1.size());
                                 chapterMainAdapter2.notifyDataSetChanged();
+                            }
+                            if (questionDatas3.size() > 0) {
+                                tv_anli_question.setVisibility(View.VISIBLE);
+                                chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                                chapterMainAdapter3.notifyDataSetChanged();
                             }
                             llAnswerCount.setVisibility(View.VISIBLE);
                             if (questionDatas.size() > 0) {
@@ -440,6 +475,7 @@ public class AnswerActivity extends BaseActivity {
         llChapter = findView(R.id.ll_chapter);
 
         tv_more_question = findView(R.id.tv_more_question);
+        tv_anli_question = findView(R.id.tv_anli_question);
 
         ivModelRead = findView(R.id.iv_model_read);
         tvModelRead = findView(R.id.tv_model_read);
@@ -471,6 +507,11 @@ public class AnswerActivity extends BaseActivity {
         chapterMainAdapter2 = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas2);
         rvChapterMain2.setAdapter(chapterMainAdapter2);
         rvChapterMain2.setLayoutManager(new GridLayoutManager(this, 6));
+
+        rvChapterMain3 = findView(R.id.rv_chapter_main3);
+        chapterMainAdapter3 = new ChapterMainAdapter(R.layout.item_adapter_main, questionDatas3);
+        rvChapterMain3.setAdapter(chapterMainAdapter3);
+        rvChapterMain3.setLayoutManager(new GridLayoutManager(this, 6));
 
         llAnswerCount = findView(R.id.ll_answer_count);
 
@@ -539,6 +580,16 @@ public class AnswerActivity extends BaseActivity {
                 answerPager.setCurrentItem(position + questionDatas1.size(), false);
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter2.notifyDataSetChanged();
+            }
+        });
+
+        chapterMainAdapter3.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                llChapter.setVisibility(View.GONE);
+                answerPager.setCurrentItem(position + questionDatas1.size() + questionDatas2.size(), false);
+                chapterMainAdapter.setSelectIndex(position);
+                chapterMainAdapter3.notifyDataSetChanged();
             }
         });
 

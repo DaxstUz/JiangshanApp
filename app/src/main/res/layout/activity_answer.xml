@@ -170,6 +170,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none" />
+
+                <TextView
+                    android:id="@+id/tv_anli_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/border_padding_10"
+                    android:text="案例解析题"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_chapter_main3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

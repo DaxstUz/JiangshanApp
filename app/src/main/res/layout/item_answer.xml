@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/border_padding_20"
+        android:paddingBottom="@dimen/border_padding_20"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -175,7 +176,6 @@
                 android:id="@+id/tv_answer_analysis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
                 android:background="@android:color/transparent"
                 android:layerType="hardware"
                 android:text="content"
