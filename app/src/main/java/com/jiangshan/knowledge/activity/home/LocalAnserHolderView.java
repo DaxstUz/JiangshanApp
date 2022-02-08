@@ -189,25 +189,21 @@ public class LocalAnserHolderView extends Holder<Question> {
         String questionContent = data.getContent();
         questionContent = questionContent.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
         questionContent = questionContent.replace("<img", "<img style=\"max-width:100%;height:auto\"");
-//        if(!questionContent.endsWith("</p>")){
-//            questionContent=questionContent+"<br/>";
-//        }
         if (4 == data.getQuestionType()) {
             //案例分析
             questionContent = questionContent.replaceAll("&nbsp;", "");
             questionContent = questionContent.replaceAll("<br/></p><p>", "<br/>");
-            questionContent = questionContent.replaceAll("</p><p><br/>", "");
+            questionContent = questionContent.replaceAll("</p><p><br/>", "<br/>");
         } else if (5 == data.getQuestionType()) {
             //论文
-            questionContent = questionContent.replace("</p><p><br/>", "");
+            questionContent = questionContent.replace("</p><p><br/>", "<br/>");
         }
         questionContent = questionContent.replace("</p><p>", "<br/>");
         String answerAnalysis = data.getAnswerAnalysis();
         answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
-        answerAnalysis = answerAnalysis.replaceAll("<br/></p><p>", "");
+        answerAnalysis = answerAnalysis.replaceAll("<br/></p><p>", "<br/>");
         answerAnalysis = answerAnalysis.replaceAll("<p></p><p>", "");
         answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
-//        answerAnalysis = answerAnalysis.replace("&nbsp;", "");
         answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
         if (bgColorValue.length() > 7) {
             questionContent = questionContent.replace("<p>", "<p style=\"color: #cdcdcd \">");
@@ -215,6 +211,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         }
         questionContent = questionContent.replaceAll("<p>", "");
         answerAnalysis = answerAnalysis.replaceAll("<p>", "");
+        questionContent = questionContent.replaceAll("alt=\\\"image.png\\\"/>", "alt=\\\"image.png\\\"/><br/>");
         tvQuestionContent.loadDataWithBaseURL(null, questionContent, "text/html", "UTF-8", null);
         tvAnswerAnalysis.loadDataWithBaseURL(null, answerAnalysis, "text/html", "UTF-8", null);
 

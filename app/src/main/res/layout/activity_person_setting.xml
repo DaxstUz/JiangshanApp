@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="答题错误震动"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <Switch
@@ -43,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="答对自动跳下一题"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <Switch
@@ -67,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="答题立即显示答案解析"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <Switch
@@ -90,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看答案手型按钮"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <Switch
@@ -113,6 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="答题立即显示对错"
+            android:textColor="@color/black"
             android:textSize="18sp" />
         <Switch
             android:id="@+id/switch_show_result"
@@ -137,6 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="清除答题记录"
+            android:textColor="@color/black"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -153,6 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="清空错题集"
+            android:textColor="@color/black"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -169,6 +176,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="修改密码"
+            android:textColor="@color/black"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -184,6 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="退出登录"
+            android:textColor="@color/black"
             android:textSize="18sp" />
     </RelativeLayout>
 

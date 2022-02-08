@@ -32,6 +32,7 @@
               android:id="@+id/tv_user_name"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:textColor="@color/black"
               android:layout_toRightOf="@+id/iv_user_head"
               android:text="名字" />
           <LinearLayout
@@ -44,11 +45,13 @@
               <TextView
                   android:id="@+id/tv_subject_name"
                   android:text="系统集成项目管理工程师"
+                  android:textColor="@color/black"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
               <TextView
                   android:layout_marginLeft="10dp"
                   android:text=">"
+                  android:textColor="@color/black"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
           </LinearLayout>
@@ -71,10 +74,12 @@
                   <TextView
                       android:id="@+id/tv_error_count"
                       android:text="0"
+                      android:textColor="@color/black"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"/>
                   <TextView
                       android:text="错题"
+                      android:textColor="@color/black"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"/>
               </LinearLayout>
@@ -93,10 +98,12 @@
                   <TextView
                       android:id="@+id/tv_history_count"
                       android:text="0"
+                      android:textColor="@color/black"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"/>
                   <TextView
                       android:text="答题历史"
+                      android:textColor="@color/black"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"/>
               </LinearLayout>
@@ -115,10 +122,12 @@
                   <TextView
                       android:id="@+id/tv_collect_count"
                       android:text="0"
+                      android:textColor="@color/black"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"/>
                   <TextView
                       android:text="收藏"
+                      android:textColor="@color/black"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"/>
               </LinearLayout>

@@ -50,6 +50,7 @@
                     android:id="@+id/tv_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="距离考试还有" />
 
                 <TextView
@@ -90,6 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/border_padding_5"
+                    android:textColor="@color/black"
                     android:text="最近做题" />
             </LinearLayout>
 
