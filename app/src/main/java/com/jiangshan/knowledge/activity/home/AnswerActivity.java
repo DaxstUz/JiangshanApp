@@ -183,6 +183,7 @@ public class AnswerActivity extends BaseActivity {
             getMarkData();
         } else {
             if (showAnalysis) {
+                llAnswerCommit.setVisibility(View.GONE);
                 getShowQuestion();
             } else {
                 examStart();
