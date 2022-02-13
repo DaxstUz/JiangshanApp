@@ -45,18 +45,15 @@ public class ChapterMainAdapter extends BaseQuickAdapter<Question, BaseViewHolde
         baseViewHolder.setBackgroundResource(R.id.tv_chapter_no, R.drawable.chapter_main_bg);
         baseViewHolder.setTextColorRes(R.id.tv_chapter_no, R.color.b3);
 
-        if (data.isHasAnswer()) {
-            if (null != data.getUserAnswerList() && null != data.getChoiceAnswerList() && data.getUserAnswerList().size() > 0) {
-                if (data.getChoiceAnswerList().containsAll(data.getUserAnswerList()) && data.getChoiceAnswerList().size() == data.getUserAnswerList().size()) {
-                    baseViewHolder.setBackgroundResource(R.id.tv_chapter_no, R.drawable.chapter_main_right_bg);
-                    baseViewHolder.setTextColorRes(R.id.tv_chapter_no, R.color.colorGreen);
-                } else {
-                    baseViewHolder.setBackgroundResource(R.id.tv_chapter_no, R.drawable.chapter_main_error_bg);
-                    baseViewHolder.setTextColorRes(R.id.tv_chapter_no, R.color.colorRed);
-                }
+        if (null != data.getUserAnswerList() && null != data.getChoiceAnswerList() && data.getUserAnswerList().size() > 0) {
+            if (data.getChoiceAnswerList().containsAll(data.getUserAnswerList()) && data.getChoiceAnswerList().size() == data.getUserAnswerList().size()) {
+                baseViewHolder.setBackgroundResource(R.id.tv_chapter_no, R.drawable.chapter_main_right_bg);
+                baseViewHolder.setTextColorRes(R.id.tv_chapter_no, R.color.colorGreen);
+            } else {
+                baseViewHolder.setBackgroundResource(R.id.tv_chapter_no, R.drawable.chapter_main_error_bg);
+                baseViewHolder.setTextColorRes(R.id.tv_chapter_no, R.color.colorRed);
             }
         }
-
     }
 
     @Override

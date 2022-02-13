@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.hjq.http.EasyLog;
 import com.jiangshan.knowledge.R;
 import com.jiangshan.knowledge.http.entity.QuestionOption;
 import com.jiangshan.knowledge.uitl.LocalDataUtils;
@@ -29,7 +28,7 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 
     private Set<String> userAnswerList;
 
-    private boolean hasAnswer;
+//    private boolean hasAnswer;
 
     public AnswerItemAdapter(int layoutResId, @Nullable List<QuestionOption> data) {
         super(layoutResId, data);
@@ -54,9 +53,9 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
         }
         if ("#ffffff".equals(bgColorValue)) {
             bgColorValue = "#333333";
-        }else if ("#B3000000".equals(bgColorValue)) {
+        } else if ("#B3000000".equals(bgColorValue)) {
             bgColorValue = "#cdcdcd";
-        }else{
+        } else {
             bgColorValue = "#000000";
         }
         tv_answer_content.setTextColor(Color.parseColor(bgColorValue));
@@ -65,15 +64,15 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
 
 //        EasyLog.print("hasAnswer "+hasAnswer+" userAnswerList :"+userAnswerList.size()+" choiceAnswerList: "+choiceAnswerList.size());
 
-        boolean settingResultShow=LocalDataUtils.getLocalDataBoolean(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyResultShow);
+        boolean settingResultShow = LocalDataUtils.getLocalDataBoolean(getContext(), LocalDataUtils.settingDataName, LocalDataUtils.keyResultShow);
         boolean showAnalysis = ((Activity) getContext()).getIntent().getBooleanExtra("showAnalysis", false);
 
         baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.drawable.answer_option_bg);
         baseViewHolder.setText(R.id.tv_answer_option, data.getOptionNo());
 
-        if(!showAnalysis){//不是背景模式且开启显示正确答案
-            if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
-                if (userAnswerList.contains(optionNo)){
+        if (!showAnalysis) {//不是背景模式且开启显示正确答案
+            if (null != userAnswerList && null != choiceAnswerList) {
+                if (userAnswerList.contains(optionNo)) {
                     baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
                     baseViewHolder.setText(R.id.tv_answer_option, "");
                 }
@@ -85,23 +84,23 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
                     baseViewHolder.setText(R.id.tv_answer_option, "");
                 }
             }
-        }else{
-            if (hasAnswer && null != userAnswerList && null != choiceAnswerList) {
-                if (userAnswerList.contains(optionNo)){
+        } else {
+            if (null != userAnswerList && null != choiceAnswerList) {
+                if (userAnswerList.contains(optionNo)) {
                     baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
                     baseViewHolder.setText(R.id.tv_answer_option, "");
                 }
                 if (userAnswerList.contains(optionNo) && choiceAnswerList.contains(optionNo)) {
                     baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
                     baseViewHolder.setText(R.id.tv_answer_option, "");
-                } else if (userAnswerList.contains(optionNo) && !choiceAnswerList.contains(optionNo) ) {
+                } else if (userAnswerList.contains(optionNo) && !choiceAnswerList.contains(optionNo)) {
                     baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_error);
                     baseViewHolder.setText(R.id.tv_answer_option, "");
                 }
             }
         }
 
-       //显示所有正确答案
+        //显示所有正确答案
         if (showAnalysis && choiceAnswerList.contains(optionNo)) {
             baseViewHolder.setBackgroundResource(R.id.tv_answer_option, R.mipmap.rb_answer_right);
             baseViewHolder.setText(R.id.tv_answer_option, "");
@@ -125,7 +124,7 @@ public class AnswerItemAdapter extends BaseQuickAdapter<QuestionOption, BaseView
         this.userAnswerList = userAnswerList;
     }
 
-    public void setHasAnswer(boolean hasAnswer) {
-        this.hasAnswer = hasAnswer;
-    }
+//    public void setHasAnswer(boolean hasAnswer) {
+//        this.hasAnswer = hasAnswer;
+//    }
 }

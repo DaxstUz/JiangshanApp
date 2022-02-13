@@ -90,7 +90,6 @@ public class HomeActivity extends BaseActivity {
         int billid = LocalDataUtils.getLocalDataInteger(this, LocalDataUtils.localUserName, LocalDataUtils.keyBillid);
         String activityFlag = LocalDataUtils.getLocalData(this, LocalDataUtils.activityName, LocalDataUtils.activityName);
         Question question = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyLastQuestion), Question.class);
-//        EasyLog.print("activityFlag: " + activityFlag + "  question:" + new Gson().toJson(question));
         if (billid > 0 && "AnswerActivity".equals(activityFlag) && null != question) {
             int examType = LocalDataUtils.getLocalDataInteger(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyExamType);
             String examName = LocalDataUtils.getLocalData(this, LocalDataUtils.anwserQuestion, LocalDataUtils.keyExamName);
@@ -109,7 +108,6 @@ public class HomeActivity extends BaseActivity {
         Course course = LocalDataUtils.getCourse(this);
         if (null == course || course.getCourseName().length() == 0) {
             setTitle("请选择科目");
-//            startActivity(new Intent(getApplicationContext(), SubjectDetailActivity.class));
         } else {
             setTitle(course.getCourseName());
         }

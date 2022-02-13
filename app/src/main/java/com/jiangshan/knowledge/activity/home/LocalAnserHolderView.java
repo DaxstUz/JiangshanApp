@@ -108,7 +108,7 @@ public class LocalAnserHolderView extends Holder<Question> {
 
         boolean showUserAnalysis = ((AnswerActivity) itemView.getContext()).getIntent().getBooleanExtra("showUserAnalysis", false);
         if (showUserAnalysis) {
-            data.setHasAnswer(true);
+//            data.setHasAnswer(true);
         }
 
         int fontSizeValue = LocalDataUtils.getLocalDataInteger((AnswerActivity) itemView.getContext(), LocalDataUtils.settingDataName, LocalDataUtils.fontSizeValue);
@@ -134,7 +134,7 @@ public class LocalAnserHolderView extends Holder<Question> {
         answerItemAdapter = new AnswerItemAdapter(R.layout.item_question_option, questionOptionList);
         answerItemAdapter.setChoiceAnswerList(data.getChoiceAnswerList());
         answerItemAdapter.setUserAnswerList(userAnswerList);
-        answerItemAdapter.setHasAnswer(data.isHasAnswer());
+//        answerItemAdapter.setHasAnswer(data.isHasAnswer());
         rvAnswerItem.setAdapter(answerItemAdapter);
 
         Set<String> finalUserAnswerList = userAnswerList;
@@ -158,7 +158,7 @@ public class LocalAnserHolderView extends Holder<Question> {
                         finalUserAnswerList.remove(questionOptionList.get(position).getOptionNo());
                     } else {
                         finalUserAnswerList.add(questionOptionList.get(position).getOptionNo());
-                        answerItemAdapter.setHasAnswer(true);
+//                        answerItemAdapter.setHasAnswer(true);
                     }
                     answerItemAdapter.notifyDataSetChanged();
                     onOptionClick();
@@ -321,7 +321,7 @@ public class LocalAnserHolderView extends Holder<Question> {
             }
         }
 
-        data.setHasAnswer(true);
+//        data.setHasAnswer(true);
 
         if (showAnalysis || (answerShow)) {
             llAnswerAnalysis.setVisibility(View.VISIBLE);

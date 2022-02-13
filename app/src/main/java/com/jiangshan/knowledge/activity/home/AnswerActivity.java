@@ -31,7 +31,6 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hjq.http.EasyHttp;
-import com.hjq.http.EasyLog;
 import com.hjq.http.config.IRequestApi;
 import com.hjq.http.listener.HttpCallback;
 import com.hjq.toast.ToastUtils;
@@ -232,7 +231,6 @@ public class AnswerActivity extends BaseActivity {
             api = new GetExamCollectListApi().setSubjectCode(subject.getSubjectCode()).setCourseCode(course.getCourseCode()).setExamCode(getIntent().getStringExtra("examCode")).setPageNum(pageNum).setPageSize(getIntent().getIntExtra("pageSize", 0)).getApi();
         }
 
-//        EasyLog.print("getMarkData api:"+api);
         if (null == api) {
             return;
         }
@@ -251,9 +249,9 @@ public class AnswerActivity extends BaseActivity {
 
                             if (1 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas1.add(questionDatas.get(i));
-                            } else if(2 == questionDatas.get(i).getQuestionType()){
+                            } else if (2 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas2.add(questionDatas.get(i));
-                            }else if(4 == questionDatas.get(i).getQuestionType()){
+                            } else if (4 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas3.add(questionDatas.get(i));
                             }
                         }
@@ -267,7 +265,7 @@ public class AnswerActivity extends BaseActivity {
                         }
                         if (questionDatas3.size() > 0) {
                             tv_anli_question.setVisibility(View.VISIBLE);
-                            chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                            chapterMainAdapter3.setSingleTotal(questionDatas1.size() + questionDatas2.size());
                             chapterMainAdapter3.notifyDataSetChanged();
                         }
                         llAnswerCount.setVisibility(View.VISIBLE);
@@ -275,6 +273,7 @@ public class AnswerActivity extends BaseActivity {
                         if (questionDatas.size() > 0) {
                             updateCount(questionDatas.get(0));
                         }
+                        setCollectCount();
                     } else {
                         pageNum++;
                         getMarkData();
@@ -303,9 +302,9 @@ public class AnswerActivity extends BaseActivity {
 
                         if (1 == questionDatas.get(i).getQuestionType()) {
                             questionDatas1.add(questionDatas.get(i));
-                        } else if(2 == questionDatas.get(i).getQuestionType()){
+                        } else if (2 == questionDatas.get(i).getQuestionType()) {
                             questionDatas2.add(questionDatas.get(i));
-                        }else if(4 == questionDatas.get(i).getQuestionType()){
+                        } else if (4 == questionDatas.get(i).getQuestionType()) {
                             questionDatas3.add(questionDatas.get(i));
                         }
                     }
@@ -320,12 +319,12 @@ public class AnswerActivity extends BaseActivity {
 
                     if (questionDatas3.size() > 0) {
                         tv_anli_question.setVisibility(View.VISIBLE);
-                        chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                        chapterMainAdapter3.setSingleTotal(questionDatas1.size() + questionDatas2.size());
                         chapterMainAdapter3.notifyDataSetChanged();
                     }
                     llAnswerCount.setVisibility(View.VISIBLE);
+                    setCollectCount();
                     updateCount(questionDatas.get(0));
-
                     setLastIndex();
                 } else {
                     if (0 == result.getCode()) {
@@ -366,9 +365,9 @@ public class AnswerActivity extends BaseActivity {
 
                             if (1 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas1.add(questionDatas.get(i));
-                            } else if(2 == questionDatas.get(i).getQuestionType()){
+                            } else if (2 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas2.add(questionDatas.get(i));
-                            }else if(4 == questionDatas.get(i).getQuestionType()){
+                            } else if (4 == questionDatas.get(i).getQuestionType()) {
                                 questionDatas3.add(questionDatas.get(i));
                             }
                         }
@@ -383,7 +382,7 @@ public class AnswerActivity extends BaseActivity {
 
                         if (questionDatas3.size() > 0) {
                             tv_anli_question.setVisibility(View.VISIBLE);
-                            chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                            chapterMainAdapter3.setSingleTotal(questionDatas1.size() + questionDatas2.size());
                             chapterMainAdapter3.notifyDataSetChanged();
                         }
                         llAnswerCount.setVisibility(View.VISIBLE);
@@ -391,6 +390,7 @@ public class AnswerActivity extends BaseActivity {
                             updateCount(questionDatas.get(0));
                         }
                         setLastIndex();
+                        setCollectCount();
                     }
                 }
             });
@@ -433,9 +433,9 @@ public class AnswerActivity extends BaseActivity {
 
                                 if (1 == questionDatas.get(i).getQuestionType()) {
                                     questionDatas1.add(questionDatas.get(i));
-                                } else if(2 == questionDatas.get(i).getQuestionType()){
+                                } else if (2 == questionDatas.get(i).getQuestionType()) {
                                     questionDatas2.add(questionDatas.get(i));
-                                }else if(4 == questionDatas.get(i).getQuestionType()){
+                                } else if (4 == questionDatas.get(i).getQuestionType()) {
                                     questionDatas3.add(questionDatas.get(i));
                                 }
                             }
@@ -449,7 +449,7 @@ public class AnswerActivity extends BaseActivity {
                             }
                             if (questionDatas3.size() > 0) {
                                 tv_anli_question.setVisibility(View.VISIBLE);
-                                chapterMainAdapter3.setSingleTotal(questionDatas1.size()+questionDatas2.size());
+                                chapterMainAdapter3.setSingleTotal(questionDatas1.size() + questionDatas2.size());
                                 chapterMainAdapter3.notifyDataSetChanged();
                             }
                             llAnswerCount.setVisibility(View.VISIBLE);
@@ -569,6 +569,7 @@ public class AnswerActivity extends BaseActivity {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 llChapter.setVisibility(View.GONE);
                 answerPager.setCurrentItem(position, false);
+                updateCount(questionDatas.get(position));
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter.notifyDataSetChanged();
             }
@@ -579,6 +580,7 @@ public class AnswerActivity extends BaseActivity {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 llChapter.setVisibility(View.GONE);
                 answerPager.setCurrentItem(position + questionDatas1.size(), false);
+                updateCount(questionDatas1.get(position));
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter2.notifyDataSetChanged();
             }
@@ -589,6 +591,7 @@ public class AnswerActivity extends BaseActivity {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 llChapter.setVisibility(View.GONE);
                 answerPager.setCurrentItem(position + questionDatas1.size() + questionDatas2.size(), false);
+                updateCount(questionDatas3.get(position));
                 chapterMainAdapter.setSelectIndex(position);
                 chapterMainAdapter3.notifyDataSetChanged();
             }
@@ -744,7 +747,9 @@ public class AnswerActivity extends BaseActivity {
                 collectCount++;
             }
 
-            if (question.isHasAnswer() && null != question.getUserAnswerList() && null != question.getChoiceAnswerList()) {
+            if (null != question.getUserAnswerList()
+                    && null != question.getChoiceAnswerList()
+                    && question.getUserAnswerList().size() > 0) {
                 if (question.getChoiceAnswerList().containsAll(question.getUserAnswerList()) && question.getChoiceAnswerList().size() == question.getUserAnswerList().size()) {
                     rightCount++;
                 } else {
@@ -753,11 +758,8 @@ public class AnswerActivity extends BaseActivity {
             }
         }
         tvCollectCount.setText(collectCount + "");
-
-        if (!showAnalysis) {
-            tvAnswerRight.setText(rightCount + "");
-            tvAnswerError.setText(errorCount + "");
-        }
+        tvAnswerRight.setText(rightCount + "");
+        tvAnswerError.setText(errorCount + "");
     }
 
 
@@ -953,7 +955,7 @@ public class AnswerActivity extends BaseActivity {
             Question question = new Gson().fromJson(LocalDataUtils.getLocalData(this, LocalDataUtils.anwserQuestion, examCode), Question.class);
             if (null != question) {
                 for (int i = 0; i < questionDatas.size(); i++) {
-                    questionDatas.get(i).setHasAnswer(true);
+//                    questionDatas.get(i).setHasAnswer(true);
                     if (question.getId() == questionDatas.get(i).getId()) {
                         answerPager.setCurrentItem(i, false);
                         setCollectCount();

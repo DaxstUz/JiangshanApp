@@ -48,15 +48,15 @@ public class Question implements Serializable {
 
     private boolean showAnswer;
 
-    private boolean hasAnswer;
+//    private boolean hasAnswer;
 
-    public boolean isHasAnswer() {
-        return hasAnswer;
-    }
-
-    public void setHasAnswer(boolean hasAnswer) {
-        this.hasAnswer = hasAnswer;
-    }
+//    public boolean isHasAnswer() {
+//        return hasAnswer;
+//    }
+//
+//    public void setHasAnswer(boolean hasAnswer) {
+//        this.hasAnswer = hasAnswer;
+//    }
 
     public boolean isShowAnswer() {
         return showAnswer;
