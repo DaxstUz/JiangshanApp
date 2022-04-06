@@ -200,17 +200,24 @@ public class LocalAnserHolderView extends Holder<Question> {
         }
         questionContent = questionContent.replace("</p><p>", "<br/>");
         String answerAnalysis = data.getAnswerAnalysis();
-        answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
-        answerAnalysis = answerAnalysis.replaceAll("<br/></p><p>", "<br/>");
-        answerAnalysis = answerAnalysis.replaceAll("<p></p><p>", "");
-        answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
-        answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
+        if(null!=answerAnalysis){
+            answerAnalysis = answerAnalysis.replaceAll("//img.51kpm.com", "https://img.51kpm.com");
+            answerAnalysis = answerAnalysis.replaceAll("<br/></p><p>", "<br/>");
+            answerAnalysis = answerAnalysis.replaceAll("<p></p><p>", "");
+            answerAnalysis = answerAnalysis.replace("<img", "<img style=\"max-width:100%;height:auto\"");
+            answerAnalysis = answerAnalysis.replace("</p><p>", "</br>");
+        }
+
         if (bgColorValue.length() > 7) {
             questionContent = questionContent.replace("<p>", "<p style=\"color: #cdcdcd \">");
-            answerAnalysis = answerAnalysis.replace("<p>", "<p style=\"color: #cdcdcd \">");
+            if(null!=answerAnalysis){
+                answerAnalysis = answerAnalysis.replace("<p>", "<p style=\"color: #cdcdcd \">");
+            }
         }
         questionContent = questionContent.replaceAll("<p>", "");
-        answerAnalysis = answerAnalysis.replaceAll("<p>", "");
+        if(null!=answerAnalysis){
+            answerAnalysis = answerAnalysis.replaceAll("<p>", "");
+        }
         questionContent = questionContent.replaceAll("alt=\\\"image.png\\\"/>", "alt=\\\"image.png\\\"/><br/>");
         tvQuestionContent.loadDataWithBaseURL(null, questionContent, "text/html", "UTF-8", null);
         tvAnswerAnalysis.loadDataWithBaseURL(null, answerAnalysis, "text/html", "UTF-8", null);
