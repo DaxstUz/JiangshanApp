@@ -69,7 +69,7 @@ public class ArticleDetailActivity extends BaseActivity {
         newsWebview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         newsWebview.getSettings().setLoadWithOverviewMode(true);
 
-        newsWebview.getSettings().setDefaultFontSize(35);
+//        newsWebview.getSettings().setDefaultFontSize(35);
 
         newsWebview.addJavascriptInterface(new WebViewJavaScriptFunction() {
 

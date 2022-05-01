@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 21,
-      "versionName": "1.0.21",
-      "outputFile": "jianshang_v1.0.21.apk"
+      "versionCode": 23,
+      "versionName": "1.0.23",
+      "outputFile": "jianshang_v1.0.23.apk"
     }
   ],
   "elementType": "File"
