@@ -4,27 +4,28 @@ package com.jiangshan.knowledge.http.entity;
  * auth s_yz  2021/11/7
  */
 public class Prepay {
-    private String timeStamp;
-    private String prepay_id;
+    private String timestamp;
+    private String prepayid;
     private String paySign;
-    private String appId;
+    private String appid;
+    private String sign;
     private String signType;
-    private String nonceStr;
+    private String noncestr;
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public String getPrepay_id() {
-        return prepay_id;
+    public String getPrepayid() {
+        return prepayid;
     }
 
-    public void setPrepay_id(String prepay_id) {
-        this.prepay_id = prepay_id;
+    public void setPrepayid(String prepayid) {
+        this.prepayid = prepayid;
     }
 
     public String getPaySign() {
@@ -35,12 +36,20 @@ public class Prepay {
         this.paySign = paySign;
     }
 
-    public String getAppId() {
-        return appId;
+    public String getAppid() {
+        return appid;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setAppid(String appid) {
+        this.appid = appid;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
     public String getSignType() {
@@ -51,11 +60,11 @@ public class Prepay {
         this.signType = signType;
     }
 
-    public String getNonceStr() {
-        return nonceStr;
+    public String getNoncestr() {
+        return noncestr;
     }
 
-    public void setNonceStr(String nonceStr) {
-        this.nonceStr = nonceStr;
+    public void setNoncestr(String noncestr) {
+        this.noncestr = noncestr;
     }
 }

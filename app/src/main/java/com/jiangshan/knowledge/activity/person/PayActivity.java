@@ -125,17 +125,17 @@ public class PayActivity extends BaseActivity implements PayUtil {
     }
 
     private void payWeixin(Prepay prepay) {
-        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, prepay.getAppId());
+        IWXAPI msgApi = WXAPIFactory.createWXAPI(this, prepay.getAppid());
         // 将该app注册到微信
-        msgApi.registerApp(prepay.getAppId());
+        msgApi.registerApp(prepay.getAppid());
         PayReq request = new PayReq();
-        request.appId = prepay.getAppId();
+        request.appId = prepay.getAppid();
         request.partnerId = "1581836751";
-        request.prepayId = prepay.getPrepay_id();
+        request.prepayId = prepay.getPrepayid();
         request.packageValue = "Sign=WXPay";
-        request.nonceStr = prepay.getNonceStr();
-        request.timeStamp = prepay.getTimeStamp();
-        request.sign = prepay.getSignType();//MD5
+        request.nonceStr = prepay.getNoncestr();
+        request.timeStamp = prepay.getTimestamp();
+        request.sign = prepay.getSign();
         msgApi.sendReq(request);
     }
 
